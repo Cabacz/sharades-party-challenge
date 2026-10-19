@@ -1,0 +1,17 @@
+{
+  "project": "Sharades – Party Challenge",
+  "package": "title-screen",
+  "languages": [
+    "cs",
+    "en"
+  ],
+  "main_artwork": {
+    "cs": {
+      "path": "assets/images/title-screen-cz.png"
+    },
+    "en": {
+      "path": "assets/images/title-screen-en.png"
+    }
+  },
+  "integration": "Connect window.openSharadesTutorial(language) or listen for sharades:start-tutorial and open the existing tutorial."
+}
