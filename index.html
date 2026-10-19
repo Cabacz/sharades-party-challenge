@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090d22">
+  <title>Sharades – Party Challenge</title>
+  <link rel="stylesheet" href="css/title-screen.css">
+</head>
+<body>
+  <main id="sharadesSplash" class="splash" aria-label="Sharades Party Challenge – úvodní obrazovka">
+    <img id="splashArtwork" class="splash__artwork" src="assets/images/title-screen-cz.png" alt="Sharades – Party Challenge, barevná titulní obrazovka hry">
+    <div class="splash__controls">
+      <label class="sr-only" for="splashLanguage">Jazyk / Language</label>
+      <select id="splashLanguage" class="splash__language" aria-label="Jazyk / Language">
+        <option value="cs">Čeština</option>
+        <option value="en">English</option>
+      </select>
+      <button id="splashStart" class="splash__start" type="button">Pokračovat · klepni kamkoliv</button>
+    </div>
+  </main>
+  <script src="js/title-screen.js"></script>
+</body>
+</html>
