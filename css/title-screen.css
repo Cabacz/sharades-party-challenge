@@ -1,0 +1,13 @@
+:root { color-scheme: dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: #090d22; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; min-height: 100%; background: #090d22; }
+body { min-height: 100svh; overflow: hidden; }
+.splash { position: relative; width: 100%; height: 100svh; min-height: 100svh; display: grid; place-items: center; overflow: hidden; background: #090d22; cursor: pointer; }
+.splash__artwork { width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; user-select: none; -webkit-user-drag: none; }
+.splash__controls { position: absolute; z-index: 2; top: max(12px, env(safe-area-inset-top)); left: 12px; right: 12px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; pointer-events: none; }
+.splash__language, .splash__start { pointer-events: auto; border: 1px solid rgba(255,255,255,.5); color: white; background: rgba(8,13,35,.86); border-radius: 12px; padding: 10px 13px; font: inherit; box-shadow: 0 3px 18px rgba(0,0,0,.3); }
+.splash__language { max-width: 145px; }
+.splash__start { position: absolute; top: calc(100svh - 62px - env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); white-space: nowrap; max-width: calc(100vw - 24px); }
+.splash__language:focus-visible, .splash__start:focus-visible { outline: 3px solid #20e8ff; outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-aspect-ratio: 2/3) { .splash__artwork { object-fit: cover; } }
