@@ -63,8 +63,7 @@ html[data-theme=light]{--bg:#e7f5ff;--panel:#fff;--panel2:#d7efff;--text:#102d50
 .character-preview.appearance-bg-space{background:radial-gradient(circle at 30% 24%,#874aff,#12134d 66%,#050b29);border-color:#c68cff}
 .character-preview.appearance-bg-forest{background:radial-gradient(ellipse at 50% 35%,#46af6d,#0a493d 75%);border-color:#8dff9b}
 .character-preview .character-full{position:absolute;z-index:1;bottom:3px;width:206px;height:252px;object-fit:contain;filter:drop-shadow(0 7px 0 #03152f)}
-.look-hair,.look-hat,.look-accessory,.look-outfit,.look-expression{position:absolute;z-index:2;display:grid;place-items:center;filter:drop-shadow(0 2px 2px #05152c99);pointer-events:none}
-.look-hair{top:22px;left:calc(50% - 25px);width:34px;height:34px;border-radius:50%;background:#122f67;border:1px solid #65deff;font-size:20px}
+.look-hat,.look-accessory,.look-outfit,.look-expression{position:absolute;z-index:2;display:grid;place-items:center;filter:drop-shadow(0 2px 2px #05152c99);pointer-events:none}
 .look-hat{top:19px;left:50%;transform:translateX(-50%);font-size:36px}
 .look-accessory{top:100px;left:50%;transform:translateX(-50%);font-size:29px}
 .look-outfit{top:177px;left:calc(50% + 30px);width:34px;height:34px;border:2px solid #fff;border-radius:50%;background:#087de1;font-size:19px}

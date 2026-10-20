@@ -1,9 +1,9 @@
-const CACHE = "sharades-release-v16";
+const CACHE = "sharades-release-v17";
 const FILES = [
   "./",
   "./index.html",
-  "./css/style.css?v=settings2",
-  "./js/app.js?v=settings2",
+  "./css/style.css?v=settings3",
+  "./js/app.js?v=settings3",
   "./js/words.js",
   "./manifest.webmanifest",
   "./assets/logo.svg",

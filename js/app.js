@@ -68,6 +68,8 @@
   let musicContext = null,
     musicTimer = null,
     musicIndex = 0;
+  const avatarSvgCache = new Map();
+  let avatarPreviewVersion = 0;
   let state = defaults(),
     run = {
       round: 1,
@@ -428,6 +430,81 @@
       )
       .catch(() => {});
   }
+  function customizeAvatarSvg(svg, avatar, appearance) {
+    const hairTargets = {
+      man: ["#39252a", "#4c2b2d"],
+      woman: ["#6d4029", "#7f4a2d", "#e6b775"],
+      child: ["#a66b32"],
+    };
+    const hairColors = {
+      curly: ["#382544", "#50325d", "#aa86ba"],
+      spiky: ["#9a4525", "#b75a2d", "#e2943d"],
+      blonde: ["#efc458", "#d69637", "#ffe18d"],
+    };
+    const sources = hairTargets[avatar] || [];
+    const replacements = hairColors[appearance.hair] || [];
+    sources.forEach((source, index) => {
+      if (replacements[index]) svg = svg.split(source).join(replacements[index]);
+    });
+
+    const outfits = {
+      blue: ["#3297ef", "#1351b0"],
+      pink: ["#ff69c9", "#bf2b91"],
+      green: ["#55d778", "#167f50"],
+      gold: ["#ffd25b", "#d28a13"],
+    };
+    const colors = outfits[appearance.outfit] || outfits.blue;
+    let stopIndex = 0;
+    svg = svg.replace(
+      /<linearGradient id="(?:shirt|top)"[\s\S]*?<\/linearGradient>/g,
+      (gradient) =>
+        gradient.replace(/stop-color="#[0-9a-fA-F]{6}"/g, () => {
+          const color = colors[Math.min(stopIndex, colors.length - 1)];
+          stopIndex++;
+          return `stop-color="${color}"`;
+        }),
+    );
+    if (avatar === "robot") {
+      const colorsByOutfit = {
+        blue: ["#626dff", "#44e9ff"],
+        pink: ["#c343df", "#ff70d8"],
+        green: ["#22ac82", "#65f3b5"],
+        gold: ["#d89c26", "#ffe66d"],
+      };
+      const [body, accent] = colorsByOutfit[appearance.outfit] || colorsByOutfit.blue;
+      svg = svg.replaceAll("#626dff", body).replaceAll("#44e9ff", accent);
+    }
+    if (avatar === "cat") {
+      const colorsByOutfit = {
+        blue: ["#087de1", "#39e8ff"],
+        pink: ["#d63fba", "#ff83db"],
+        green: ["#188e61", "#75ef9a"],
+        gold: ["#cf8a18", "#ffe66d"],
+      };
+      const [body, accent] = colorsByOutfit[appearance.outfit] || colorsByOutfit.blue;
+      svg = svg.replaceAll("#a967ff", body).replaceAll("#ff4fd8", accent);
+    }
+    return svg;
+  }
+  async function updateCharacterArtwork(avatar, appearance) {
+    const image = $(".character-full");
+    if (!image) return;
+    const version = ++avatarPreviewVersion;
+    try {
+      let source = avatarSvgCache.get(avatar);
+      if (!source) {
+        const response = await fetch(`assets/avatar-${avatar}.svg`);
+        if (!response.ok) return;
+        source = await response.text();
+        avatarSvgCache.set(avatar, source);
+      }
+      if (version !== avatarPreviewVersion || !image.isConnected) return;
+      const customized = customizeAvatarSvg(source, avatar, appearance);
+      image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(customized)}`;
+    } catch (error) {
+      // Keep the original SVG as a usable fallback if custom preview rendering fails.
+    }
+  }
   function btn(label, action, cls = "btn") {
     return `<button class="${cls}" data-action="${action}">${label}</button>`;
   }
@@ -596,8 +673,8 @@
           en: "Hair",
           values: [
             ["natural", "✨", "Přirozený", "Natural"],
-            ["curly", "🌀", "Kudrnatý", "Curly"],
-            ["spiky", "⚡", "Rozcuchaný", "Spiky"],
+            ["curly", "🟤", "Tmavě hnědý", "Dark brown"],
+            ["spiky", "🟠", "Zrzavý", "Auburn"],
             ["blonde", "🌟", "Světlý", "Blonde"],
           ],
         },
@@ -661,7 +738,6 @@
         cat: state.lang === "cs" ? "Kočka" : "Cat",
       };
       const overlays = {
-        hair: { natural: "✨", curly: "🌀", spiky: "⚡", blonde: "🌟" },
         hat: { none: "", cap: "🧢", crown: "👑", party: "🎉" },
         accessory: { none: "", glasses: "🕶️", bow: "🎀", headphones: "🎧" },
         outfit: { blue: "🔵", pink: "💗", green: "🟢", gold: "🟡" },
@@ -670,11 +746,12 @@
       app.innerHTML = `${head(t("avatars"), state.lang === "cs" ? "Vyber postavu a uprav její vzhled." : "Choose a character and personalize their look.")}<div class="card character-editor">
         <div class="character-wallet">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div>
         <div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div>
-        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}"><span class="look-hair">${overlays.hair[appearance.hair]}</span>${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span><span class="look-expression">${overlays.expression[appearance.expression]}</span></div>
+        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}">${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span><span class="look-expression">${overlays.expression[appearance.expression]}</span></div>
         <div class="avatar-picker">${avatarIds.map((id) => `<button class="avatar-option ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}" aria-label="${labels[id]}"><img src="assets/avatar-${id}.svg" alt="${labels[id]}"></button>`).join("")}</div>
         <div class="appearance-tabs">${Object.entries(options).map(([id, item]) => `<button class="chip ${appearanceTab === id ? "active" : ""}" data-appearance-tab="${id}">${item[state.lang]}</button>`).join("")}</div>
         <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => { const unlocked = state.cosmeticUnlocks[appearanceTab]?.includes(id); const cost = cosmeticPrices[appearanceTab]?.[id] || 0; const detail = unlocked ? (appearance[appearanceTab] === id ? (state.lang === "cs" ? "Použito" : "Equipped") : (state.lang === "cs" ? "Odemčeno" : "Owned")) : `🔒 🪙 ${cost}`; return `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""} ${unlocked ? "" : "locked"}" data-appearance="${appearanceTab}" data-value="${id}" aria-pressed="${appearance[appearanceTab] === id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}<small>${detail}</small></strong></button>`; }).join("")}</div>
         <p class="hint top-gap">${state.lang === "cs" ? "Změny vzhledu se ukládají pro každého hráče v tomto zařízení." : "Appearance changes are saved per player on this device."}</p>${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      updateCharacterArtwork(player.avatar, appearance);
     },
     achievements() {
       const best = state.history.reduce(

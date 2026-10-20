@@ -30,7 +30,7 @@
 ## Zatím plánované nebo omezené
 
 - „AI generátor“ zatím vybírá návrhy z místního slovníku; nepřipojuje vzdálený AI model.
-- Editor zatím nemá samostatný obchod ani další způsoby získávání mincí. Kosmetické úpravy jsou grafické překryvy v náhledu; původní ilustrace těla a obličeje se nepřekresluje.
+- Editor zatím nemá samostatný obchod ani další způsoby získávání mincí. Barvy vlasů a oblečení mění barvy v původním SVG; čepice, doplňky a výraz jsou překryvy v náhledu, tvar postavy a kresba obličeje se nemění.
 - Náklon zařízení je volitelný a vyžaduje podporu senzorů a případné povolení v prohlížeči; herní tlačítka fungují i bez něj.
 - Statistika medailí a oblíbených kategorií je základní lokální přehled, nikoli plný systém odměn.
 - Ověření proběhlo v lokálním prohlížeči; před publikací je potřeba praktický test na Androidu/iOS a kontrola nasazení GitHub Pages.
