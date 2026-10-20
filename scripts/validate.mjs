@@ -22,7 +22,7 @@ for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
 }
 
 const cached = [...sw.matchAll(/['"]\.\/?([^'"]+)['"]/g)]
-  .map((m) => m[1])
+  .map((m) => m[1].split(/[?#]/)[0])
   .filter((p) => /^(index\.html|css\/|js\/|manifest\.webmanifest|assets\/)/.test(p));
 for (const asset of new Set(cached)) {
   assert(fs.existsSync(asset), `service worker asset exists: ${asset}`);
