@@ -80,6 +80,7 @@ try {
   assert.equal(await page.locator('#revealWord').count(), 0, 'No extra reveal step blocks the game round');
   await page.locator('[data-action="correct"]').click();
   assert.equal(await page.locator('.score-row .score').first().innerText(), '1', 'Correct guess increments the team score');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 26, 'Correct guess also earns a persistent coin');
 
   page.on('dialog', (dialog) => dialog.accept());
   for (let turn = 0; turn < 6; turn++) {

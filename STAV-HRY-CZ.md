@@ -8,7 +8,8 @@
 - Osm kategorií v češtině i angličtině; vybrané dlaždice omezují herní balíček na slova z těch kategorií.
 - Hráči, názvy týmů, avatary a lokálně uložené nastavení.
 - Sedm režimů: Klasika, Souboj týmů, Náhlá smrt, Maraton, Dvojité body, Pantomima a Kreslení.
-- Herní kolo má skryté slovo, jeho odhalení, odpočet, pauzu, přeskočení, správnou odpověď a skóre.
+- Herní kolo ihned ukazuje slovo předvádějícímu, obsahuje odpočet, pauzu, přeskočení, potvrzení správné odpovědi a skóre.
+- Profil začíná s 25 mincemi; správná odpověď přidá mince podle bodové hodnoty režimu. Utrácení mincí a obchod zatím nejsou implementované.
 - Volitelné ovládání náklonem zařízení; tlačítka zůstávají jako dostupná alternativa.
 - Lokální návrhy slov s tématem, jazykem, obtížností a počtem; vybraná slova lze uložit do vlastních.
 - Výsledky a základní statistiky se ukládají lokálně.
@@ -27,7 +28,7 @@
 ## Zatím plánované nebo omezené
 
 - „AI generátor“ zatím vybírá návrhy z místního slovníku; nepřipojuje vzdálený AI model.
-- Hudba, mince, odemykání kosmetických předmětů a úpravy účesu/oblečení/doplňků nejsou implementované.
+- Hudba, utrácení mincí, odemykání kosmetických předmětů a úpravy účesu/oblečení/doplňků nejsou implementované.
 - Náklon zařízení je volitelný a vyžaduje podporu senzorů a případné povolení v prohlížeči; herní tlačítka fungují i bez něj.
 - Statistika medailí a oblíbených kategorií je základní lokální přehled, nikoli plný systém odměn.
 - Ověření proběhlo v lokálním prohlížeči; před publikací je potřeba praktický test na Androidu/iOS a kontrola nasazení GitHub Pages.

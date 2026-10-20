@@ -19,6 +19,7 @@
     mode: "classic",
     roundSeconds: 30,
     rounds: 3,
+    coins: 25,
     category: "all",
     categories: [],
     family: true,
@@ -380,7 +381,7 @@
       const totalWords = Object.values(window.SHARADES_WORDS[state.lang] || {}).flat().length;
       const player = state.players[0];
       app.innerHTML = `<section class="hero home-dashboard">
-        <div class="home-dashboard-top"><button class="home-profile" data-screen="profile"><img class="avatar" src="assets/avatar-${player?.avatar || "man"}.svg" alt=""><span><strong>${esc(player?.name || "Sharades")}</strong><small>${state.lang === "cs" ? "Připraven/a hrát" : "Ready to play"}</small></span></button><div class="home-coins">🪙 25</div><button class="icon-btn" data-screen="settings" aria-label="${t("settings")}">⚙</button></div>
+        <div class="home-dashboard-top"><button class="home-profile" data-screen="profile"><img class="avatar" src="assets/avatar-${player?.avatar || "man"}.svg" alt=""><span><strong>${esc(player?.name || "Sharades")}</strong><small>${state.lang === "cs" ? "Připraven/a hrát" : "Ready to play"}</small></span></button><div class="home-coins" title="${state.lang === "cs" ? "Mince za správné odpovědi" : "Coins for correct answers"}">🪙 ${state.coins ?? 25}</div><button class="icon-btn" data-screen="settings" aria-label="${t("settings")}">⚙</button></div>
         <div class="home-logo" role="img" aria-label="Sharades Party Challenge"><span>SHARADES!</span><b>PARTY CHALLENGE</b><small>${t("tag")}</small></div>
         <div class="hero-stage home-family"><img class="hero-scene" src="assets/components/family-and-dog.png" alt="${state.lang === "cs" ? "Rodina a pes připraveni hrát šarády" : "Family and dog ready to play charades"}"></div>
         ${btn("▶ " + t("new"), "modes", "btn home-play")}
@@ -867,6 +868,7 @@
     if (!run.word || run.paused) return;
     const points = state.mode === "double" ? 2 : 1;
     state.teams[run.turn].score += points;
+    state.coins = (state.coins ?? 25) + points;
     run.turnGuessed++;
     run.totalCorrect = (run.totalCorrect || 0) + 1;
     run.streak = (run.streak || 0) + 1;
