@@ -4,6 +4,15 @@
     app = $("#app"),
     KEY = "sharades_release_v2";
   const avatarIds = ["man", "woman", "child", "robot", "cat"];
+  const appearanceDefaults = () => ({
+    hair: "natural",
+    hat: "none",
+    outfit: "blue",
+    accessory: "none",
+    background: "party",
+    expression: "happy",
+  });
+  let appearanceTab = "hair";
   const defaults = () => ({
     lang: "cs",
     onboarded: false,
@@ -478,7 +487,7 @@
     },
     profile() {
       const p = state.players[0];
-      app.innerHTML = `${head(state.lang === "cs" ? "Profil" : "Profile")}<div class="card center">${p ? `<img class="avatar" src="assets/avatar-${p.avatar}.svg" alt=""><h2>${esc(p.name)}</h2>` : ""}<div class="home-coins">🪙 ${state.lang === "cs" ? "Mince přijdou později" : "Coins coming later"}</div><p class="notice top-gap">${state.lang === "cs" ? "Úpravy účesu, oblečení a doplňků jsou zatím plánované." : "Hair, clothing, and accessory editing is planned."}</p>${btn("🎨 " + t("avatars"), "avatars", "btn cyan")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      app.innerHTML = `${head(state.lang === "cs" ? "Profil" : "Profile")}<div class="card center">${p ? `<img class="avatar" src="assets/avatar-${p.avatar}.svg" alt=""><h2>${esc(p.name)}</h2>` : ""}<div class="home-coins">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div><p class="notice top-gap">${state.lang === "cs" ? "Za správné odpovědi získáváš mince. Svůj vzhled upravíš v editoru postavy." : "Earn coins for correct answers. Personalize your look in the character editor."}</p>${btn("🎨 " + t("avatars"), "avatars", "btn cyan")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     players() {
       app.innerHTML = `${head(t("players"))}<div class="card"><div class="field"><label>${t("name")}</label><div class="row"><input id="playerName" class="field-input" maxlength="24" placeholder="${t("name")}" style="min-width:0;flex:1;padding:12px;background:#0d0e20;color:white;border:1px solid var(--stroke);border-radius:12px">${btn("＋", "add-player", "btn small cyan")}</div></div><div class="player-list">${state.players.map((p, i) => `<div class="player"><img class="avatar" src="assets/avatar-${p.avatar}.svg" alt=""><div class="name">${esc(p.name)}</div><select data-playerteam="${i}" aria-label="${t("team")}">${state.teams.map((tm, j) => `<option value="${j}" ${p.team === j ? "selected" : ""}>${esc(tm.name)}</option>`).join("")}</select><button class="remove" data-remove="${i}">×</button></div>`).join("")}</div><div class="divider"></div>${state.teams.map((team, i) => `<div class="field"><label>${t("teamName")} ${i + 1}</label><input data-teamname="${i}" maxlength="30" value="${esc(team.name)}"></div>`).join("")} ${btn(t("save"), "save-players", "btn secondary")}</div>${btn("← " + t("back"), "home", "btn secondary top-gap")}`;
@@ -499,7 +508,92 @@
       }
       avatarPlayer = Math.min(avatarPlayer, state.players.length - 1);
       const player = state.players[avatarPlayer];
-      app.innerHTML = `${head(t("avatars"), t("pickAvatar"))}<div class="card"><div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div><div class="grid">${avatarIds.map((id) => `<button class="select-card ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}"><img class="avatar" src="assets/avatar-${id}.svg" alt=""><strong>${{ man: state.lang === "cs" ? "Muž" : "Man", woman: state.lang === "cs" ? "Žena" : "Woman", child: state.lang === "cs" ? "Dítě" : "Child", robot: "Robot", cat: state.lang === "cs" ? "Kočka" : "Cat" }[id]}</strong><small>${player.avatar === id ? "✓" : ""}</small></button>`).join("")}</div><p class="hint top-gap">${state.lang === "cs" ? "Avatar se uloží k vybranému hráči." : "The avatar is saved for the selected player."}</p>${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      player.appearance = { ...appearanceDefaults(), ...(player.appearance || {}) };
+      const appearance = player.appearance;
+      const options = {
+        hair: {
+          cs: "Účes",
+          en: "Hair",
+          values: [
+            ["natural", "✨", "Přirozený", "Natural"],
+            ["curly", "🌀", "Kudrnatý", "Curly"],
+            ["spiky", "⚡", "Rozcuchaný", "Spiky"],
+            ["blonde", "🌟", "Světlý", "Blonde"],
+          ],
+        },
+        hat: {
+          cs: "Čepice",
+          en: "Hat",
+          values: [
+            ["none", "🚫", "Bez čepice", "No hat"],
+            ["cap", "🧢", "Kšiltovka", "Cap"],
+            ["crown", "👑", "Koruna", "Crown"],
+            ["party", "🎉", "Party klobouk", "Party hat"],
+          ],
+        },
+        outfit: {
+          cs: "Oblečení",
+          en: "Outfit",
+          values: [
+            ["blue", "🔵", "Modrá", "Blue"],
+            ["pink", "💗", "Růžová", "Pink"],
+            ["green", "🟢", "Zelená", "Green"],
+            ["gold", "🟡", "Zlatá", "Gold"],
+          ],
+        },
+        accessory: {
+          cs: "Doplňky",
+          en: "Accessories",
+          values: [
+            ["none", "🚫", "Bez doplňku", "No accessory"],
+            ["glasses", "🕶️", "Brýle", "Glasses"],
+            ["bow", "🎀", "Mašle", "Bow"],
+            ["headphones", "🎧", "Sluchátka", "Headphones"],
+          ],
+        },
+        background: {
+          cs: "Pozadí",
+          en: "Background",
+          values: [
+            ["party", "🎊", "Párty", "Party"],
+            ["beach", "🏖️", "Pláž", "Beach"],
+            ["space", "🌌", "Vesmír", "Space"],
+            ["forest", "🌳", "Les", "Forest"],
+          ],
+        },
+        expression: {
+          cs: "Výraz",
+          en: "Expression",
+          values: [
+            ["happy", "😄", "Veselý", "Happy"],
+            ["wow", "😮", "Překvapený", "Surprised"],
+            ["cool", "😎", "Frajer", "Cool"],
+            ["silly", "🤪", "Šibalský", "Silly"],
+          ],
+        },
+      };
+      const tab = options[appearanceTab] || options.hair;
+      const labels = {
+        man: state.lang === "cs" ? "Muž" : "Man",
+        woman: state.lang === "cs" ? "Žena" : "Woman",
+        child: state.lang === "cs" ? "Dítě" : "Child",
+        robot: "Robot",
+        cat: state.lang === "cs" ? "Kočka" : "Cat",
+      };
+      const overlays = {
+        hair: { natural: "✨", curly: "🌀", spiky: "⚡", blonde: "🌟" },
+        hat: { none: "", cap: "🧢", crown: "👑", party: "🎉" },
+        accessory: { none: "", glasses: "🕶️", bow: "🎀", headphones: "🎧" },
+        outfit: { blue: "🔵", pink: "💗", green: "🟢", gold: "🟡" },
+        expression: { happy: "😄", wow: "😮", cool: "😎", silly: "🤪" },
+      };
+      app.innerHTML = `${head(t("avatars"), state.lang === "cs" ? "Vyber postavu a uprav její vzhled." : "Choose a character and personalize their look.")}<div class="card character-editor">
+        <div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div>
+        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}"><span class="look-hair">${overlays.hair[appearance.hair]}</span>${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span><span class="look-expression">${overlays.expression[appearance.expression]}</span></div>
+        <div class="avatar-picker">${avatarIds.map((id) => `<button class="avatar-option ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}" aria-label="${labels[id]}"><img src="assets/avatar-${id}.svg" alt="${labels[id]}"></button>`).join("")}</div>
+        <div class="appearance-tabs">${Object.entries(options).map(([id, item]) => `<button class="chip ${appearanceTab === id ? "active" : ""}" data-appearance-tab="${id}">${item[state.lang]}</button>`).join("")}</div>
+        <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""}" data-appearance="${appearanceTab}" data-value="${id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}</strong></button>`).join("")}</div>
+        <p class="hint top-gap">${state.lang === "cs" ? "Změny vzhledu se ukládají pro každého hráče v tomto zařízení." : "Appearance changes are saved per player on this device."}</p>${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     achievements() {
       const best = state.history.reduce(
@@ -1019,6 +1113,18 @@
         persist();
         show("avatars");
       }
+      return;
+    }
+    if (b.dataset.appearanceTab) {
+      appearanceTab = b.dataset.appearanceTab;
+      show("avatars");
+      return;
+    }
+    if (b.dataset.appearance && state.players[avatarPlayer]) {
+      const appearance = (state.players[avatarPlayer].appearance ||= appearanceDefaults());
+      appearance[b.dataset.appearance] = b.dataset.value;
+      persist();
+      show("avatars");
       return;
     }
     if (b.dataset.category !== undefined) {

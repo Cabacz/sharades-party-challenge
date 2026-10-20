@@ -53,7 +53,16 @@ try {
 
   await page.locator('[data-screen="avatars"]').click();
   await page.locator('[data-pick-avatar="robot"]').click();
-  assert.match(await page.locator('.select-card.selected img').first().getAttribute('src'), /avatar-robot\.svg/, 'Avatar selection saves to a player');
+  assert.match(await page.locator('.avatar-option.selected img').first().getAttribute('src'), /avatar-robot\.svg/, 'Avatar selection saves to a player');
+  await page.locator('[data-appearance-tab="hat"]').click();
+  await page.locator('[data-appearance="hat"][data-value="crown"]').click();
+  assert.equal(await page.locator('.look-hat').innerText(), '👑', 'Hat choice updates the character preview');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].appearance.hat), 'crown', 'Character appearance persists for that player');
+  assert.equal(await page.locator('.appearance-tabs').innerText().then(text => text.includes('Čepice')), true, 'Character editor labels are localized in Czech');
+  await page.locator('#langBtn').click();
+  await page.locator('[data-screen="avatars"]').click();
+  assert.equal(await page.locator('[data-appearance-tab="hair"]').innerText(), 'Hair', 'Character editor labels are localized in English');
+  await page.locator('#langBtn').click();
   await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="ai"]').click();
