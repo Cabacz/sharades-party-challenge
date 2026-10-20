@@ -1,0 +1,19 @@
+{
+  "name": "Sharades Party Challenge",
+  "short_name": "Sharades",
+  "description": "Mobilní hra šarád pro přátele a rodinu",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#09091a",
+  "background_color": "#09091a",
+  "icons": [
+    {
+      "src": "assets/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

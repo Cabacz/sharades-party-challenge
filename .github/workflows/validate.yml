@@ -1,0 +1,38 @@
+name: Validate Sharades PWA
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check js/app.js
+          node --check js/words.js
+          node --check service-worker.js
+      - name: Validate local app assets and dictionary
+        run: node scripts/validate.mjs
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+      - name: Run interactive browser smoke test
+        run: |
+          python3 -m http.server 8080 --directory . > /tmp/sharades-http.log 2>&1 &
+          echo $! > /tmp/sharades-http.pid
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8080/ >/dev/null && break || sleep 1; done
+          node scripts/browser-smoke.mjs
+          kill "$(cat /tmp/sharades-http.pid)" || true
