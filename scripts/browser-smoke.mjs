@@ -29,7 +29,6 @@ try {
   assert.equal(await page.locator('.mode-option').count(), 7, 'All seven game modes are available');
   await page.locator('[data-mode="teams"]').click();
   assert.match(await page.locator('#app').innerText(), /Souboj týmů/, 'Team mode can be selected');
-  await page.locator('[data-action="home"]').click();
 
   await page.locator('[data-screen="tutorial"]').click();
   assert.match(await page.locator('.section-title').innerText(), /1 \/ 5/, 'Tutorial starts on its first step');
@@ -40,18 +39,17 @@ try {
     if (i < 4) await page.locator('button[data-tutorial-step="1"]').click();
   }
   await page.locator('[data-action="skip-tutorial"]').click();
-  await page.locator('[data-action="home"]').click();
 
   await page.locator('[data-screen="players"]').click();
   await page.locator('#playerName').fill('Browser Test');
   await page.locator('[data-action="add-player"]').click();
   assert.equal(await page.locator('.player .name').filter({ hasText: 'Browser Test' }).count(), 1, 'A player can be added');
-  await page.locator('[data-action="home"]').click();
+  await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="avatars"]').click();
   await page.locator('[data-pick-avatar="robot"]').click();
   assert.match(await page.locator('.select-card.selected img').first().getAttribute('src'), /avatar-robot\.svg/, 'Avatar selection saves to a player');
-  await page.locator('[data-action="home"]').click();
+  await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="ai"]').click();
   await page.locator('#aiTopic').fill('Zvířata');
@@ -59,14 +57,14 @@ try {
   assert.equal(await page.locator('[data-generated-index]').count(), 10, 'Local word generator creates the requested number of suggestions');
   await page.locator('[data-action="add-generated"]').click();
   assert.equal(await page.locator('#customText').inputValue().then(v => v.split('\n').filter(Boolean).length), 10, 'Generated suggestions can be added to custom words');
-  await page.locator('[data-action="home"]').click();
+  await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="achievements"]').click();
   assert.equal(await page.locator('.feature-row').count(), 5, 'Achievements screen renders five achievements');
-  await page.locator('[data-action="home"]').click();
+  await page.locator('#homeBtn').click();
   await page.locator('[data-screen="offline"]').click();
   assert.equal(await page.locator('.feature-row').count(), 3, 'Offline status screen renders its checks');
-  await page.locator('[data-action="home"]').click();
+  await page.locator('#homeBtn').click();
 
   await page.locator('[data-action="modes"]').click();
   await page.locator('[data-mode="teams"]').click();
