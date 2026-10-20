@@ -57,7 +57,13 @@ try {
   await page.locator('[data-appearance-tab="hat"]').click();
   await page.locator('[data-appearance="hat"][data-value="crown"]').click();
   assert.equal(await page.locator('.look-hat').innerText(), '👑', 'Hat choice updates the character preview');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].appearance.hat), 'crown', 'Character appearance persists for that player');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].appearance.hat), 'crown', 'Purchased character appearance persists for that player');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 5, 'Unlocking a crown deducts its coin price');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).cosmeticUnlocks.hat.includes('crown')), true, 'Purchased cosmetics stay unlocked');
+  await page.locator('[data-appearance-tab="accessory"]').click();
+  await page.locator('[data-appearance="accessory"][data-value="glasses"]').click();
+  assert.match(await page.locator('#toast').innerText(), /10 mincí/, 'Unaffordable cosmetics explain the required price');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 5, 'Insufficient balance does not charge the player');
   assert.equal(await page.locator('.appearance-tabs').innerText().then(text => text.includes('Čepice')), true, 'Character editor labels are localized in Czech');
   await page.locator('#langBtn').click();
   await page.locator('[data-screen="avatars"]').click();
@@ -113,7 +119,7 @@ try {
   assert.equal(await page.locator('#revealWord').count(), 0, 'No extra reveal step blocks the game round');
   await page.locator('[data-action="correct"]').click();
   assert.equal(await page.locator('.score-row .score').first().innerText(), '1', 'Correct guess increments the team score');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 26, 'Correct guess also earns a persistent coin');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 6, 'Correct guess also earns a persistent coin');
 
   page.on('dialog', (dialog) => dialog.accept());
   for (let turn = 0; turn < 6; turn++) {

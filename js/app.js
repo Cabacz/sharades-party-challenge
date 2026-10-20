@@ -12,6 +12,22 @@
     background: "party",
     expression: "happy",
   });
+  const defaultCosmeticUnlocks = () => ({
+    hair: ["natural"],
+    hat: ["none"],
+    outfit: ["blue"],
+    accessory: ["none"],
+    background: ["party"],
+    expression: ["happy"],
+  });
+  const cosmeticPrices = {
+    hair: { curly: 10, spiky: 12, blonde: 15 },
+    hat: { cap: 5, crown: 20, party: 8 },
+    outfit: { pink: 8, green: 8, gold: 12 },
+    accessory: { glasses: 10, bow: 8, headphones: 12 },
+    background: { beach: 15, space: 20, forest: 15 },
+    expression: { wow: 5, cool: 8, silly: 5 },
+  };
   let appearanceTab = "hair";
   const defaults = () => ({
     lang: "cs",
@@ -29,6 +45,7 @@
     roundSeconds: 30,
     rounds: 3,
     coins: 25,
+    cosmeticUnlocks: defaultCosmeticUnlocks(),
     category: "all",
     categories: [],
     family: true,
@@ -568,6 +585,10 @@
       avatarPlayer = Math.min(avatarPlayer, state.players.length - 1);
       const player = state.players[avatarPlayer];
       player.appearance = { ...appearanceDefaults(), ...(player.appearance || {}) };
+      state.cosmeticUnlocks = {
+        ...defaultCosmeticUnlocks(),
+        ...(state.cosmeticUnlocks || {}),
+      };
       const appearance = player.appearance;
       const options = {
         hair: {
@@ -647,11 +668,12 @@
         expression: { happy: "😄", wow: "😮", cool: "😎", silly: "🤪" },
       };
       app.innerHTML = `${head(t("avatars"), state.lang === "cs" ? "Vyber postavu a uprav její vzhled." : "Choose a character and personalize their look.")}<div class="card character-editor">
+        <div class="character-wallet">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div>
         <div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div>
         <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}"><span class="look-hair">${overlays.hair[appearance.hair]}</span>${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span><span class="look-expression">${overlays.expression[appearance.expression]}</span></div>
         <div class="avatar-picker">${avatarIds.map((id) => `<button class="avatar-option ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}" aria-label="${labels[id]}"><img src="assets/avatar-${id}.svg" alt="${labels[id]}"></button>`).join("")}</div>
         <div class="appearance-tabs">${Object.entries(options).map(([id, item]) => `<button class="chip ${appearanceTab === id ? "active" : ""}" data-appearance-tab="${id}">${item[state.lang]}</button>`).join("")}</div>
-        <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""}" data-appearance="${appearanceTab}" data-value="${id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}</strong></button>`).join("")}</div>
+        <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => { const unlocked = state.cosmeticUnlocks[appearanceTab]?.includes(id); const cost = cosmeticPrices[appearanceTab]?.[id] || 0; const detail = unlocked ? (appearance[appearanceTab] === id ? (state.lang === "cs" ? "Použito" : "Equipped") : (state.lang === "cs" ? "Odemčeno" : "Owned")) : `🔒 🪙 ${cost}`; return `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""} ${unlocked ? "" : "locked"}" data-appearance="${appearanceTab}" data-value="${id}" aria-pressed="${appearance[appearanceTab] === id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}<small>${detail}</small></strong></button>`; }).join("")}</div>
         <p class="hint top-gap">${state.lang === "cs" ? "Změny vzhledu se ukládají pro každého hráče v tomto zařízení." : "Appearance changes are saved per player on this device."}</p>${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     achievements() {
@@ -1181,9 +1203,33 @@
     }
     if (b.dataset.appearance && state.players[avatarPlayer]) {
       const appearance = (state.players[avatarPlayer].appearance ||= appearanceDefaults());
-      appearance[b.dataset.appearance] = b.dataset.value;
+      const category = b.dataset.appearance;
+      const value = b.dataset.value;
+      state.cosmeticUnlocks ||= defaultCosmeticUnlocks();
+      state.cosmeticUnlocks[category] ||= [];
+      const unlocked = state.cosmeticUnlocks[category].includes(value);
+      if (!unlocked) {
+        const cost = cosmeticPrices[category]?.[value] || 0;
+        if ((state.coins ?? 25) < cost) {
+          toast(
+            state.lang === "cs"
+              ? `Na odemčení potřebuješ ${cost} mincí.`
+              : `You need ${cost} coins to unlock this item.`,
+          );
+          return;
+        }
+        state.coins = (state.coins ?? 25) - cost;
+        state.cosmeticUnlocks[category].push(value);
+      }
+      appearance[category] = value;
       persist();
       show("avatars");
+      if (!unlocked)
+        toast(
+          state.lang === "cs"
+            ? "Předmět odemčen a nasazen!"
+            : "Item unlocked and equipped!",
+        );
       return;
     }
     if (b.dataset.category !== undefined) {
