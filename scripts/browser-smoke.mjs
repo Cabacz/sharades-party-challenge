@@ -29,6 +29,7 @@ try {
   assert.equal(await page.locator('.mode-option').count(), 7, 'All seven game modes are available');
   await page.locator('[data-mode="teams"]').click();
   assert.match(await page.locator('#app').innerText(), /Souboj týmů/, 'Team mode can be selected');
+  await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="tutorial"]').click();
   assert.match(await page.locator('.section-title').innerText(), /1 \/ 5/, 'Tutorial starts on its first step');
