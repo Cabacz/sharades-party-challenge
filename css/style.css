@@ -63,14 +63,13 @@ html[data-theme=light]{--bg:#e7f5ff;--panel:#fff;--panel2:#d7efff;--text:#102d50
 .character-preview.appearance-bg-space{background:radial-gradient(circle at 30% 24%,#874aff,#12134d 66%,#050b29);border-color:#c68cff}
 .character-preview.appearance-bg-forest{background:radial-gradient(ellipse at 50% 35%,#46af6d,#0a493d 75%);border-color:#8dff9b}
 .character-preview .character-full{position:absolute;z-index:1;bottom:3px;width:206px;height:252px;object-fit:contain;filter:drop-shadow(0 7px 0 #03152f)}
-.look-hat,.look-accessory,.look-outfit,.look-expression{position:absolute;z-index:2;display:grid;place-items:center;filter:drop-shadow(0 2px 2px #05152c99);pointer-events:none}
+.look-hat,.look-accessory,.look-outfit{position:absolute;z-index:2;display:grid;place-items:center;filter:drop-shadow(0 2px 2px #05152c99);pointer-events:none}
 .look-hat{top:19px;left:50%;transform:translateX(-50%);font-size:36px}
 .look-accessory{top:100px;left:50%;transform:translateX(-50%);font-size:29px}
 .look-outfit{top:177px;left:calc(50% + 30px);width:34px;height:34px;border:2px solid #fff;border-radius:50%;background:#087de1;font-size:19px}
 .character-preview[data-outfit=pink] .look-outfit{background:#e345a7}
 .character-preview[data-outfit=green] .look-outfit{background:#20a955}
 .character-preview[data-outfit=gold] .look-outfit{background:#e5ac22}
-.look-expression{top:88px;right:calc(50% - 104px);width:41px;height:41px;border:2px solid #fff;border-radius:50%;background:#ffe66d;font-size:24px}
 .character-editor .avatar-picker{justify-content:center;gap:9px;margin:8px 0 16px}
 .character-editor .avatar-option{border-radius:50%;padding:2px;background:#0b3262}
 .character-editor .avatar-option img{width:52px;height:52px}

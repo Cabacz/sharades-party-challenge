@@ -430,6 +430,81 @@
       )
       .catch(() => {});
   }
+  function applyFacialExpression(svg, avatar, expression) {
+    if (expression === "happy") return svg;
+    if (["man", "woman", "child"].includes(avatar)) {
+      if (expression === "wow") {
+        if (avatar === "man") {
+          svg = svg.replace(
+            '<path d="M68 64q12 7 25-1l-3 10q-9 8-18 0Z" fill="#4c2b2d"/><path d="M75 63q5 4 10 0" stroke="#fff1db" stroke-width="2.5" stroke-linecap="round"/>',
+            '<ellipse cx="80" cy="68" rx="4.5" ry="7" fill="#4c2b2d"/>',
+          );
+        } else {
+          svg = svg.replace(
+            '<path d="M69 57q10 7 20 0" stroke="#bd6677" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+            '<ellipse cx="79" cy="61" rx="4.5" ry="6.5" fill="#7f3d52"/>',
+          );
+        }
+      }
+      if (expression === "silly" && avatar === "man") {
+        svg = svg.replace(
+          '</svg>',
+          '<ellipse cx="81" cy="70" rx="5" ry="4" fill="#f36b8b" stroke="#762d4b" stroke-width="1.2"/></svg>',
+        );
+      }
+      if (expression === "silly" && ["woman", "child"].includes(avatar)) {
+        svg = svg.replace(
+          '<path d="M69 57q10 7 20 0" stroke="#bd6677" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+          '<path d="M69 57q10 11 20 0" stroke="#803e55" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="81" cy="64" rx="4" ry="3" fill="#f36b8b"/>',
+        );
+      }
+      if (expression === "cool") {
+        svg = svg.replace(
+          '</svg>',
+          '<g fill="#11182b" fill-opacity=".92" stroke="#d8f5ff" stroke-width="1.5"><rect x="60" y="39" width="18" height="12" rx="4"/><rect x="84" y="39" width="18" height="12" rx="4"/><path d="M78 43h6"/></g></svg>',
+        );
+      }
+    } else if (avatar === "robot") {
+      if (expression === "wow") {
+        svg = svg.replace(
+          '<path d="M53 67h22" stroke="#6c73ff" stroke-width="4" stroke-linecap="round"/>',
+          '<ellipse cx="64" cy="67" rx="4.5" ry="6" fill="#6c73ff"/>',
+        );
+      }
+      if (expression === "silly") {
+        svg = svg.replace(
+          '<path d="M53 67h22" stroke="#6c73ff" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M54 65q10 12 20 0" fill="none" stroke="#ff4fd8" stroke-width="4" stroke-linecap="round"/>',
+        );
+      }
+      if (expression === "cool") {
+        svg = svg.replace(
+          '</svg>',
+          '<rect x="41" y="42" width="46" height="9" rx="4" fill="#10152b" fill-opacity=".94" stroke="#a7f4ff" stroke-width="1.5"/></svg>',
+        );
+      }
+    } else if (avatar === "cat") {
+      if (expression === "wow") {
+        svg = svg.replace(
+          '</svg>',
+          '<ellipse cx="64" cy="63" rx="5" ry="6" fill="#9b4e53" stroke="#3c2942" stroke-width="1.5"/></svg>',
+        );
+      }
+      if (expression === "silly") {
+        svg = svg.replace(
+          '</svg>',
+          '<ellipse cx="69" cy="64" rx="5" ry="4" fill="#f36b8b" stroke="#762d4b" stroke-width="1.2"/></svg>',
+        );
+      }
+      if (expression === "cool") {
+        svg = svg.replace(
+          '</svg>',
+          '<g fill="#11182b" fill-opacity=".92" stroke="#fff" stroke-width="1.2"><rect x="40" y="38" width="19" height="11" rx="4"/><rect x="69" y="38" width="19" height="11" rx="4"/><path d="M59 42h10"/></g></svg>',
+        );
+      }
+    }
+    return svg;
+  }
   function customizeAvatarSvg(svg, avatar, appearance) {
     const hairTargets = {
       man: ["#39252a", "#4c2b2d"],
@@ -484,6 +559,7 @@
       const [body, accent] = colorsByOutfit[appearance.outfit] || colorsByOutfit.blue;
       svg = svg.replaceAll("#a967ff", body).replaceAll("#ff4fd8", accent);
     }
+    svg = applyFacialExpression(svg, avatar, appearance.expression);
     return svg;
   }
   async function updateCharacterArtwork(avatar, appearance) {
@@ -741,12 +817,11 @@
         hat: { none: "", cap: "🧢", crown: "👑", party: "🎉" },
         accessory: { none: "", glasses: "🕶️", bow: "🎀", headphones: "🎧" },
         outfit: { blue: "🔵", pink: "💗", green: "🟢", gold: "🟡" },
-        expression: { happy: "😄", wow: "😮", cool: "😎", silly: "🤪" },
       };
       app.innerHTML = `${head(t("avatars"), state.lang === "cs" ? "Vyber postavu a uprav její vzhled." : "Choose a character and personalize their look.")}<div class="card character-editor">
         <div class="character-wallet">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div>
         <div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div>
-        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}">${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span><span class="look-expression">${overlays.expression[appearance.expression]}</span></div>
+        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}">${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span></div>
         <div class="avatar-picker">${avatarIds.map((id) => `<button class="avatar-option ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}" aria-label="${labels[id]}"><img src="assets/avatar-${id}.svg" alt="${labels[id]}"></button>`).join("")}</div>
         <div class="appearance-tabs">${Object.entries(options).map(([id, item]) => `<button class="chip ${appearanceTab === id ? "active" : ""}" data-appearance-tab="${id}">${item[state.lang]}</button>`).join("")}</div>
         <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => { const unlocked = state.cosmeticUnlocks[appearanceTab]?.includes(id); const cost = cosmeticPrices[appearanceTab]?.[id] || 0; const detail = unlocked ? (appearance[appearanceTab] === id ? (state.lang === "cs" ? "Použito" : "Equipped") : (state.lang === "cs" ? "Odemčeno" : "Owned")) : `🔒 🪙 ${cost}`; return `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""} ${unlocked ? "" : "locked"}" data-appearance="${appearanceTab}" data-value="${id}" aria-pressed="${appearance[appearanceTab] === id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}<small>${detail}</small></strong></button>`; }).join("")}</div>
