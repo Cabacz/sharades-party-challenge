@@ -8,8 +8,9 @@ page.on('pageerror', (error) => runtimeErrors.push(error.message));
 
 try {
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'networkidle' });
-  assert.equal(await page.locator('[data-language="cs"]').count(), 1, 'First launch asks for a language');
-  await page.locator('[data-language="cs"]').click();
+  assert.equal(await page.locator('#titleLanguage').count(), 1, 'First launch shows the illustrated title and language selector');
+  await page.locator('#titleLanguage').selectOption('cs');
+  await page.locator('.tutorial-step-image').waitFor();
   assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'Language selection opens the tutorial');
   for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-step="1"]').click();
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
