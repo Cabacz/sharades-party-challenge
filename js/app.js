@@ -35,6 +35,7 @@
     customWords: [],
     sound: true,
     music: false,
+    offlineMode: false,
     vibration: true,
     theme: "dark",
     difficulty: "normal",
@@ -47,6 +48,9 @@
     tiltEnabled = false,
     tiltBase = null,
     tiltLocked = false;
+  let musicContext = null,
+    musicTimer = null,
+    musicIndex = 0;
   let state = defaults(),
     run = {
       round: 1,
@@ -362,6 +366,51 @@
       o.onended = () => c.close();
     } catch (e) {}
   }
+  function setMusicEnabled(enabled) {
+    if (!enabled) {
+      if (musicTimer) clearInterval(musicTimer);
+      musicTimer = null;
+      if (musicContext) musicContext.close().catch(() => {});
+      musicContext = null;
+      return;
+    }
+    if (musicTimer) return;
+    try {
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (!Audio) return;
+      musicContext = new Audio();
+      musicContext.resume().catch(() => {});
+      const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880, 698.46];
+      const playNote = () => {
+        if (!musicContext) return;
+        const now = musicContext.currentTime;
+        const oscillator = musicContext.createOscillator();
+        const gain = musicContext.createGain();
+        oscillator.type = "triangle";
+        oscillator.frequency.value = notes[musicIndex++ % notes.length];
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.018, now + 0.025);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+        oscillator.connect(gain);
+        gain.connect(musicContext.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.31);
+      };
+      playNote();
+      musicTimer = setInterval(playNote, 420);
+    } catch (e) {
+      musicContext = null;
+      musicTimer = null;
+    }
+  }
+  function syncOfflineMode(enabled) {
+    if (!("serviceWorker" in navigator)) return;
+    navigator.serviceWorker.ready
+      .then((registration) =>
+        registration.active?.postMessage({ type: "SET_OFFLINE_MODE", enabled }),
+      )
+      .catch(() => {});
+  }
   function btn(label, action, cls = "btn") {
     return `<button class="${cls}" data-action="${action}">${label}</button>`;
   }
@@ -496,7 +545,17 @@
       app.innerHTML = `${head(t("custom"))}<div class="card"><p class="muted tiny">${t("custom")} — ${t("customHint")}</p><div class="field"><textarea id="customText" rows="8" maxlength="8000" placeholder="${state.lang === "cs" ? "Horská dráha\nGrilování\nAstronaut" : "Roller coaster\nBarbecue\nAstronaut"}">${esc(state.customWords.join("\n"))}</textarea></div><p class="hint">${state.customWords.length} ${t("words")}</p>${btn(t("save"), "save-custom")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     settings() {
-      app.innerHTML = `${head(t("settings"))}<div class="card"><div class="field"><label>${state.lang === "cs" ? "Jazyk" : "Language"}</label><div class="chips"><button class="chip ${state.lang === "cs" ? "active" : ""}" data-language="cs">🇨🇿 Čeština</button><button class="chip ${state.lang === "en" ? "active" : ""}" data-language="en">🇬🇧 English</button></div></div><label class="row top-gap"><input type="checkbox" id="soundPref" ${state.sound ? "checked" : ""}> ${state.lang === "cs" ? "Zvukové efekty" : "Sound effects"}</label><label class="row top-gap"><input type="checkbox" id="vibPref" ${state.vibration ? "checked" : ""}> ${state.lang === "cs" ? "Vibrace" : "Vibration"}</label><label class="row top-gap"><input type="checkbox" id="themePref" ${state.theme === "dark" ? "checked" : ""}> ${state.lang === "cs" ? "Tmavý režim" : "Dark mode"}</label><label class="row top-gap muted"><input type="checkbox" disabled> ${state.lang === "cs" ? "Hudba (připravujeme)" : "Music (planned)"}</label><p class="notice top-gap">${t("settingsText")}</p>${btn(t("save"), "save-settings")}${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      app.innerHTML = `${head(t("settings"))}<div class="card settings-card">
+        <div class="field"><label>${state.lang === "cs" ? "Jazyk" : "Language"}</label><div class="chips"><button class="chip ${state.lang === "cs" ? "active" : ""}" data-language="cs">🇨🇿 Čeština</button><button class="chip ${state.lang === "en" ? "active" : ""}" data-language="en">🇬🇧 English</button></div></div>
+        <div class="field"><label>${state.lang === "cs" ? "Čas na tah" : "Round length"}</label><div class="chips">${[30, 45, 60, 90, 120].map((n) => `<button class="chip ${state.roundSeconds === n ? "active" : ""}" data-seconds="${n}">${n} s</button>`).join("")}</div></div>
+        <label class="row settings-toggle"><input type="checkbox" id="soundPref" ${state.sound ? "checked" : ""}> ${state.lang === "cs" ? "Zvukové efekty" : "Sound effects"}</label>
+        <label class="row settings-toggle"><input type="checkbox" id="musicPref" ${state.music ? "checked" : ""}> ${state.lang === "cs" ? "Hudba na pozadí" : "Background music"}</label>
+        <p class="hint settings-hint">${state.lang === "cs" ? "Krátká instrumentální smyčka se přehraje po zapnutí." : "A short instrumental loop plays when enabled."}</p>
+        <label class="row settings-toggle"><input type="checkbox" id="vibPref" ${state.vibration ? "checked" : ""}> ${state.lang === "cs" ? "Vibrace" : "Vibration"}</label>
+        <label class="row settings-toggle"><input type="checkbox" id="themePref" ${state.theme === "dark" ? "checked" : ""}> ${state.lang === "cs" ? "Tmavý režim" : "Dark mode"}</label>
+        <label class="row settings-toggle"><input type="checkbox" id="offlinePref" ${state.offlineMode ? "checked" : ""}> ${state.lang === "cs" ? "Používat pouze uložené soubory" : "Use cached files only"}</label>
+        <p class="notice settings-hint">${state.lang === "cs" ? "Offline režim blokuje síťové požadavky stránky. Pro první uložení hry ji nejdřív otevři online." : "Offline mode blocks network requests from the app. Open the game online once to cache it first."}</p>
+        ${btn(t("save"), "save-settings")}${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     ai() {
       app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${state.lang === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Zaškrtni slova, která chceš přidat do vlastního balíčku." : "Select the words you want to add to your custom deck."}</p></div></div><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row"><input type="checkbox" data-generated-index="${i}" checked><span class="feature-icon">💡</span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div>${btn("＋ " + t("addWords"), "add-generated", "btn green top-gap")}` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
@@ -1147,7 +1206,7 @@
     if (b.dataset.seconds) {
       state.roundSeconds = +b.dataset.seconds;
       persist();
-      show("setup");
+      show(document.querySelector("#familyMode") ? "setup" : "settings");
       return;
     }
     if (b.dataset.rounds) {
@@ -1404,6 +1463,16 @@
       state.sound = e.target.checked;
       persist();
     }
+    if (e.target.id === "musicPref") {
+      state.music = e.target.checked;
+      persist();
+      setMusicEnabled(state.music);
+    }
+    if (e.target.id === "offlinePref") {
+      state.offlineMode = e.target.checked;
+      persist();
+      syncOfflineMode(state.offlineMode);
+    }
     if (e.target.id === "vibPref") {
       state.vibration = e.target.checked;
       persist();
@@ -1445,6 +1514,14 @@
   const $$ = (s) => [...document.querySelectorAll(s)];
   setHeader();
   document.documentElement.dataset.theme = state.theme || "dark";
+  if (state.offlineMode) syncOfflineMode(true);
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      if (state.music && !musicTimer) setMusicEnabled(true);
+    },
+    { once: true },
+  );
   show(
     !state.languageChosen ? "language" : state.onboarded ? "home" : "tutorial",
   );

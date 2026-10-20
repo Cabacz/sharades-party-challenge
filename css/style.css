@@ -84,6 +84,10 @@ html[data-theme=light]{--bg:#e7f5ff;--panel:#fff;--panel2:#d7efff;--text:#102d50
 .appearance-option strong{font-size:12px}
 .appearance-option.selected{border:2px solid var(--yellow);box-shadow:0 0 0 2px #ffe66d33}
 html[data-theme=light] .appearance-option{background:#fff;color:#17385b}
+.settings-card .settings-toggle{min-height:48px;margin-top:10px;padding:10px 12px;border:1px solid #2b80bd;border-radius:13px;background:#092c55;font-weight:800}
+.settings-card .settings-toggle input{width:20px;height:20px;accent-color:#20d5e7}
+.settings-card .settings-hint{margin:8px 0 12px;padding-left:4px}
+html[data-theme=light] .settings-card .settings-toggle{background:#fff;color:#17385b;border-color:#86c9ed}
 
 /* Category palette and home-menu colours echo the supplied party-game concept */
 .hero > .btn{background:linear-gradient(100deg,#43ef7a,#b4ff55);border-color:#d4ff9c;color:#073a5d;box-shadow:0 6px 0 #168c58,0 12px 25px #32f08026;text-shadow:0 1px #d5ffac}

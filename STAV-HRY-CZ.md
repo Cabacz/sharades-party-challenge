@@ -8,6 +8,7 @@
 - Osm kategorií v češtině i angličtině; vybrané dlaždice omezují herní balíček na slova z těch kategorií.
 - Hráči, názvy týmů, avatary a lokálně uložené nastavení.
 - Editor postavy: výběr hráče a jedné z pěti postav; pro každého hráče se ukládá účes, čepice, barva oblečení, doplněk, pozadí a výraz.
+- Nastavení zahrnuje jazyk, délku kola, zvukové efekty, hudební smyčku, vibrace, tmavý režim a přepínač offline-only režimu.
 - Sedm režimů: Klasika, Souboj týmů, Náhlá smrt, Maraton, Dvojité body, Pantomima a Kreslení.
 - Herní kolo ihned ukazuje slovo předvádějícímu, obsahuje odpočet, pauzu, přeskočení, potvrzení správné odpovědi a skóre.
 - Profil začíná s 25 mincemi; správná odpověď přidá mince podle bodové hodnoty režimu. Utrácení mincí a obchod zatím nejsou implementované.
@@ -29,7 +30,7 @@
 ## Zatím plánované nebo omezené
 
 - „AI generátor“ zatím vybírá návrhy z místního slovníku; nepřipojuje vzdálený AI model.
-- Hudba, utrácení mincí a odemykání kosmetických předmětů nejsou implementované. V editoru se nyní vzhled nastavuje volně; doplňky a výraz se skládají jako grafické překryvy v náhledu, původní ilustrace těla a obličeje se nepřekresluje.
+- Utrácení mincí a odemykání kosmetických předmětů nejsou implementované. V editoru se nyní vzhled nastavuje volně; doplňky a výraz se skládají jako grafické překryvy v náhledu, původní ilustrace těla a obličeje se nepřekresluje.
 - Náklon zařízení je volitelný a vyžaduje podporu senzorů a případné povolení v prohlížeči; herní tlačítka fungují i bez něj.
 - Statistika medailí a oblíbených kategorií je základní lokální přehled, nikoli plný systém odměn.
 - Ověření proběhlo v lokálním prohlížeči; před publikací je potřeba praktický test na Androidu/iOS a kontrola nasazení GitHub Pages.

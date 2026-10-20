@@ -80,11 +80,35 @@ try {
   assert.equal(await page.locator('.feature-row').count(), 3, 'Offline status screen renders its checks');
   await page.locator('#homeBtn').click();
 
+  await page.locator('[data-screen="settings"]').first().click();
+  await page.locator('[data-seconds="60"]').click();
+  assert.equal(await page.locator('[data-seconds="60"]').evaluate((button) => button.classList.contains('active')), true, 'Round length can be changed in settings');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).roundSeconds), 60, 'Round length setting persists');
+  await page.locator('#musicPref').check();
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).music), true, 'Music preference can be enabled');
+  await page.locator('#musicPref').uncheck();
+  await page.locator('#offlinePref').check();
+  await page.waitForFunction(async () => {
+    const registration = await navigator.serviceWorker.ready;
+    const cache = await caches.open('sharades-release-v15');
+    return !!await cache.match(new URL('offline-mode', registration.scope).href);
+  });
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  assert.equal(await page.evaluate(() => fetch('./not-cached-while-offline').then(response => response.status)), 504, 'Offline-only mode blocks uncached network requests');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).offlineMode), true, 'Offline-only preference persists and reaches the service worker');
+  await page.locator('#offlinePref').uncheck();
+  await page.waitForFunction(async () => {
+    const registration = await navigator.serviceWorker.ready;
+    const cache = await caches.open('sharades-release-v15');
+    return !await cache.match(new URL('offline-mode', registration.scope).href);
+  });
+  await page.locator('#homeBtn').click();
+
   await page.locator('[data-action="modes"]').click();
   await page.locator('[data-mode="teams"]').click();
   await page.locator('[data-category="Zvířata"]').click();
   await page.locator('[data-action="begin"]').click();
-  assert.equal(await page.locator('#timeText').innerText(), '30', 'A round starts with the selected timer');
+  assert.equal(await page.locator('#timeText').innerText(), '60', 'A round starts with the timer selected in settings');
   assert.notEqual(await page.locator('#wordText').innerText(), '—', 'The actor sees the word immediately');
   assert.equal(await page.locator('#revealWord').count(), 0, 'No extra reveal step blocks the game round');
   await page.locator('[data-action="correct"]').click();
@@ -106,7 +130,7 @@ try {
   }
   assert.equal(await page.locator('.scoreboard .score-row').count(), 2, 'Final scoreboard renders both teams');
   assert.equal(runtimeErrors.length, 0, `No uncaught browser errors: ${runtimeErrors.join('; ')}`);
-  console.log('Interactive browser smoke test passed: language toggle, assets, tutorial, player creation, avatar selection, local word generation, achievements, offline screen, immediate word display, scoring, and round progression.');
+  console.log('Interactive browser smoke test passed: language toggle, assets, tutorial, players, character editor, local word generation, achievements, settings, offline mode, immediate word display, scoring, and round progression.');
 } finally {
   await browser.close();
 }
