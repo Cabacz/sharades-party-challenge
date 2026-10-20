@@ -11,9 +11,9 @@ try {
   assert.equal(await page.locator('[data-language="cs"]').count(), 1, 'First launch asks for a language');
   await page.locator('[data-language="cs"]').click();
   assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'Language selection opens the tutorial');
-  for (let step = 0; step < 4; step++) await page.locator('[data-tutorial-step="1"]').click();
+  for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-step="1"]').click();
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
-  await page.locator('[data-tutorial-step="1"]').click();
+  await page.locator('button[data-tutorial-step="1"]').click();
   await page.locator('#app .hero').waitFor();
   assert.match(await page.locator('#app h1').innerText(), /Předveď to\./, 'Czech home screen renders');
 
@@ -37,7 +37,7 @@ try {
     const image = page.locator('.tutorial-step-image');
     const loaded = await image.evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; });
     assert.equal(loaded, true, `Tutorial image ${i + 1} loads`);
-    if (i < 4) await page.locator('[data-tutorial-step="1"]').click();
+    if (i < 4) await page.locator('button[data-tutorial-step="1"]').click();
   }
   await page.locator('[data-action="skip-tutorial"]').click();
   await page.locator('[data-action="home"]').click();
