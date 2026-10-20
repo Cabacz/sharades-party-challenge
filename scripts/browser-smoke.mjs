@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true, executablePath: process.env.CHROME_BIN || undefined, args: process.env.CHROME_BIN ? ['--no-sandbox'] : [] });
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const runtimeErrors = [];
 page.on('pageerror', (error) => runtimeErrors.push(error.message));
 
 try {
-  await page.goto('http://127.0.0.1:8080/', { waitUntil: 'networkidle' });
+  await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
   assert.equal(await page.locator('#titleLanguage').count(), 1, 'First launch shows the illustrated title and language selector');
   await page.locator('#titleLanguage').selectOption('cs');
   await page.locator('.tutorial-step-image').waitFor();
@@ -16,14 +16,17 @@ try {
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
   await page.locator('button[data-tutorial-step="1"]').click();
   await page.locator('#app .hero').waitFor();
-  assert.match(await page.locator('#app h1').innerText(), /Předveď to\./, 'Czech home screen renders');
+  assert.equal(await page.locator('.home-logo').count(), 1, 'Czech home screen renders the game logo');
+  assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Czech interface language is active');
 
-  const homeImagesLoaded = await page.locator('.hero-stage img').evaluateAll((imgs) =>
-    imgs.length === 1 && imgs[0].alt.includes('Sharades characters') && imgs.every((img) => img.complete && img.naturalWidth > 0));
-  assert.equal(homeImagesLoaded, true, 'Home character SVGs load');
+  const homeImagesLoaded = await page.locator('.home-family img').evaluate((img) =>
+    img.alt.includes('family') || img.alt.includes('Rodina') ? img.complete && img.naturalWidth > 0 : false);
+  assert.equal(homeImagesLoaded, true, 'Storyboard family illustration loads on the home screen');
+  assert.equal(await page.locator('.home-primary-links [data-screen]').count(), 4, 'Home menu exposes the main destinations');
 
   await page.locator('#langBtn').click();
-  assert.match(await page.locator('#app h1').innerText(), /Act it out\./, 'English home screen renders');
+  assert.equal(await page.locator('.home-logo').count(), 1, 'English home screen renders the game logo');
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'English interface language is active');
   await page.locator('#langBtn').click();
 
   await page.locator('[data-action="modes"]').click();
@@ -73,9 +76,8 @@ try {
   await page.locator('[data-category="Zvířata"]').click();
   await page.locator('[data-action="begin"]').click();
   assert.equal(await page.locator('#timeText').innerText(), '30', 'A round starts with the selected timer');
-  assert.equal(await page.locator('#wordText').innerText(), '••••••', 'Word is hidden before reveal');
-  await page.locator('#revealWord').click();
-  assert.notEqual(await page.locator('#wordText').innerText(), '••••••', 'Word reveal works');
+  assert.notEqual(await page.locator('#wordText').innerText(), '—', 'The actor sees the word immediately');
+  assert.equal(await page.locator('#revealWord').count(), 0, 'No extra reveal step blocks the game round');
   await page.locator('[data-action="correct"]').click();
   assert.equal(await page.locator('.score-row .score').first().innerText(), '1', 'Correct guess increments the team score');
 
@@ -94,7 +96,7 @@ try {
   }
   assert.equal(await page.locator('.scoreboard .score-row').count(), 2, 'Final scoreboard renders both teams');
   assert.equal(runtimeErrors.length, 0, `No uncaught browser errors: ${runtimeErrors.join('; ')}`);
-  console.log('Interactive browser smoke test passed: language toggle, assets, tutorial, player creation, avatar selection, local word generation, achievements, offline screen, word reveal, scoring, and round progression.');
+  console.log('Interactive browser smoke test passed: language toggle, assets, tutorial, player creation, avatar selection, local word generation, achievements, offline screen, immediate word display, scoring, and round progression.');
 } finally {
   await browser.close();
 }
