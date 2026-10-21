@@ -140,3 +140,32 @@ html[data-theme=light] .settings-card .settings-toggle{background:#fff;color:#17
 @media(prefers-reduced-motion:reduce){.tutorial-step-image,.scene-action,.scene-spark{animation:none!important}.tutorial-step-image{opacity:1;transform:none}}
 
 body.intro-active:before{display:none}body.intro-active .app-shell{width:100%;padding:0 max(env(safe-area-inset-left),0px) max(env(safe-area-inset-bottom),10px)}body.intro-active .topbar,body.intro-active footer{display:none}body.intro-active main{padding:0;display:flex;flex-direction:column;justify-content:flex-start}.title-page{width:min(100%,560px);margin:0 auto;padding:0 10px 12px;text-align:center}.title-art{position:relative;width:100%;margin:0 auto}.title-art>img{display:block;width:100%;height:auto;object-fit:contain}.title-language{position:absolute;left:3.2%;top:1.6%;width:22%;height:6.4%;opacity:0;cursor:pointer}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+
+/* Main menu polish — October 2026 */
+.home-dashboard{width:100%;padding:8px 0 4px}
+.home-dashboard-top{margin-bottom:7px}
+.home-logo{min-height:clamp(82px,22vw,106px);width:min(100%,430px);margin-bottom:10px;transform:none}
+.home-logo span{font-size:clamp(34px,9.7vw,60px);letter-spacing:-1.5px;line-height:1}
+.home-logo b{font-size:clamp(19px,5.7vw,32px);line-height:1.05}
+.home-logo small{font-size:clamp(8px,2.1vw,10px);letter-spacing:1.25px}
+.hero-stage.home-family{border-radius:25px;overflow:hidden;margin-bottom:15px;box-shadow:inset 0 0 0 1px #ffffff22,0 6px 0 #03172f,0 0 24px #20dfff17}
+.home-family .hero-scene{display:block;width:100%;height:clamp(210px,61vw,330px);object-fit:cover;object-position:center 54%;border-radius:21px;transition:filter .2s}
+.home-dashboard .home-play{min-height:72px;border-radius:22px;margin:0 0 17px;font-size:clamp(21px,5.8vw,28px);letter-spacing:.2px;box-shadow:0 6px 0 #198e66,0 10px 20px #19e88b20}
+.home-primary-links{gap:11px}
+.home-primary-links .select-card{min-height:108px;padding:14px 15px;gap:6px;border-radius:21px;box-shadow:inset 0 1px #ffffff24,0 5px 0 #03172f;transition:transform .15s,filter .15s,box-shadow .15s}
+.home-primary-links .select-card:after{top:8px;right:12px;font-size:25px}
+.home-primary-links .select-card .emoji{font-size:27px}
+.home-primary-links .select-card strong{font-size:clamp(14px,4vw,18px);line-height:1.12;max-width:90%}
+.home-primary-links .select-card small{font-size:clamp(10px,2.8vw,12px)}
+.home-primary-links .select-card:nth-child(1){background:linear-gradient(135deg,#12a8e7,#0874bd);border-color:#53dcff}
+.home-primary-links .select-card:nth-child(2){background:linear-gradient(135deg,#14c9ad,#07828e);border-color:#66ffe1}
+.home-primary-links .select-card:nth-child(3){background:linear-gradient(135deg,#158bdc,#174ba6);border-color:#65d9ff}
+.home-primary-links .select-card:nth-child(4){background:linear-gradient(135deg,#f04eaa,#c32985);border-color:#ff9bd8}
+.home-quick-links{gap:8px;margin-top:15px}
+.home-quick-links button{min-height:48px;padding:8px 6px;border-radius:15px;border-color:#347db5;background:linear-gradient(145deg,#0c315d,#09264a);font-size:clamp(10px,2.8vw,12px);box-shadow:0 3px 0 #03172f;transition:transform .15s,filter .15s}
+.home-quick-links button:active,.home-primary-links .select-card:active{transform:translateY(2px) scale(.99)}
+.home-dashboard+footer{margin-top:6px}
+@media(min-width:540px){.home-dashboard{padding-top:12px}.home-family .hero-scene{height:clamp(260px,42vw,360px)}.home-primary-links .select-card{min-height:120px}.home-quick-links button{min-height:52px}}
+@media(max-width:390px){.app-shell{padding-left:14px;padding-right:14px}.home-logo{min-height:78px}.home-logo span{font-size:clamp(31px,9.3vw,38px)}.home-logo b{font-size:clamp(18px,5.4vw,22px)}.home-family .hero-scene{height:clamp(190px,57vw,230px)}.home-primary-links .select-card{min-height:94px;padding:11px 12px}.home-quick-links{gap:6px}.home-quick-links button{min-height:45px}}
+@media(prefers-reduced-motion:reduce){.home-primary-links .select-card,.home-quick-links button,.home-family .hero-scene{transition:none}}
