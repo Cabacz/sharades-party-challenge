@@ -169,3 +169,25 @@ body.intro-active:before{display:none}body.intro-active .app-shell{width:100%;pa
 @media(min-width:540px){.home-dashboard{padding-top:12px}.home-family .hero-scene{height:clamp(260px,42vw,360px)}.home-primary-links .select-card{min-height:120px}.home-quick-links button{min-height:52px}}
 @media(max-width:390px){.app-shell{padding-left:14px;padding-right:14px}.home-logo{min-height:78px}.home-logo span{font-size:clamp(31px,9.3vw,38px)}.home-logo b{font-size:clamp(18px,5.4vw,22px)}.home-family .hero-scene{height:clamp(190px,57vw,230px)}.home-primary-links .select-card{min-height:94px;padding:11px 12px}.home-quick-links{gap:6px}.home-quick-links button{min-height:45px}}
 @media(prefers-reduced-motion:reduce){.home-primary-links .select-card,.home-quick-links button,.home-family .hero-scene{transition:none}}
+
+
+/* Quick actions: match the vivid neon arcade tiles above */
+.home-quick-links{gap:9px;margin-top:16px}
+.home-quick-links button{
+  position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:6px;
+  min-height:58px;padding:10px 7px;border:2px solid #39c9f3;border-radius:16px;
+  background:linear-gradient(145deg,#10518a 0%,#0b3164 52%,#091f49 100%);
+  color:#f0fbff;font-size:clamp(10px,2.9vw,13px);font-weight:900;line-height:1.18;text-align:center;
+  text-shadow:0 2px 0 #03172f;box-shadow:inset 0 1px 0 #ffffff35,0 4px 0 #03172f,0 0 12px #14bde51c;
+  transition:transform .14s,filter .14s,box-shadow .14s,border-color .14s
+}
+.home-quick-links button:nth-child(3n+2){background:linear-gradient(145deg,#087e91,#075b75 60%,#083653);border-color:#42f0d0;box-shadow:inset 0 1px 0 #ffffff35,0 4px 0 #03172f,0 0 12px #12e5cc20}
+.home-quick-links button:nth-child(3n){background:linear-gradient(145deg,#5944bd,#343284 62%,#202455);border-color:#b49aff;box-shadow:inset 0 1px 0 #ffffff35,0 4px 0 #03172f,0 0 12px #9574ff24}
+.home-quick-links button:hover{filter:brightness(1.15);border-color:#b6f8ff;box-shadow:inset 0 1px 0 #ffffff50,0 4px 0 #03172f,0 0 18px #39dfff45}
+.home-quick-links button:focus-visible{outline:3px solid #ffe66d;outline-offset:2px}
+.home-quick-links button:active,.home-primary-links .select-card:active{transform:translateY(3px) scale(.99);filter:brightness(1.08);box-shadow:inset 0 1px 0 #ffffff25,0 1px 0 #03172f}
+@media(max-width:390px){
+  .home-quick-links{gap:7px;margin-top:14px}
+  .home-quick-links button{min-height:54px;padding:8px 5px;border-radius:14px;font-size:clamp(10px,2.85vw,12px)}
+}
+@media(prefers-reduced-motion:reduce){.home-quick-links button{transition:none}}
