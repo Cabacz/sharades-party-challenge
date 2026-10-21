@@ -191,3 +191,19 @@ body.intro-active:before{display:none}body.intro-active .app-shell{width:100%;pa
   .home-quick-links button{min-height:54px;padding:8px 5px;border-radius:14px;font-size:clamp(10px,2.85vw,12px)}
 }
 @media(prefers-reduced-motion:reduce){.home-quick-links button{transition:none}}
+
+
+/* Normalize all menu tile icons to a consistent visual box */
+.home-primary-links .select-card .emoji{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:1.65em;height:1.45em;flex:0 0 1.65em;
+  font-size:27px;line-height:1;text-align:center;
+}
+.home-quick-links button{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.home-quick-links button .menu-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:1.35em;height:1.35em;flex:0 0 1.35em;
+  font-size:1.15em;line-height:1;text-align:center;
+}
