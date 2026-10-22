@@ -11,3 +11,18 @@ body { min-height: 100svh; overflow: hidden; }
 .splash__language:focus-visible, .splash__start:focus-visible { outline: 3px solid #20e8ff; outline-offset: 3px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 @media (max-aspect-ratio: 2/3) { .splash__artwork { object-fit: cover; } }
+
+body.splash-active { overflow: hidden; }
+body.splash-active .app-shell, body.splash-active #toast { display: none !important; }
+.splash[hidden] { display: none !important; }
+.splash__artwork { pointer-events: none; }
+.splash__controls { pointer-events: none; }
+.splash__language { pointer-events: auto; }
+.splash__start { cursor: pointer; font-weight: 800; }
+@media (max-width: 420px) {
+  .splash__language { padding: 9px 10px; font-size: 13px; }
+  .splash__start { font-size: 13px; padding: 10px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash__artwork { scroll-behavior: auto; }
+}
