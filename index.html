@@ -1,3 +1,42 @@
 <!doctype html>
-<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09091a"><meta name="description" content="Sharades Party Challenge — mobilní hra šarád pro přátele a rodinu."><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="assets/logo.svg" type="image/svg+xml"><link rel="stylesheet" href="css/style.css?v=settings5"><title>Sharades! — Party Challenge</title></head>
-<body><div class="app-shell"><header class="topbar"><button class="icon-btn" id="homeBtn" aria-label="Domů">⌂</button><a class="brand" href="#" id="brandHome"><img src="assets/logo.svg" alt=""><span>SHARADES <small>PARTY CHALLENGE</small></span></a><div class="row"><button class="lang-btn" id="langBtn">🇨🇿 CZ</button><button class="icon-btn" id="soundBtn" aria-label="Zvuk">🔊</button></div></header><main id="app" aria-live="polite"></main><footer><span>SHARADES • Offline PWA</span><button class="text-btn" id="helpBtn">❔ <span data-i18n="help">Nápověda</span></button></footer></div><div id="toast" role="status" class="toast"></div><script src="js/words.js"></script><script src="js/app.js?v=settings5"></script><script>if('serviceWorker'in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));</script></body></html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09091a">
+<meta name="description" content="Sharades Party Challenge — mobilní hra šarád pro přátele a rodinu.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css?v=splash1">
+<link rel="stylesheet" href="css/title-screen.css?v=splash1">
+<title>Sharades! — Party Challenge</title>
+</head>
+<body class="splash-active">
+<section id="sharadesSplash" class="splash" aria-label="Sharades Party Challenge">
+  <img id="splashArtwork" class="splash__artwork" src="assets/images/title-screen-cz.png" alt="Sharades – Party Challenge, česká titulní obrazovka">
+  <div class="splash__controls">
+    <label class="sr-only" for="splashLanguage">Jazyk / Language</label>
+    <select id="splashLanguage" class="splash__language" aria-label="Vybrat jazyk / Choose language">
+      <option value="cs">🇨🇿 Čeština</option>
+      <option value="en">🇬🇧 English</option>
+    </select>
+  </div>
+  <button id="splashStart" class="splash__start" type="button">Pokračovat · klepni kamkoliv</button>
+</section>
+<div class="app-shell">
+  <header class="topbar">
+    <button class="icon-btn" id="homeBtn" aria-label="Domů">⌂</button>
+    <a class="brand" href="#" id="brandHome"><img src="assets/logo.svg" alt=""><span>SHARADES <small>PARTY CHALLENGE</small></span></a>
+    <div class="row"><button class="lang-btn" id="langBtn">🇨🇿 CZ</button><button class="icon-btn" id="soundBtn" aria-label="Zvuk">🔊</button></div>
+  </header>
+  <main id="app" aria-live="polite"></main>
+  <footer><span>SHARADES • Offline PWA</span><button class="text-btn" id="helpBtn">❔ <span data-i18n="help">Nápověda</span></button></footer>
+</div>
+<div id="toast" role="status" class="toast"></div>
+<script src="js/words.js"></script>
+<script src="js/app.js?v=splash1"></script>
+<script src="js/title-screen.js?v=splash1"></script>
+<script>if('serviceWorker'in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));</script>
+</body>
+</html>
