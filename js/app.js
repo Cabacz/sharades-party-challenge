@@ -1818,6 +1818,20 @@
     },
     { once: true },
   );
+  document.addEventListener("sharades:start-tutorial", (event) => {
+    const selectedLanguage = event.detail?.language === "en" ? "en" : "cs";
+    state.lang = selectedLanguage;
+    state.languageChosen = true;
+    state.categories = [];
+    state.category = "all";
+    tutorialStep = 0;
+    persist();
+    setHeader();
+    document.body.classList.remove("splash-active");
+    const splash = document.getElementById("sharadesSplash");
+    if (splash) splash.hidden = true;
+    show("tutorial");
+  });
   show(
     !state.languageChosen ? "language" : state.onboarded ? "home" : "tutorial",
   );
