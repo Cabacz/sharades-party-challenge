@@ -20,10 +20,16 @@ const endCurrentMode = async () => {
 try {
   await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105 })));
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
-  assert.equal(await page.locator('#titleLanguage').count(), 1, 'First launch shows the illustrated title and language selector');
-  await page.locator('#titleLanguage').selectOption('cs');
+  assert.equal(await page.locator('#sharadesSplash').isVisible(), true, 'First launch shows the approved full-screen title artwork');
+  assert.equal(await page.locator('#splashLanguage').count(), 1, 'Title screen exposes the language selector');
+  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-cz\\.png$/, 'Czech title artwork is selected by default');
+  await page.locator('#splashLanguage').selectOption('en');
+  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-en\\.png$/, 'Selecting English swaps the title artwork');
+  await page.locator('#splashLanguage').selectOption('cs');
+  await page.locator('#splashStart').click();
   await page.locator('.tutorial-step-image').waitFor();
-  assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'Language selection opens the tutorial');
+  assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'Starting the title screen opens the existing tutorial');
+  assert.equal(await page.locator('#sharadesSplash').isVisible(), false, 'Title screen closes before the tutorial is shown');
   for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-step="1"]').click();
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
   await page.locator('button[data-tutorial-step="1"]').click();
@@ -182,7 +188,7 @@ try {
   await page.locator('#offlinePref').check();
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v20');
+    const cache = await caches.open('sharades-release-v21');
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -191,7 +197,7 @@ try {
   await page.locator('#offlinePref').uncheck();
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v20');
+    const cache = await caches.open('sharades-release-v21');
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
