@@ -1,9 +1,11 @@
-const CACHE = "sharades-release-v20";
+const CACHE = "sharades-release-v21";
 const FILES = [
   "./",
   "./index.html",
-  "./css/style.css?v=settings5",
-  "./js/app.js?v=settings5",
+  "./css/style.css?v=splash1",
+  "./css/title-screen.css?v=splash1",
+  "./js/app.js?v=splash1",
+  "./js/title-screen.js?v=splash1",
   "./js/words.js",
   "./manifest.webmanifest",
   "./assets/logo.svg",
@@ -21,7 +23,7 @@ const FILES = [
   "./assets/tutorial-4.webp",
   "./assets/tutorial-5.webp",
   "./assets/images/title-screen-cz.png",
-  "./assets/Images/title-screen-en.webp",
+  "./assets/images/title-screen-en.png",
 ];
 const OFFLINE_KEY = "./offline-mode";
 
