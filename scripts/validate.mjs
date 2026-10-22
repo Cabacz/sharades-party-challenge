@@ -32,6 +32,9 @@ const sandbox = { window: {} };
 vm.runInNewContext(read('js/words.js'), sandbox);
 const words = sandbox.window.SHARADES_WORDS;
 assert(!!words?.cs && !!words?.en, 'Czech and English dictionaries are present');
+const themes = sandbox.window.SHARADES_THEMES;
+assert(!!themes?.cs && !!themes?.en, 'Local generator themes exist in both languages');
+assert(['minecraft', 'dinosaurs', 'wizarding'].every((key) => themes.cs[key]?.words?.length >= 10 && themes.en[key]?.words?.length >= 10), 'Themed word packs contain bilingual playable prompts');
 const requiredCategories = { cs: ['Filmy', 'Zvířata', 'Jídlo', 'Místa', 'Sport', 'Povolání', 'Příroda', 'Různé'], en: ['Movies', 'Animals', 'Food', 'Places', 'Sports', 'Jobs', 'Nature', 'Mixed'] };
 for (const lang of ['cs', 'en']) {
   const categories = Object.entries(words[lang]);

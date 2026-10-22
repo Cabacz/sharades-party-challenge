@@ -1,9 +1,9 @@
-const CACHE = "sharades-release-v19";
+const CACHE = "sharades-release-v20";
 const FILES = [
   "./",
   "./index.html",
-  "./css/style.css?v=menu-icons1",
-  "./js/app.js?v=menu-icons1",
+  "./css/style.css?v=settings5",
+  "./js/app.js?v=settings5",
   "./js/words.js",
   "./manifest.webmanifest",
   "./assets/logo.svg",
@@ -14,6 +14,7 @@ const FILES = [
   "./assets/avatar-child.svg",
   "./assets/avatar-robot.svg",
   "./assets/avatar-cat.svg",
+  "./assets/avatar-dog.svg",
   "./assets/tutorial-1.webp",
   "./assets/tutorial-2.webp",
   "./assets/tutorial-3.webp",

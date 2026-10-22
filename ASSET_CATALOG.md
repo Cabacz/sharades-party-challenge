@@ -20,6 +20,7 @@ Přehled vizuálních souborů, které jsou aktuálně v novém projektu. Původ
 | `assets/logo.svg`, `icon.svg` | Značka a ikona aplikace. |
 | `assets/avatar-man.svg`, `assets/avatar-woman.svg`, `assets/avatar-child.svg` | Avatary hráčů. |
 | `assets/avatar-robot.svg`, `assets/avatar-cat.svg` | Další avatary v původním prototypu. |
+| `assets/avatar-dog.svg` | Původní typ postavy psa doplněný do editoru; jeho oblečení, výraz, pokrývka hlavy i doplňky lze upravovat. |
 | `assets/tutorial-1.webp` až `assets/tutorial-5.webp` | Ilustrované kroky stávajícího návodu. |
 | `assets/design-reference-ui.png` | Referenční návrh uživatelského rozhraní. |
 

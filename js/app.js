@@ -3,7 +3,7 @@
   const $ = (s) => document.querySelector(s),
     app = $("#app"),
     KEY = "sharades_release_v2";
-  const avatarIds = ["man", "woman", "child", "robot", "cat"];
+  const avatarIds = ["man", "woman", "child", "dog", "robot", "cat"];
   const appearanceDefaults = () => ({
     hair: "natural",
     hat: "none",
@@ -59,6 +59,8 @@
     history: [],
   });
   let suggestions = [],
+    generatedRoundWords = null,
+    generatedLanguage = null,
     avatarPlayer = 0,
     tutorialStep = 0,
     currentScreen = "home",
@@ -430,9 +432,124 @@
       )
       .catch(() => {});
   }
+  function applyFacialExpression(svg, avatar, expression) {
+    if (expression === "happy") return svg;
+    if (["man", "woman", "child"].includes(avatar)) {
+      if (expression === "wow") {
+        if (avatar === "man") {
+          svg = svg.replace(
+            '<path d="M68 64q12 7 25-1l-3 10q-9 8-18 0Z" fill="#4c2b2d"/><path d="M75 63q5 4 10 0" stroke="#fff1db" stroke-width="2.5" stroke-linecap="round"/>',
+            '<ellipse cx="80" cy="68" rx="4.5" ry="7" fill="#4c2b2d"/>',
+          );
+        } else {
+          svg = svg.replace(
+            '<path d="M69 57q10 7 20 0" stroke="#bd6677" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+            '<ellipse cx="79" cy="61" rx="4.5" ry="6.5" fill="#7f3d52"/>',
+          );
+        }
+      }
+      if (expression === "silly" && avatar === "man") {
+        svg = svg.replace(
+          '</svg>',
+          '<ellipse cx="81" cy="70" rx="5" ry="4" fill="#f36b8b" stroke="#762d4b" stroke-width="1.2"/></svg>',
+        );
+      }
+      if (expression === "silly" && ["woman", "child"].includes(avatar)) {
+        svg = svg.replace(
+          '<path d="M69 57q10 7 20 0" stroke="#bd6677" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+          '<path d="M69 57q10 11 20 0" stroke="#803e55" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="81" cy="64" rx="4" ry="3" fill="#f36b8b"/>',
+        );
+      }
+      if (expression === "cool") {
+        svg = svg.replace(
+          '</svg>',
+          '<g fill="#11182b" fill-opacity=".92" stroke="#d8f5ff" stroke-width="1.5"><rect x="60" y="39" width="18" height="12" rx="4"/><rect x="84" y="39" width="18" height="12" rx="4"/><path d="M78 43h6"/></g></svg>',
+        );
+      }
+    } else if (avatar === "robot") {
+      if (expression === "wow") {
+        svg = svg.replace(
+          '<path d="M53 67h22" stroke="#6c73ff" stroke-width="4" stroke-linecap="round"/>',
+          '<ellipse cx="64" cy="67" rx="4.5" ry="6" fill="#6c73ff"/>',
+        );
+      }
+      if (expression === "silly") {
+        svg = svg.replace(
+          '<path d="M53 67h22" stroke="#6c73ff" stroke-width="4" stroke-linecap="round"/>',
+          '<path d="M54 65q10 12 20 0" fill="none" stroke="#ff4fd8" stroke-width="4" stroke-linecap="round"/>',
+        );
+      }
+      if (expression === "cool") {
+        svg = svg.replace(
+          '</svg>',
+          '<rect x="41" y="42" width="46" height="9" rx="4" fill="#10152b" fill-opacity=".94" stroke="#a7f4ff" stroke-width="1.5"/></svg>',
+        );
+      }
+    } else if (avatar === "cat") {
+      if (expression === "wow") {
+        svg = svg.replace(
+          '</svg>',
+          '<ellipse cx="64" cy="63" rx="5" ry="6" fill="#9b4e53" stroke="#3c2942" stroke-width="1.5"/></svg>',
+        );
+      }
+    } else if (avatar === "dog") {
+      if (expression === "wow") {
+        svg = svg.replace('</svg>', '<ellipse cx="64" cy="68" rx="5" ry="7" fill="#9b4e53" stroke="#603525" stroke-width="1.5"/></svg>');
+      }
+      if (expression === "silly") {
+        svg = svg.replace('</svg>', '<path d="M61 68q7 2 7 8v5q-7 4-8-3Z" fill="#f36b8b" stroke="#762d4b" stroke-width="1.2"/></svg>');
+      }
+      if (expression === "cool") {
+        svg = svg.replace('</svg>', '<g fill="#11182b" fill-opacity=".92" stroke="#fff" stroke-width="1.2"><rect x="39" y="42" width="20" height="11" rx="4"/><rect x="69" y="42" width="20" height="11" rx="4"/><path d="M59 46h10"/></g></svg>');
+      }
+      if (expression === "silly") {
+        svg = svg.replace(
+          '</svg>',
+          '<ellipse cx="69" cy="64" rx="5" ry="4" fill="#f36b8b" stroke="#762d4b" stroke-width="1.2"/></svg>',
+        );
+      }
+      if (expression === "cool") {
+        svg = svg.replace(
+          '</svg>',
+          '<g fill="#11182b" fill-opacity=".92" stroke="#fff" stroke-width="1.2"><rect x="40" y="38" width="19" height="11" rx="4"/><rect x="69" y="38" width="19" height="11" rx="4"/><path d="M59 42h10"/></g></svg>',
+        );
+      }
+    }
+    return svg;
+  }
+  function applyHeadwearAndAccessory(svg, avatar, appearance) {
+    const hats = {
+      cap: '<path d="M49 18Q49 5 70 3q27-2 39 15L49 25Z" fill="#1778d4" stroke="#102951" stroke-width="2.5"/><path d="M49 20q28-8 61-2 6 2 5 6-28-5-61 4-7 2-8-3Z" fill="#39c8ff" stroke="#102951" stroke-width="2"/>',
+      crown: '<path d="m50 22-5-18 19 12L80 0l16 16 19-12-5 20Z" fill="#ffd534" stroke="#9b4d13" stroke-width="3" stroke-linejoin="round"/><path d="M51 21h56v7H51Z" fill="#ff8b24" stroke="#9b4d13" stroke-width="2"/><circle cx="62" cy="21" r="3" fill="#39e8ff"/><circle cx="80" cy="21" r="3" fill="#ff4fd8"/><circle cx="97" cy="21" r="3" fill="#39e8ff"/>',
+      party: '<path d="m52 26 27-25 28 25Z" fill="#ff4fd8" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/><path d="m63 16 7 4m14-9 1 8m14 0 4 4" stroke="#ffe66d" stroke-width="4" stroke-linecap="round"/><circle cx="79" cy="2.5" r="5" fill="#39e8ff" stroke="#fff" stroke-width="1.5"/>',
+    };
+    const frames = {
+      man: { glasses: [59, 40, 18, 12, 84], bow: [101, 30], headphones: [42, 46, 118, 46] },
+      woman: { glasses: [58, 40, 19, 12, 84], bow: [102, 30], headphones: [42, 47, 118, 47] },
+      child: { glasses: [57, 41, 18, 12, 83], bow: [101, 31], headphones: [43, 46, 116, 46] },
+      robot: { glasses: [39, 39, 22, 16, 67], bow: [91, 24], headphones: [25, 48, 103, 48] },
+      cat: { glasses: [39, 38, 20, 13, 68], bow: [91, 25], headphones: [23, 47, 105, 47] },
+      dog: { glasses: [38, 44, 20, 12, 70], bow: [91, 28], headphones: [24, 50, 104, 50] },
+    };
+    let graphics = "";
+    if (hats[appearance.hat]) graphics += hats[appearance.hat];
+    const frame = frames[avatar];
+    if (frame && appearance.accessory === "glasses") {
+      const [x, y, width, height, rightX] = frame.glasses;
+      graphics += `<g fill="#10182c" fill-opacity=".9" stroke="#c8f5ff" stroke-width="1.7"><rect x="${x}" y="${y}" width="${width}" height="${height}" rx="4"/><rect x="${rightX}" y="${y}" width="${width}" height="${height}" rx="4"/><path d="M${x + width} ${y + 5}h${rightX - x - width}"/></g>`;
+    } else if (frame && appearance.accessory === "bow") {
+      const [x, y] = frame.bow;
+      graphics += `<g stroke="#8c246e" stroke-width="1.8" stroke-linejoin="round"><path d="M${x} ${y}q-15-13-17 0 2 10 17 4 15 6 17-4-2-13-17 0Z" fill="#ff58bf"/><circle cx="${x}" cy="${y + 1}" r="4" fill="#ffe66d"/></g>`;
+    } else if (frame && appearance.accessory === "headphones") {
+      const [left, y, right] = frame.headphones;
+      const top = avatar === "man" || avatar === "woman" || avatar === "child" ? y - 43 : y - 35;
+      graphics += `<g fill="none" stroke="#39e8ff" stroke-width="5"><path d="M${left} ${y}Q${left - 2} ${top} ${(left + right) / 2} ${top}T${right} ${y}"/></g><g fill="#ff4fd8" stroke="#fff" stroke-width="1.5"><rect x="${left - 5}" y="${y - 7}" width="10" height="22" rx="5"/><rect x="${right - 5}" y="${y - 7}" width="10" height="22" rx="5"/></g>`;
+    }
+    return graphics ? svg.replace("</svg>", `${graphics}</svg>`) : svg;
+  }
   function customizeAvatarSvg(svg, avatar, appearance) {
     const hairTargets = {
-      man: ["#39252a", "#4c2b2d"],
+      man: ["#39252a"],
       woman: ["#6d4029", "#7f4a2d", "#e6b775"],
       child: ["#a66b32"],
     };
@@ -446,6 +563,26 @@
     sources.forEach((source, index) => {
       if (replacements[index]) svg = svg.split(source).join(replacements[index]);
     });
+    if (["man", "woman", "child"].includes(avatar)) {
+      if (appearance.hair === "curly") {
+        const curls = {
+          man: [52, 18, 64, 10, 78, 7, 92, 10, 105, 18],
+          woman: [53, 19, 65, 11, 79, 8, 93, 11, 105, 20],
+          child: [52, 20, 64, 12, 78, 9, 92, 12, 104, 20],
+        }[avatar];
+        const circles = [];
+        for (let i = 0; i < curls.length; i += 2)
+          circles.push(`<circle cx="${curls[i]}" cy="${curls[i + 1]}" r="7"/>`);
+        svg = svg.replace("</svg>", `<g fill="#382544" stroke="#241d32" stroke-width="2">${circles.join("")}</g></svg>`);
+      } else if (appearance.hair === "spiky") {
+        const spikes = {
+          man: "M48 38 41 13l17 13 1-20 14 18L81 2l9 21 16-14-4 21 11-8-7 27Z",
+          woman: "M48 39 42 14l17 12 2-20 15 18L83 2l10 21 16-13-4 22 10-7-6 39-16-18-31 0Z",
+          child: "M48 39 42 15l16 12 2-20 15 18L83 4l9 20 15-13-4 21 9-7-7 27Z",
+        }[avatar];
+        svg = svg.replace("</svg>", `<path d="${spikes}" fill="#b75a2d" stroke="#44263c" stroke-width="2.5" stroke-linejoin="round"/></svg>`);
+      }
+    }
 
     const outfits = {
       blue: ["#3297ef", "#1351b0"],
@@ -474,7 +611,7 @@
       const [body, accent] = colorsByOutfit[appearance.outfit] || colorsByOutfit.blue;
       svg = svg.replaceAll("#626dff", body).replaceAll("#44e9ff", accent);
     }
-    if (avatar === "cat") {
+    if (avatar === "cat" || avatar === "dog") {
       const colorsByOutfit = {
         blue: ["#087de1", "#39e8ff"],
         pink: ["#d63fba", "#ff83db"],
@@ -484,6 +621,8 @@
       const [body, accent] = colorsByOutfit[appearance.outfit] || colorsByOutfit.blue;
       svg = svg.replaceAll("#a967ff", body).replaceAll("#ff4fd8", accent);
     }
+    svg = applyFacialExpression(svg, avatar, appearance.expression);
+    svg = applyHeadwearAndAccessory(svg, avatar, appearance);
     return svg;
   }
   async function updateCharacterArtwork(avatar, appearance) {
@@ -652,7 +791,8 @@
         ${btn(t("save"), "save-settings")}${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     ai() {
-      app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${state.lang === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Zaškrtni slova, která chceš přidat do vlastního balíčku." : "Select the words you want to add to your custom deck."}</p></div></div><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row"><input type="checkbox" data-generated-index="${i}" checked><span class="feature-icon">💡</span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div>${btn("＋ " + t("addWords"), "add-generated", "btn green top-gap")}` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      const language = generatedLanguage || state.lang;
+      app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${language === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${state.lang === "cs" ? "Jazyk slov" : "Word language"}</label><select id="aiLanguage"><option value="cs" ${language === "cs" ? "selected" : ""}>🇨🇿 Čeština</option><option value="en" ${language === "en" ? "selected" : ""}>🇬🇧 English</option></select></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Zaškrtni slova, která chceš uložit nebo rovnou hrát." : "Select the words you want to save or play now."}</p></div></div><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row"><input type="checkbox" data-generated-index="${i}" checked><span class="feature-icon">💡</span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div><div class="stack top-gap">${btn("＋ " + t("addWords"), "add-generated", "btn green")}${btn("▶ " + (state.lang === "cs" ? "Hrát vybraná slova" : "Play selected words"), "start-generated", "btn cyan")}</div>` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     avatars() {
       if (!state.players.length) {
@@ -673,8 +813,8 @@
           en: "Hair",
           values: [
             ["natural", "✨", "Přirozený", "Natural"],
-            ["curly", "🟤", "Tmavě hnědý", "Dark brown"],
-            ["spiky", "🟠", "Zrzavý", "Auburn"],
+            ["curly", "🌀", "Kudrnatý", "Curly"],
+            ["spiky", "⚡", "Rozježený", "Spiky"],
             ["blonde", "🌟", "Světlý", "Blonde"],
           ],
         },
@@ -729,24 +869,21 @@
           ],
         },
       };
-      const tab = options[appearanceTab] || options.hair;
       const labels = {
         man: state.lang === "cs" ? "Muž" : "Man",
         woman: state.lang === "cs" ? "Žena" : "Woman",
         child: state.lang === "cs" ? "Dítě" : "Child",
         robot: "Robot",
         cat: state.lang === "cs" ? "Kočka" : "Cat",
+        dog: state.lang === "cs" ? "Pes" : "Dog",
       };
-      const overlays = {
-        hat: { none: "", cap: "🧢", crown: "👑", party: "🎉" },
-        accessory: { none: "", glasses: "🕶️", bow: "🎀", headphones: "🎧" },
-        outfit: { blue: "🔵", pink: "💗", green: "🟢", gold: "🟡" },
-        expression: { happy: "😄", wow: "😮", cool: "😎", silly: "🤪" },
-      };
+      if (!["man", "woman", "child"].includes(player.avatar)) delete options.hair;
+      if (!options[appearanceTab]) appearanceTab = Object.keys(options)[0] || "hat";
+      const tab = options[appearanceTab];
       app.innerHTML = `${head(t("avatars"), state.lang === "cs" ? "Vyber postavu a uprav její vzhled." : "Choose a character and personalize their look.")}<div class="card character-editor">
         <div class="character-wallet">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div>
         <div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div>
-        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}">${appearance.hat !== "none" ? `<span class="look-hat">${overlays.hat[appearance.hat]}</span>` : ""}${appearance.accessory !== "none" ? `<span class="look-accessory">${overlays.accessory[appearance.accessory]}</span>` : ""}<span class="look-outfit">👕</span><span class="look-expression">${overlays.expression[appearance.expression]}</span></div>
+        <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}"></div>
         <div class="avatar-picker">${avatarIds.map((id) => `<button class="avatar-option ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}" aria-label="${labels[id]}"><img src="assets/avatar-${id}.svg" alt="${labels[id]}"></button>`).join("")}</div>
         <div class="appearance-tabs">${Object.entries(options).map(([id, item]) => `<button class="chip ${appearanceTab === id ? "active" : ""}" data-appearance-tab="${id}">${item[state.lang]}</button>`).join("")}</div>
         <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => { const unlocked = state.cosmeticUnlocks[appearanceTab]?.includes(id); const cost = cosmeticPrices[appearanceTab]?.[id] || 0; const detail = unlocked ? (appearance[appearanceTab] === id ? (state.lang === "cs" ? "Použito" : "Equipped") : (state.lang === "cs" ? "Odemčeno" : "Owned")) : `🔒 🪙 ${cost}`; return `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""} ${unlocked ? "" : "locked"}" data-appearance="${appearanceTab}" data-value="${id}" aria-pressed="${appearance[appearanceTab] === id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}<small>${detail}</small></strong></button>`; }).join("")}</div>
@@ -1017,7 +1154,10 @@
     return w;
   }
   function beginGame() {
-    const deck = buildDeck();
+    const deck = generatedRoundWords?.length
+      ? generatedRoundWords.map((word) => ({ ...word }))
+      : buildDeck();
+    generatedRoundWords = null;
     if (!deck.length) {
       toast(t("empty"));
       show("categories");
@@ -1419,23 +1559,30 @@
       case "generate-local": {
         const topic = ($("#aiTopic")?.value || "").trim().toLocaleLowerCase();
         const count = Math.max(1, Math.min(20, +($("#aiCount")?.value || 10)));
-        const dict =
-          window.SHARADES_WORDS[state.lang] || window.SHARADES_WORDS.cs;
+        const language = $("#aiLanguage")?.value || state.lang;
+        generatedLanguage = language;
+        const dict = window.SHARADES_WORDS[language] || window.SHARADES_WORDS.cs;
         let pool = Object.entries(dict).flatMap(([cat, words]) =>
           words.map((word) => ({ word, cat })),
         );
-        if (state.difficulty === "easy")
-          pool = pool.filter((x) => x.word.length <= 10);
-        if (state.difficulty === "hard")
-          pool = pool.filter((x) => x.word.length >= 11);
         if (topic) {
-          const exact = pool.filter(
-            (x) =>
-              x.word.toLocaleLowerCase().includes(topic) ||
-              x.cat.toLocaleLowerCase().includes(topic),
+          const themes = Object.values(window.SHARADES_THEMES?.[language] || {});
+          const theme = themes.find((item) =>
+            [item.name, ...item.aliases, ...item.words].some((value) => {
+              const normalized = value.toLocaleLowerCase();
+              return normalized.includes(topic) || topic.includes(normalized);
+            }),
           );
-          if (exact.length) pool = exact;
-          else {
+          if (theme) {
+            pool = theme.words.map((word) => ({ word, cat: theme.name }));
+          } else {
+            const exact = pool.filter(
+              (x) =>
+                x.word.toLocaleLowerCase().includes(topic) ||
+                x.cat.toLocaleLowerCase().includes(topic),
+            );
+            if (exact.length) pool = exact;
+            else {
             const synonyms =
               topic.includes("zví") || topic.includes("animal")
                 ? ["Zvířata", "Animals"]
@@ -1453,7 +1600,8 @@
                 ),
               )
               .flatMap(([cat, words]) => words.map((word) => ({ word, cat })));
-            if (matches.length) pool = matches;
+              pool = matches;
+            }
           }
         }
         if (state.difficulty === "easy")
@@ -1479,6 +1627,12 @@
               ? "Návrhy z místního slovníku"
               : "Suggestions from local dictionary",
           );
+        else if (topic)
+          toast(
+            state.lang === "cs"
+              ? "Pro toto téma tu nemám místní slova. Zkus kategorii nebo Harry Potter, Minecraft či dinosaury."
+              : "No local words match that topic. Try a category, Harry Potter, Minecraft, or dinosaurs.",
+          );
         break;
       }
       case "add-generated": {
@@ -1492,6 +1646,25 @@
         persist();
         toast(t("saved"));
         show("custom");
+        break;
+      }
+      case "start-generated": {
+        const selected = $$(`[data-generated-index]:checked`)
+          .map((x) => suggestions[+x.dataset.generatedIndex])
+          .filter(Boolean);
+        if (!selected.length) {
+          toast(
+            state.lang === "cs"
+              ? "Nejdřív vyber alespoň jedno slovo."
+              : "Select at least one word first.",
+          );
+          return;
+        }
+        generatedRoundWords = selected;
+        state.categories = [];
+        state.category = "all";
+        persist();
+        show("setup");
         break;
       }
       case "offline-refresh":

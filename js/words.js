@@ -20,3 +20,15 @@ window.SHARADES_WORDS={
     Mixed:['Toothbrush','Umbrella','Vacuum cleaner','Guitar','Phone','Alarm clock','Suitcase','Bicycle','Camera','Glasses','Iron','Scissors','Drill','Mug','Pillow','Telescope','Brushing teeth','Cooking','Sleeping','Dancing','Singing','Driving a car','Tying shoelaces','Fishing','Taking a photo','Mowing the lawn','Vacuuming','Painting','Baking a cake','Looking for keys','Slipping on ice']
   }
 };
+window.SHARADES_THEMES = {
+  cs: {
+    minecraft: { name: "Minecraft", aliases: ["minecraft", "creeper", "enderman", "redstone"], words: ["Creeper", "Enderman", "Zombie", "Diamantový krumpáč", "Pracovní stůl", "Redstone", "Vesničan", "Portál do Netheru", "Stavba domu", "Těžba uhlí", "Ochočení vlka", "Výroba pochodně"] },
+    dinosaurs: { name: "Dinosauři", aliases: ["dinosaurus", "dinosauři", "dinosaura", "dinosaury"], words: ["Tyrannosaurus rex", "Triceratops", "Stegosaurus", "Brontosaurus", "Velociraptor", "Pterodaktyl", "Diplodocus", "Brachiosaurus", "Fosilie", "Vejce dinosaura", "Dinosaurus řve", "Dinosaurus honí kořist"] },
+    wizarding: { name: "Harry Potter", aliases: ["harry potter", "bradavice", "kouzelník", "wizard"], words: ["Harry Potter", "Hermiona Granger", "Ron Weasley", "Lord Voldemort", "Bradavice", "Brumbál", "Hagrid", "Famfrpál", "Třídící klobouk", "Kouzelnická hůlka", "Dementor", "Nástupiště devět a tři čtvrtě"] },
+  },
+  en: {
+    minecraft: { name: "Minecraft", aliases: ["minecraft", "creeper", "enderman", "redstone"], words: ["Creeper", "Enderman", "Zombie", "Diamond pickaxe", "Crafting table", "Redstone", "Villager", "Nether portal", "Building a house", "Mining for coal", "Taming a wolf", "Making a torch"] },
+    dinosaurs: { name: "Dinosaurs", aliases: ["dinosaur", "dinosaurs", "dino"], words: ["Tyrannosaurus rex", "Triceratops", "Stegosaurus", "Brontosaurus", "Velociraptor", "Pterodactyl", "Diplodocus", "Brachiosaurus", "Fossil", "Dinosaur egg", "A dinosaur roaring", "A dinosaur chasing prey"] },
+    wizarding: { name: "Harry Potter", aliases: ["harry potter", "hogwarts", "wizard"], words: ["Harry Potter", "Hermione Granger", "Ron Weasley", "Lord Voldemort", "Hogwarts", "Dumbledore", "Hagrid", "Quidditch", "Sorting Hat", "Magic wand", "Dementor", "Platform nine and three quarters"] },
+  },
+};
