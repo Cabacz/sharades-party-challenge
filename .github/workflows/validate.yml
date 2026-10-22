@@ -21,6 +21,7 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check js/app.js
+          node --check js/title-screen.js
           node --check js/words.js
           node --check service-worker.js
       - name: Validate local app assets and dictionary
