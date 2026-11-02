@@ -164,7 +164,7 @@
       localWords: "Navrhnout slova z lokálního slovníku",
       addWords: "Přidat vybraná slova",
       aiNote:
-        "Slova se vybírají z místního slovníku a pro návrhy se vytvoří rodinný arch obrázkových kartiček. Karty používají bezpečný serverový endpoint.",
+        "Návrhy slov pocházejí z místního slovníku. Hra používá připravené ilustrace a odpovídající symboly; nové AI obrázky se v bezplatném režimu nevytvářejí.",
       teamName: "Název týmu",
       addTeam: "Přidat tým",
       teamsNeedPlayers: "Každý tým musí mít alespoň jednoho hráče. Přiřaď hráče k týmům.",
@@ -191,7 +191,7 @@
       aboutText:
         "Předváděj slova, sbírej body a bav se s přáteli. Hra ukládá nastavení a výsledky v tomto zařízení.",
       featureAI:
-        "Slova se vybírají lokálně. Při tvorbě obrázků se OpenAI odešlou navržená slova a stylizovaná rodinná předloha; původní fotografie se neodesílá. Server musí mít nastavený API klíč.",
+        "Funguje bez placeného API: návrhy slov se vybírají z místního slovníku. Nové AI obrázky se nevytvářejí; hra ukáže připravenou ilustraci nebo odpovídající symbol.",
       selectPlayer: "Vyber hráče",
     },
     en: {
@@ -255,7 +255,7 @@
       localWords: "Suggest words from the local dictionary",
       addWords: "Add selected words",
       aiNote:
-        "Words are selected from the local dictionary and a family picture-card sheet is created for the suggestions. Card images use a secure server endpoint.",
+        "Word suggestions come from the local dictionary. The game uses included illustrations and matching symbols; no new AI images are created in the free version.",
       teamName: "Team name",
       addTeam: "Add a team",
       teamsNeedPlayers: "Each team needs at least one player. Assign players to the teams.",
@@ -282,7 +282,7 @@
       aboutText:
         "Act out words, collect points, and have fun with friends. Settings and results are saved on this device.",
       featureAI:
-        "Words are selected locally. For card images, OpenAI receives the suggested words and stylized family reference; the original photo is not sent. The server must have an API key configured.",
+        "Works without a paid API: word suggestions come from the local dictionary. New AI images are not created; the game shows an included illustration or a matching symbol.",
       selectPlayer: "Choose player",
     },
   };
@@ -460,6 +460,8 @@
     return blobToDataUrl(optimized || blob);
   }
   async function generateCardSheet(words, language) {
+    const endpoint = window.SHARADES_CARD_API_URL;
+    if (!endpoint) return;
     const requestId = ++cardGenerationId;
     cardGenerationPending = true;
     const status = state.lang === "cs"
@@ -472,7 +474,6 @@
       const referenceResponse = await fetch("assets/word-cards/family-card-cutout-sprites-v2.png");
       if (!referenceResponse.ok) throw new Error("family reference unavailable");
       const reference = await optimizeCardReference(await referenceResponse.blob());
-      const endpoint = window.SHARADES_CARD_API_URL || "./api/generate-card-sheet";
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1034,7 +1035,7 @@
     },
     ai() {
       const language = generatedLanguage || state.lang;
-      app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${language === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${state.lang === "cs" ? "Jazyk slov" : "Word language"}</label><select id="aiLanguage"><option value="cs" ${language === "cs" ? "selected" : ""}>🇨🇿 Čeština</option><option value="en" ${language === "en" ? "selected" : ""}>🇬🇧 English</option></select></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Ke každému slovu patří rodinná obrázková kartička. Vyber, která chceš uložit nebo rovnou hrát." : "Each word has a family picture card. Select which ones to save or play."}</p></div></div><p id="cardGenerationStatus" class="card-generation-status">${cardGenerationPending ? (state.lang === "cs" ? "Vytvářím rodinné obrázky ke slovům…" : "Creating family illustrations for these words…") : ""}</p><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row generated-word-row"><input type="checkbox" data-generated-index="${i}" checked><span class="generated-card-thumb" data-suggestion-card="${i}"></span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div><div class="stack top-gap">${btn("＋ " + t("addWords"), "add-generated", "btn green")}${btn("▶ " + (state.lang === "cs" ? "Hrát vybraná slova" : "Play selected words"), "start-generated", "btn cyan")}</div>` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${language === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${state.lang === "cs" ? "Jazyk slov" : "Word language"}</label><select id="aiLanguage"><option value="cs" ${language === "cs" ? "selected" : ""}>🇨🇿 Čeština</option><option value="en" ${language === "en" ? "selected" : ""}>🇬🇧 English</option></select></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Ulož nebo rovnou hraj vybraná slova. Obrázek používá připravenou ilustraci, jinak odpovídající symbol." : "Save or play selected words. Cards use an included illustration when available, otherwise a matching symbol."}</p></div></div><p id="cardGenerationStatus" class="card-generation-status">${cardGenerationPending ? (state.lang === "cs" ? "Vytvářím rodinné obrázky ke slovům…" : "Creating family illustrations for these words…") : ""}</p><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row generated-word-row"><input type="checkbox" data-generated-index="${i}" checked><span class="generated-card-thumb" data-suggestion-card="${i}"></span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div><div class="stack top-gap">${btn("＋ " + t("addWords"), "add-generated", "btn green")}${btn("▶ " + (state.lang === "cs" ? "Hrát vybraná slova" : "Play selected words"), "start-generated", "btn cyan")}</div>` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
       suggestions.forEach((word, index) => applyCardArt($(`[data-suggestion-card="${index}"]`), word));
     },
     avatars() {
@@ -1946,7 +1947,16 @@
               ? "Pro toto téma tu nemám místní slova. Zkus kategorii nebo Harry Potter, Minecraft či dinosaury."
               : "No local words match that topic. Try a category, Harry Potter, Minecraft, or dinosaurs.",
           );
-        if (suggestions.length) void generateCardSheet(suggestions, language);
+        if (suggestions.length) {
+          const statusElement = $("#cardGenerationStatus");
+          if (statusElement)
+            statusElement.textContent = state.lang === "cs"
+              ? "Bezplatný režim: nové AI obrázky se negenerují. Používají se připravené ilustrace nebo odpovídající symboly."
+              : "Free mode: no new AI images are generated. Included illustrations or matching symbols are used.";
+          suggestions.forEach((item, index) =>
+            applyCardArt($(`[data-suggestion-card="${index}"]`), item),
+          );
+        }
         break;
       }
       case "add-generated": {
