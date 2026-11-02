@@ -1,5 +1,6 @@
 (() => {
-  window.SHARADES_CARD_API_URL = window.SHARADES_CARD_API_URL || "./api/generate-card-sheet";
+  // Paid image generation is opt-in. The free build never contacts an image API.
+  window.SHARADES_CARD_API_URL = "";
   const exact = {
     cs: {
       Popelka: 0, Mimoň: 1, Lev: 2, Tučňák: 3,
