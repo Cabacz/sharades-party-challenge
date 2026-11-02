@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v31";
+const CACHE = "sharades-release-v32-free-cards";
 const FILES = [
   "./",
   "./index.html",
@@ -6,8 +6,8 @@ const FILES = [
   "./css/title-screen.css?v=splash1",
   "./js/title-screen.js?v=splash1",
   "./js/words.js?v=wordset2",
-  "./js/cards.js?v=cards4",
-  "./js/app.js?v=cards4",
+  "./js/cards.js?v=free-cards1",
+  "./js/app.js?v=free-cards1",
   "./assets/word-cards/pole-vault.svg",
   "./assets/word-cards/high-jump.svg",
   "./assets/word-cards/parkour.svg",
