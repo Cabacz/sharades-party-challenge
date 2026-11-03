@@ -211,7 +211,7 @@ try {
   await page.locator('#offlinePref').check();
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v34-all-cards');
+    const cache = await caches.open('sharades-release-v35-all-cards');
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -220,7 +220,7 @@ try {
   await page.locator('#offlinePref').uncheck();
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v34-all-cards');
+    const cache = await caches.open('sharades-release-v35-all-cards');
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
@@ -280,9 +280,10 @@ try {
   }
   assert.equal(await page.evaluate(() => ['classic', 'teams', 'sudden', 'marathon', 'double', 'pantomime', 'drawing'].every((mode) => JSON.parse(localStorage.getItem('sharades_release_v2')).history.some((game) => game.mode === mode))), true, 'All seven game modes record their completed results');
   await page.goto('http://127.0.0.1:8080/card-gallery.html', { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => document.querySelectorAll('.card').length === 320, null, { timeout: 30000 });
+  await page.waitForFunction(() => document.querySelectorAll('.card').length === 320, null, { timeout: 10000 });
   assert.equal(await page.locator('.card').count(), 320, 'Card gallery shows all 320 bilingual word cards');
-  assert.equal(await page.locator('.card img').first().evaluate((img) => img.complete && img.naturalWidth > 0), true, 'Card gallery loads the matching illustration');
+  assert.equal(await page.locator('.art').first().evaluate((art) => getComputedStyle(art).backgroundImage.includes('family-card-cutout-sprites-v2.png')), true, 'Card gallery shows the matching sprite illustration');
+  assert.equal(await page.locator('.art').evaluateAll((arts) => arts.every((art) => getComputedStyle(art).backgroundImage !== 'none')), true, 'Every gallery card is connected to an image source');
   await page.locator('#search').fill('Králík');
   await page.waitForFunction(() => document.querySelectorAll('.card').length === 1);
   assert.match(await page.locator('.card').innerText(), /Králík.*Rabbit/s, 'Card gallery search finds the bilingual rabbit card');
