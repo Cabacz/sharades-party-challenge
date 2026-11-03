@@ -31,12 +31,13 @@
     <div class="row"><button class="lang-btn" id="langBtn">🇨🇿 CZ</button><button class="icon-btn" id="soundBtn" aria-label="Zvuk">🔊</button></div>
   </header>
   <main id="app" aria-live="polite"></main>
-  <footer><span>SHARADES • Offline PWA</span><button class="text-btn" id="helpBtn">❔ <span data-i18n="help">Nápověda</span></button></footer>
+  <footer><span>SHARADES • Offline PWA</span><a class="text-btn" href="card-gallery.html">🃏 Kartičky</a><button class="text-btn" id="helpBtn">❔ <span data-i18n="help">Nápověda</span></button></footer>
 </div>
 <div id="toast" role="status" class="toast"></div>
 <script src="js/words.js?v=wordset2"></script>
-<script src="js/cards.js?v=free-cards2"></script>
-<script src="js/app.js?v=free-cards2"></script>
+<script src="js/cards.js?v=free-cards3"></script>
+<script src="js/generated-cards.js?v=all-cards1"></script>
+<script src="js/app.js?v=free-cards3"></script>
 <script src="js/title-screen.js?v=splash1"></script>
 <script>if('serviceWorker'in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));</script>
 </body>

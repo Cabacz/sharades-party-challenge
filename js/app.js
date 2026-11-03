@@ -412,11 +412,14 @@
     const spriteIndex = art.sprite(word.word, word.cat, language);
     const cutout = art.cutout(word.word, language);
     const customArt = art.custom?.(word.word, language);
+    const generatedArt = art.generated?.(word.word, language);
     if (customArt) {
       element.classList.add("has-generated-art");
       element.style.backgroundImage = `url("${customArt}")`;
       element.style.backgroundSize = "contain";
       element.style.backgroundPosition = "center";
+    } else if (generatedArt) {
+      applyCroppedCard(element, generatedArt.sheet, generatedArt.index, generatedArt.columns, generatedArt.rows, requestId, true);
     } else if (card?.sheetId) {
       element.textContent = art.symbol(word.word, word.cat, language);
       element.classList.add("is-symbol");

@@ -53,6 +53,9 @@
       const file = (localized[language] || localized.cs)[word];
       return file ? `assets/word-cards/${file}` : null;
     },
+    generated(word, language) {
+      return window.SHARADES_GENERATED_CARD_FILES?.[language]?.[word] || null;
+    },
     hasSpecificSymbol(word, language) {
       const dictionary = symbols[language] || symbols.cs;
       return Object.hasOwn(dictionary, word);
