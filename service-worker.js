@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v36-all-cards";
+const CACHE = "sharades-release-v37-corrected-bilingual-cards";
 const FILES = [
   "./",
   "./index.html",
