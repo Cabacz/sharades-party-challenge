@@ -22,9 +22,9 @@ try {
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
   assert.equal(await page.locator('#sharadesSplash').isVisible(), true, 'First launch shows the approved full-screen title artwork');
   assert.equal(await page.locator('#splashLanguage').count(), 1, 'Title screen exposes the language selector');
-  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-cz\\.png$/, 'Czech title artwork is selected by default');
+  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-cz\.png$/, 'Czech title artwork is selected by default');
   await page.locator('#splashLanguage').selectOption('en');
-  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-en\\.png$/, 'Selecting English swaps the title artwork');
+  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-en\.png$/, 'Selecting English swaps the title artwork');
   await page.locator('#splashLanguage').selectOption('cs');
   await page.locator('#splashStart').click();
   await page.locator('.tutorial-step-image').waitFor();
@@ -70,6 +70,16 @@ try {
   await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="avatars"]').click();
+  assert.equal(await page.locator('.avatar-picker-featured [data-pick-avatar]').count(), 4, 'The editor presents exactly four primary family avatar choices');
+  assert.match(await page.locator('.avatar-picker-featured').innerText(), /Muž[\s\S]*Žena[\s\S]*Holčička[\s\S]*Chlapeček/, 'The four primary avatars have Czech labels');
+  for (const avatar of ['girl', 'boy']) {
+    await page.locator(`[data-pick-avatar="${avatar}"]`).click();
+    await page.waitForFunction(() => document.querySelector('.character-full').src.startsWith('data:image/svg+xml'));
+    assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, `The ${avatar} avatar art loads in the editor`);
+    assert.equal(await page.locator(`[data-pick-avatar="${avatar}"]`).getAttribute('aria-pressed'), 'true', `The ${avatar} avatar can be selected`);
+  }
+  await page.locator('[data-pick-avatar="man"]').click();
+  await page.locator('.avatar-legacy summary').click();
   await page.locator('[data-pick-avatar="robot"]').click();
   assert.match(await page.locator('.avatar-option.selected img').first().getAttribute('src'), /avatar-robot\.svg/, 'Avatar selection saves to a player');
   await page.locator('[data-pick-avatar="man"]').click();
@@ -119,6 +129,7 @@ try {
   await page.locator('[data-appearance="hat"][data-value="party"]').click();
   assert.match(await page.locator('#toast').innerText(), /8 mincí/, 'Unaffordable cosmetics explain the required price');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 0, 'Insufficient balance does not charge the player');
+  await page.locator('.avatar-legacy summary').click();
   await page.locator('[data-pick-avatar="robot"]').click();
   assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for avatars without hair');
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
@@ -131,16 +142,21 @@ try {
   assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for the dog avatar');
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="url(#fur)"'));
   assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'The original dog avatar SVG loads with purchased accessories');
-  for (const avatar of ['woman', 'child']) {
+  for (const avatar of ['woman', 'girl', 'boy']) {
     await page.locator(`[data-pick-avatar="${avatar}"]`).click();
     await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
     assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, `Purchased accessories render on the ${avatar} avatar`);
   }
+  await page.locator('.avatar-legacy summary').click();
+  await page.locator('[data-pick-avatar="child"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Purchased accessories render on the legacy child avatar');
   await page.locator('[data-pick-avatar="man"]').click();
   assert.equal(await page.locator('.appearance-tabs').innerText().then(text => text.includes('Čepice')), true, 'Character editor labels are localized in Czech');
   await page.locator('#langBtn').click();
   await page.locator('[data-screen="avatars"]').click();
   assert.equal(await page.locator('[data-appearance-tab="hair"]').innerText(), 'Hair', 'Character editor labels are localized in English');
+  assert.match(await page.locator('.avatar-picker-featured').innerText(), /Man[\s\S]*Woman[\s\S]*Girl[\s\S]*Boy/, 'The primary avatar labels are localized in English');
   await page.locator('#langBtn').click();
   await page.locator('#homeBtn').click();
 
@@ -152,6 +168,11 @@ try {
   await page.locator('[data-action="add-generated"]').click();
   assert.equal(await page.locator('#customText').inputValue().then(v => v.split('\n').filter(Boolean).length), 10, 'Generated suggestions can be added to custom words');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).customWords.length), 10, 'Saved generated words persist in the custom word deck');
+  assert.equal(await page.evaluate(() => Object.values(JSON.parse(localStorage.getItem('sharades_release_v2')).customWordCategories).filter((category) => category === 'Zvířata').length), 10, 'Generated words retain their source category when saved');
+  await page.locator('#homeBtn').click();
+  await page.locator('[data-screen="categories"]').click();
+  assert.equal(await page.locator('[data-category="Zvířata"]').count(), 1, 'Saved generated category remains available in category selection');
+  await page.locator('#homeBtn').click();
   await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="ai"]').click();
@@ -166,7 +187,9 @@ try {
   assert.equal(await page.locator('[data-action="begin"]').count(), 1, 'Selected generated words can proceed to the normal game setup');
   await page.locator('[data-action="begin"]').click();
   assert.equal((await page.locator('#wordCat').innerText()).toLowerCase(), 'minecraft', 'Generated game uses the selected topic deck');
-  assert.equal(await page.locator('#wordText').innerText(), chosenGeneratedWord, 'Generated game starts with the selected preview word');
+  assert.equal(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'Generated game keeps its word hidden until the actor reveals it');
+  await page.locator('#wordReveal').click();
+  assert.equal(await page.locator('#wordText').innerText(), chosenGeneratedWord, 'Actor can reveal the selected generated word');
   await page.locator('[data-action="end"]').click();
   await page.locator('[data-action="finish-game"]').click();
   await page.locator('#homeBtn').click();
@@ -188,7 +211,7 @@ try {
   await page.locator('#offlinePref').check();
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v21');
+    const cache = await caches.open('sharades-release-v34-all-cards');
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -197,7 +220,7 @@ try {
   await page.locator('#offlinePref').uncheck();
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v21');
+    const cache = await caches.open('sharades-release-v34-all-cards');
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
@@ -207,9 +230,14 @@ try {
   await page.locator('[data-category="Zvířata"]').click();
   await page.locator('[data-action="begin"]').click();
   assert.equal(await page.locator('#timeText').innerText(), '60', 'A round starts with the timer selected in settings');
-  assert.notEqual(await page.locator('#wordText').innerText(), '—', 'The actor sees the word immediately');
-  assert.equal(await page.locator('#revealWord').count(), 0, 'No extra reveal step blocks the game round');
+  assert.equal(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The word stays masked until the actor taps the card');
+  const artBeforeCorrect = await page.locator('#wordCardArt').evaluate((element) => `${element.textContent}|${element.style.backgroundImage}`);
+  await page.locator('#wordReveal').click();
+  assert.notEqual(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The actor can reveal the word from the card');
   await page.locator('[data-action="correct"]').click();
+  await page.waitForTimeout(150);
+  const artAfterCorrect = await page.locator('#wordCardArt').evaluate((element) => `${element.textContent}|${element.style.backgroundImage}`);
+  assert.notEqual(artAfterCorrect, artBeforeCorrect, 'Next word updates its card image to match the new animal');
   assert.equal(await page.locator('.score-row .score').first().innerText(), '1', 'Correct guess increments the team score');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 1, 'Correct guess also earns a persistent coin');
 
@@ -251,8 +279,19 @@ try {
     await endCurrentMode();
   }
   assert.equal(await page.evaluate(() => ['classic', 'teams', 'sudden', 'marathon', 'double', 'pantomime', 'drawing'].every((mode) => JSON.parse(localStorage.getItem('sharades_release_v2')).history.some((game) => game.mode === mode))), true, 'All seven game modes record their completed results');
+  await page.goto('http://127.0.0.1:8080/card-gallery.html', { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelectorAll('.card').length === 320, null, { timeout: 30000 });
+  assert.equal(await page.locator('.card').count(), 320, 'Card gallery shows all 320 bilingual word cards');
+  assert.equal(await page.locator('.card img').first().evaluate((img) => img.complete && img.naturalWidth > 0), true, 'Card gallery loads the matching illustration');
+  await page.locator('#search').fill('Králík');
+  await page.waitForFunction(() => document.querySelectorAll('.card').length === 1);
+  assert.match(await page.locator('.card').innerText(), /Králík.*Rabbit/s, 'Card gallery search finds the bilingual rabbit card');
+  await page.locator('#search').fill('');
+  await page.locator('#category').selectOption('Povolání');
+  await page.waitForFunction(() => document.querySelectorAll('.card').length === 40);
+  assert.equal(await page.locator('.card').count(), 40, 'Card gallery category filter returns its 40 professions');
   assert.equal(runtimeErrors.length, 0, `No uncaught browser errors: ${runtimeErrors.join('; ')}`);
-  console.log('Interactive browser smoke test passed: bilingual onboarding, game modes, categories, generated decks, character cosmetics, settings, offline mode, scoring, pauses, and results.');
+  console.log('Interactive browser smoke test passed: onboarding, game modes, 320 illustrated cards, bilingual gallery search, category filtering, generated decks, settings, offline mode, scoring, and results.');
 } finally {
   await browser.close();
 }
