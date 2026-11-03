@@ -1,7 +1,7 @@
 (async () => {
   const grid = document.querySelector("#grid"), search = document.querySelector("#search"), category = document.querySelector("#category"), count = document.querySelector("#count"), status = document.querySelector("#status");
   try {
-    const cards = await (await fetch("assets/word-cards/card-manifest.json")).json();
+    const cards = await (await fetch("assets/word-cards/card-manifest.json?v=cards-corrected38")).json();
     const categories = [...new Set(cards.map(c => c.categoryCs))];
     categories.forEach((name) => { const opt = document.createElement("option"); opt.value = name; opt.textContent = `${name} / ${[...new Set(cards.filter(c => c.categoryCs === name).map(c => c.categoryEn))][0]}`; category.append(opt); });
     count.textContent = `${cards.length} kartiček`;
