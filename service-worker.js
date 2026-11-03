@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v35-all-cards";
+const CACHE = "sharades-release-v36-all-cards";
 const FILES = [
   "./",
   "./index.html",
@@ -64,7 +64,7 @@ const FILES = [
   "./assets/images/title-screen-cz.png",
   "./assets/images/title-screen-en.png",
 ];
-const OFFLINE_KEY = "./offline-mode";
+const OFFLINE_KEY = new URL("./offline-mode", self.location.href).href;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -93,11 +93,11 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("message", (event) => {
   if (event.data?.type !== "SET_OFFLINE_MODE") return;
   event.waitUntil(
-    caches.open(CACHE).then((cache) =>
-      event.data.enabled
-        ? cache.put(OFFLINE_KEY, new Response("enabled"))
-        : cache.delete(OFFLINE_KEY),
-    ),
+    caches.open(CACHE).then(async (cache) => {
+      if (event.data.enabled) await cache.put(OFFLINE_KEY, new Response("enabled"));
+      else await cache.delete(OFFLINE_KEY);
+      event.ports?.[0]?.postMessage({ ok: true, enabled: event.data.enabled });
+    }),
   );
 });
 

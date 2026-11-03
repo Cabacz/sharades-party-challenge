@@ -12,6 +12,16 @@ const enterMode = async (mode) => {
   await page.locator(`[data-mode="${mode}"]`).click();
   await page.locator('[data-action="begin"]').click();
 };
+const setWorkerOffline = async (enabled) => page.evaluate(async (value) => {
+  const registration = await navigator.serviceWorker.ready;
+  if (!registration.active) throw new Error('Service worker is not active');
+  return new Promise((resolve, reject) => {
+    const channel = new MessageChannel();
+    const timer = setTimeout(() => reject(new Error('Service worker did not acknowledge the offline setting')), 5000);
+    channel.port1.onmessage = (event) => { clearTimeout(timer); resolve(event.data); };
+    registration.active.postMessage({ type: 'SET_OFFLINE_MODE', enabled: value }, [channel.port2]);
+  });
+}, enabled);
 const endCurrentMode = async () => {
   await page.locator('[data-action="end"]').click();
   await page.locator('[data-action="finish-game"]').click();
@@ -209,18 +219,20 @@ try {
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).music), true, 'Music preference can be enabled');
   await page.locator('#musicPref').uncheck();
   await page.locator('#offlinePref').check();
+  assert.deepEqual(await setWorkerOffline(true), { ok: true, enabled: true }, 'Service worker acknowledges offline mode');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v35-all-cards');
+    const cache = await caches.open('sharades-release-v36-all-cards');
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
   assert.equal(await page.evaluate(() => fetch('./not-cached-while-offline').then(response => response.status)), 504, 'Offline-only mode blocks uncached network requests');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).offlineMode), true, 'Offline-only preference persists and reaches the service worker');
   await page.locator('#offlinePref').uncheck();
+  assert.deepEqual(await setWorkerOffline(false), { ok: true, enabled: false }, 'Service worker acknowledges returning online');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v35-all-cards');
+    const cache = await caches.open('sharades-release-v36-all-cards');
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
