@@ -287,3 +287,26 @@ html[data-theme=light] .word-card-art,html[data-theme=light] .generated-card-thu
 @media(max-height:720px) and (max-width:600px){.team-round{gap:8px}.word-reveal{min-height:130px;padding:14px}.round-dashboard{padding:9px}.round-heading p{font-size:10px}.round-score{padding:5px 9px}}
 html[data-theme=light] .round-dashboard{background:linear-gradient(145deg,#fff,#e7f5ff)}
 html[data-theme=light] .round-stats div{background:#f4fbff}
+
+
+/* Full-screen interactive title poster. The original artwork stays intact;
+   transparent hit areas make its illustrated controls functional. */
+body.poster-home-active{overflow:hidden}
+body.poster-home-active .app-shell{width:100%;max-width:none;height:100dvh;min-height:0;padding:0;overflow:hidden}
+body.poster-home-active .topbar,body.poster-home-active footer{display:none!important}
+body.poster-home-active main{display:flex;align-items:center;justify-content:center;flex:1 1 auto;min-height:0;width:100%;height:100%;padding:0;overflow:hidden}
+.home-poster{position:relative;isolation:isolate;width:min(100vw,56.25dvh);height:min(100dvh,177.7778vw);max-width:100%;max-height:100%;aspect-ratio:9/16;margin:auto;overflow:hidden;background:#12084b;touch-action:manipulation}
+.home-poster-art{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;-webkit-user-drag:none}
+.poster-hotspot{position:absolute;z-index:2;display:block;padding:0;border:0;border-radius:14px;background:transparent;box-shadow:none;min-width:0;min-height:0;touch-action:manipulation}
+.poster-hotspot:focus-visible{outline:3px solid #fff;outline-offset:-4px;background:#ffffff18}
+.poster-language{left:3%;top:1.2%;width:27%;height:7.2%}
+.poster-sound{right:8.8%;top:1.2%;width:13%;height:7.2%}
+.poster-settings{right:0;top:1.2%;width:10%;height:7.2%}
+.poster-categories{left:0;bottom:7.5%;width:15%;height:17%}
+.poster-wheel{left:15%;bottom:7.5%;width:24%;height:17%}
+.poster-challenges{left:39%;bottom:7.5%;width:24%;height:17%}
+.poster-avatars{left:63%;bottom:7.5%;width:23%;height:17%}
+.poster-bilingual{right:0;bottom:7.5%;width:14%;height:17%}
+.poster-continue{left:22%;right:22%;bottom:0;width:56%;height:8.5%;border-radius:18px}
+@media(max-aspect-ratio:9/16){.home-poster{width:100vw;height:177.7778vw;max-height:100%;}}
+@media(min-aspect-ratio:9/16){.home-poster{height:100dvh;width:56.25dvh;max-width:100%;}}
