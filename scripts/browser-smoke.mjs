@@ -241,7 +241,7 @@ try {
   });
   await page.locator('#homeBtn').click();
 
-  await page.locator('[data-action="modes"]').click();
+  await page.locator('.poster-continue').click();
   await page.locator('[data-mode="teams"]').click();
   await page.locator('[data-category="Zvířata"]').click();
   await page.locator('[data-action="begin"]').click();
