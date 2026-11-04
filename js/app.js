@@ -905,7 +905,8 @@
     $("#soundBtn").textContent = state.sound ? "🔊" : "🔇";
   }
   function show(screen) {
-    currentScreen = screen;\n    document.body.classList.toggle("poster-home-active", screen === "home");
+    currentScreen = screen;
+    document.body.classList.toggle("poster-home-active", screen === "home");
     document.body.classList.toggle(
       "intro-active",
       screen === "language" || (screen === "tutorial" && !state.onboarded),
