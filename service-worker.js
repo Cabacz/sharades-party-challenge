@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v38-bilingual-card-cache";
+const CACHE = "sharades-release-v39-title-menu";
 const FILES = [
   "./",
   "./index.html",
@@ -9,13 +9,13 @@ const FILES = [
   "./css/card-gallery.css?v=2",
   "./js/card-gallery.js?v=2",
   "./css/style.css?v=word-cards4",
-  "./css/title-screen.css?v=splash1",
-  "./js/title-screen.js?v=splash1",
+  "./css/title-screen.css?v=title-menu2",
+  "./js/title-screen.js?v=title-menu2",
   "./js/words.js?v=wordset2",
   "./js/cards.js?v=free-cards3",
   "./js/generated-cards.js?v=cards-corrected38",
   "./assets/word-cards/card-manifest.json?v=cards-corrected38",
-  "./js/app.js?v=free-cards3",
+  "./js/app.js?v=title-menu2",
   "./assets/word-cards/pole-vault.svg",
   "./assets/word-cards/high-jump.svg",
   "./assets/word-cards/parkour.svg",
