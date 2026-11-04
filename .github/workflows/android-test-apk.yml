@@ -2,6 +2,9 @@ name: Build Sharades Test APK
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -11,27 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: Cabacz/sharades-party-challenge
-          ref: 33f2d0ffd7621668660f2a131b13417a3141bb3a
-          path: _frozen-game-assets
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Restore isolated test snapshot
+      - name: Restore Android test wrapper
         run: |
           base64 --decode .github/android-test-snapshot.zip.b64 > /tmp/android-test-snapshot.zip
           unzip -oq /tmp/android-test-snapshot.zip -d .
-          mkdir -p android-test/app/src/main/assets/www/assets
-          cp -r _frozen-game-assets/assets/. android-test/app/src/main/assets/www/assets/
-      - name: Build test APK from isolated snapshot
+      - name: Package current Sharades web app
+        run: |
+          mkdir -p android-test/app/src/main/assets/www
+          cp index.html card-gallery.html manifest.webmanifest service-worker.js icon.svg android-test/app/src/main/assets/www/
+          cp -r css js assets android-test/app/src/main/assets/www/
+      - name: Build test APK
         working-directory: android-test
         run: gradle assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: sharades-test-apk
+          name: sharades-party-challenge-test-apk
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 14
