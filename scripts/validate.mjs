@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import vm from 'node:vm';
 
 const read = (p) => fs.readFileSync(p, 'utf8');
@@ -13,6 +12,8 @@ const html = read('index.html');
 const sw = read('service-worker.js');
 const app = read('js/app.js');
 const css = read('css/style.css');
+const titleScreen = read('js/title-screen.js');
+const titleCss = read('css/title-screen.css');
 
 for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const raw = match[1];
@@ -35,7 +36,11 @@ assert(!!words?.cs && !!words?.en, 'Czech and English dictionaries are present')
 const themes = sandbox.window.SHARADES_THEMES;
 assert(!!themes?.cs && !!themes?.en, 'Local generator themes exist in both languages');
 assert(['minecraft', 'dinosaurs', 'wizarding'].every((key) => themes.cs[key]?.words?.length >= 10 && themes.en[key]?.words?.length >= 10), 'Themed word packs contain bilingual playable prompts');
-const requiredCategories = { cs: ['Filmy', 'Zvířata', 'Jídlo', 'Místa', 'Sport', 'Povolání', 'Příroda', 'Různé'], en: ['Movies', 'Animals', 'Food', 'Places', 'Sports', 'Jobs', 'Nature', 'Mixed'] };
+
+const requiredCategories = {
+  cs: ['Filmy', 'Zvířata', 'Jídlo', 'Místa', 'Sport', 'Povolání', 'Příroda', 'Různé'],
+  en: ['Movies', 'Animals', 'Food', 'Places', 'Sports', 'Jobs', 'Nature', 'Mixed'],
+};
 for (const lang of ['cs', 'en']) {
   const categories = Object.entries(words[lang]);
   assert(categories.length >= 7, `${lang} has at least 7 word categories`);
@@ -44,17 +49,26 @@ for (const lang of ['cs', 'en']) {
   assert(count >= 100, `${lang} has at least 100 words (found ${count})`);
   assert(categories.every(([, entries]) => Array.isArray(entries) && entries.every((w) => typeof w === 'string' && w.trim())), `${lang} dictionary entries are non-empty strings`);
 }
+
 for (const key of ['beginGame', 'nextTurn', 'finishTurn', 'finishGame', 'renderGame']) {
   assert(app.includes(`function ${key}`) || app.includes(`${key}(){`), `gameplay function exists: ${key}`);
 }
 assert(app.includes('round: "Tah"') && app.includes('round: "Turn"'), 'round label is translated in both languages');
-assert(app.includes('tutorial-step-image') && css.includes('.tutorial-step-image'), 'step-by-step tutorial has matching styles');
-assert(app.includes('data-tutorial-next') && app.includes('data-tutorial-skip'), 'tutorial navigation and skip actions are wired');
+assert(app.includes('tutorial-step-image') && css.includes('.tutorial-step-image'), 'five-step tutorial illustration has matching styles');
+assert(app.includes('data-tutorial-next') && app.includes('data-tutorial-skip'), 'tutorial next and skip actions are wired');
+assert(app.includes('steps.length - 1') && app.includes('tutorialStep += 1'), 'tutorial progresses through all five localized steps');
+
 for (let step = 1; step <= 5; step++) {
   const imagePath = `assets/tutorial-${step}.webp`;
   assert(fs.existsSync(imagePath), `tutorial illustration exists: ${imagePath}`);
   const image = fs.readFileSync(imagePath);
   assert(image.subarray(0, 4).toString('ascii') === 'RIFF' && image.subarray(8, 12).toString('ascii') === 'WEBP', `tutorial illustration is a valid WebP: ${imagePath}`);
 }
+
+assert(html.includes('id="sharadesSplash"') && html.includes('id="splashStart"'), 'HTML contains the title screen and start control');
+assert(html.includes('js/title-screen.js') && titleScreen.includes('sharades:title-start'), 'title-screen controller is loaded and starts the app');
+assert(titleScreen.includes('sharades:show-main-menu') && titleScreen.includes('setLanguage(savedLanguage(),false)'), 'return-to-menu event restores the saved language');
+assert(titleCss.includes('.splash') && titleCss.includes('.menu-feature-grid'), 'title screen has its responsive visual styles');
 assert(html.includes('js/app.js') && html.includes('js/words.js') && html.includes('service-worker.js'), 'app scripts and offline worker are wired in HTML');
-console.log(`Sharades validation passed: ${checks.length} checks.\n- ${checks.join('\n- ')}`);
+
+console.log(`Sharades validation passed: ${checks.length} checks.\\n- ${checks.join('\\n- ')}`);
