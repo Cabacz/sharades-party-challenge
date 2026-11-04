@@ -919,22 +919,18 @@
   }
   const render = {
     home() {
-      const poster = state.lang === "cs" ? "assets/images/title-screen-cz.png" : "assets/images/title-screen-en.png";
-      app.innerHTML = `<section class="home-poster" aria-label="Sharades Party Challenge">
-        <img class="home-poster-art" src="${poster}" alt="Sharades – ${state.lang === "cs" ? "Předváděj, hádej a bav se spolu" : "Act, guess and laugh together"}">
-        <button class="poster-hotspot poster-language" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Switch to English" : "Přepnout do češtiny"}"></button>
-        <button class="poster-hotspot poster-sound" type="button" data-action="toggle-sound" aria-label="${state.lang === "cs" ? "Zvuk" : "Sound"}"></button>
-        <button class="poster-hotspot poster-settings" type="button" data-screen="settings" aria-label="${t("settings")}"></button>
-        <button class="poster-hotspot poster-categories" type="button" data-screen="categories" aria-label="${t("categories")}"></button>
-        <button class="poster-hotspot poster-wheel" type="button" data-action="random-wheel" aria-label="${state.lang === "cs" ? "Šťastné kolo" : "Lucky wheel"}"></button>
-        <button class="poster-hotspot poster-challenges" type="button" data-screen="modes" aria-label="${state.lang === "cs" ? "Zábavné výzvy" : "Fun challenges"}"></button>
-        <button class="poster-hotspot poster-avatars" type="button" data-screen="avatars" aria-label="${t("avatars")}"></button>
-        <button class="poster-hotspot poster-bilingual" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Hrát anglicky" : "Play in Czech"}"></button>
-        <button class="poster-hotspot poster-continue" type="button" data-action="start-from-title" aria-label="${state.lang === "cs" ? "Pokračovat a začít hrát" : "Continue and start playing"}"></button>
+      app.innerHTML = `<section class="home-menu" aria-label="Sharades Party Challenge">
+        <img class="home-menu-art" src="assets/images/title-screen-language.webp" alt="Sharades Party Challenge" onerror="this.onerror=null;this.src='assets/images/title-screen-cz.png'">
       </section>`;
     },
     language() {
-      app.innerHTML = `<section class="title-page"><div class="title-art"><img src="${state.lang === "cs" ? "assets/images/title-screen-cz.png" : "assets/Images/title-screen-en.webp"}" alt="${state.lang === "cs" ? "Sharades! Předváděj, hádej a bav se spolu." : "Sharades! Act, guess and laugh together."}"><label class="sr-only" for="titleLanguage">${state.lang === "cs" ? "Jazyk" : "Language"}</label><select id="titleLanguage" class="title-language" aria-label="${state.lang === "cs" ? "Vybrat jazyk" : "Choose language"}"><option value="cs" ${state.lang === "cs" ? "selected" : ""}>🇨🇿 Čeština</option><option value="en" ${state.lang === "en" ? "selected" : ""}>🇬🇧 English</option></select></div></section>`;
+      app.innerHTML = `<section class="language-poster" aria-label="${state.lang === "cs" ? "Výběr jazyka" : "Choose language"}">
+        <img class="language-poster-art" src="assets/images/title-screen-language.webp" alt="Sharades Party Challenge" onerror="this.onerror=null;this.src='assets/images/title-screen-cz.png'">
+        <div class="language-choice" role="group" aria-label="${state.lang === "cs" ? "Vyber jazyk" : "Choose your language"}">
+          <button type="button" class="language-choice-button language-en" data-language="en" aria-label="English">🇬🇧<span>ENGLISH</span></button>
+          <button type="button" class="language-choice-button language-cs" data-language="cs" aria-label="Čeština">🇨🇿<span>ČEŠTINA</span></button>
+        </div>
+      </section>`;
     },
     modes() {
       const modes = [
@@ -1675,7 +1671,7 @@
       ) {
         state.onboarded = true;
         persist();
-        show("home");
+        show("modes");
         return;
       }
       if (
@@ -1686,7 +1682,7 @@
       ) {
         state.onboarded = true;
         persist();
-        show("home");
+        show("modes");
         return;
       }
       show("tutorial");
@@ -1815,7 +1811,7 @@
       case "skip-tutorial":
         state.onboarded = true;
         persist();
-        show("home");
+        show("modes");
         break;
       case "begin": {
         const f = $("#familyMode");
@@ -2216,6 +2212,6 @@
     show("tutorial");
   });
   show(
-    !state.languageChosen ? "language" : state.onboarded ? "home" : "tutorial",
+    !state.languageChosen ? "language" : state.onboarded ? "modes" : "tutorial",
   );
 })();
