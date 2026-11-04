@@ -1031,7 +1031,7 @@
         <label class="row settings-toggle"><input type="checkbox" id="themePref" ${state.theme === "dark" ? "checked" : ""}> ${state.lang === "cs" ? "Tmavý režim" : "Dark mode"}</label>
         <label class="row settings-toggle"><input type="checkbox" id="offlinePref" ${state.offlineMode ? "checked" : ""}> ${state.lang === "cs" ? "Používat pouze uložené soubory" : "Use cached files only"}</label>
         <p class="notice settings-hint">${state.lang === "cs" ? "Offline režim blokuje síťové požadavky stránky. Pro první uložení hry ji nejdřív otevři online." : "Offline mode blocks network requests from the app. Open the game online once to cache it first."}</p>
-        ${btn(t("save"), "save-settings")}${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+        ${btn(t("save"), "save-settings")}<div class="poster-shortcuts"><strong>${state.lang === "cs" ? "Další části hry" : "More game sections"}</strong><div class="poster-shortcut-grid"><button type="button" data-screen="players">👥 ${t("players")}</button><button type="button" data-screen="ai">🤖 ${t("ai")}</button><button type="button" data-screen="custom">✨ ${t("custom")}</button><button type="button" data-screen="stats">📊 ${t("stats")}</button><button type="button" data-screen="achievements">🏆 ${t("achievements")}</button><button type="button" data-screen="tutorial">💡 ${t("tutorial")}</button><button type="button" data-screen="offline">📶 ${t("offline")}</button></div></div>${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     ai() {
       const language = generatedLanguage || state.lang;
