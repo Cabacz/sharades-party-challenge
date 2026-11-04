@@ -36,7 +36,7 @@ try {
   for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-step="1"]').click();
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
   await page.locator('button[data-tutorial-step="1"]').click();
-  await page.locator('#app .hero').waitFor();
+  await page.locator('#app .home-poster').waitFor();
   assert.equal(await page.locator('.home-poster').count(), 1, 'Home screen renders the full-screen reference poster');
   assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Czech interface language is active');
 
