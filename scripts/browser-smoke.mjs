@@ -178,7 +178,6 @@ try {
   await page.locator('[data-screen="categories"]').click();
   assert.equal(await page.locator('[data-category="Zvířata"]').count(), 1, 'Saved generated category remains available in category selection');
   await page.locator('#homeBtn').click();
-  await page.locator('#homeBtn').click();
 
   await page.locator('.poster-settings').click();
   await page.locator('[data-screen="ai"]').click();
