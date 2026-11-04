@@ -49,5 +49,12 @@ for (const key of ['beginGame', 'nextTurn', 'finishTurn', 'finishGame', 'renderG
 }
 assert(app.includes('round: "Tah"') && app.includes('round: "Turn"'), 'round label is translated in both languages');
 assert(app.includes('tutorial-step-image') && css.includes('.tutorial-step-image'), 'step-by-step tutorial has matching styles');
+assert(app.includes('data-tutorial-next') && app.includes('data-tutorial-skip'), 'tutorial navigation and skip actions are wired');
+for (let step = 1; step <= 5; step++) {
+  const imagePath = `assets/tutorial-${step}.webp`;
+  assert(fs.existsSync(imagePath), `tutorial illustration exists: ${imagePath}`);
+  const image = fs.readFileSync(imagePath);
+  assert(image.subarray(0, 4).toString('ascii') === 'RIFF' && image.subarray(8, 12).toString('ascii') === 'WEBP', `tutorial illustration is a valid WebP: ${imagePath}`);
+}
 assert(html.includes('js/app.js') && html.includes('js/words.js') && html.includes('service-worker.js'), 'app scripts and offline worker are wired in HTML');
 console.log(`Sharades validation passed: ${checks.length} checks.\n- ${checks.join('\n- ')}`);
