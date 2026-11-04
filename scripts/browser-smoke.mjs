@@ -32,7 +32,7 @@ try {
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
   assert.equal(await page.locator('#sharadesSplash').isVisible(), true, 'First launch shows the interactive neon title menu');
   assert.equal(await page.locator('[data-language]').count(), 2, 'Title screen exposes Czech and English language controls');
-  assert.equal(await page.locator('[data-menu]').count(), 8, 'Title screen exposes all navigation shortcuts');
+  assert.equal(await page.locator('[data-menu]').count(), 11, 'Title screen exposes all navigation shortcuts');
   assert.equal(await page.locator('.feature-tile').count(), 4, 'Title screen shows the four feature tiles');
   await page.locator('[data-language="en"]').click();
   assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Selecting English changes the title screen language');
