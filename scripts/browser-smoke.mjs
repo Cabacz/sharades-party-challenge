@@ -180,6 +180,7 @@ try {
   await page.locator('#homeBtn').click();
   await page.locator('#homeBtn').click();
 
+  await page.locator('.poster-settings').click();
   await page.locator('[data-screen="ai"]').click();
   await page.locator('#aiLanguage').selectOption('en');
   await page.locator('#aiTopic').fill('Minecraft');
