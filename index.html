@@ -9,20 +9,44 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css?v=word-cards4">
-<link rel="stylesheet" href="css/title-screen.css?v=splash1">
+<link rel="stylesheet" href="css/title-screen.css?v=title-menu2">
 <title>Sharades! — Party Challenge</title>
 </head>
 <body class="splash-active">
 <section id="sharadesSplash" class="splash" aria-label="Sharades Party Challenge">
-  <img id="splashArtwork" class="splash__artwork" src="assets/images/title-screen-cz.png" alt="Sharades – Party Challenge, česká titulní obrazovka">
-  <div class="splash__controls">
-    <label class="sr-only" for="splashLanguage">Jazyk / Language</label>
-    <select id="splashLanguage" class="splash__language" aria-label="Vybrat jazyk / Choose language">
-      <option value="cs">🇨🇿 Čeština</option>
-      <option value="en">🇬🇧 English</option>
-    </select>
+  <div class="menu-top">
+    <button class="menu-icon" type="button" data-menu="settings" aria-label="Settings">⚙</button>
+    <div class="menu-languages" role="group" aria-label="Language">
+      <button type="button" class="menu-language" data-language="cs" aria-pressed="true">🇨🇿 <span>CZ</span></button>
+      <button type="button" class="menu-language" data-language="en" aria-pressed="false">🇬🇧 <span>EN</span></button>
+    </div>
   </div>
-  <button id="splashStart" class="splash__start" type="button">Pokračovat · klepni kamkoliv</button>
+  <header class="menu-brand">
+    <div class="menu-crown" aria-hidden="true">👑</div>
+    <h1><span>ŠARÁDY</span><b>PARTY</b><strong>CHALLENGE</strong></h1>
+    <p data-copy="tagline">HRA • HÁDEJ • BAV SE SPOLEČNĚ!</p>
+  </header>
+  <nav class="menu-categories" aria-label="Quick categories">
+    <button type="button" data-menu="categories" class="category-chip animal">🐶 <span data-copy="animals">ZVÍŘATA</span></button>
+    <button type="button" data-menu="categories" class="category-chip movies">🎬 <span data-copy="movies">FILMY A SERIÁLY</span></button>
+    <button type="button" data-menu="categories" class="category-chip food">🍕 <span data-copy="food">JÍDLO A PITÍ</span></button>
+    <button type="button" data-menu="categories" class="category-chip music">🎵 <span data-copy="music">HUDBA</span></button>
+  </nav>
+  <div class="menu-heroes">
+    <img src="assets/components/family-and-dog.png" alt="Sharades characters ready to play">
+    <span class="hero-spark spark-one">✦</span><span class="hero-spark spark-two">✧</span>
+  </div>
+  <nav class="menu-feature-grid" aria-label="Game features">
+    <button type="button" class="feature-tile wheel" data-menu="random"><span class="feature-art">🎡</span><strong data-copy="wheel">KOLO NÁHOD</strong></button>
+    <button type="button" class="feature-tile challenge" data-menu="modes"><span class="feature-art">🏆</span><strong data-copy="challenges">ZÁBAVNÉ VÝZVY</strong></button>
+    <button type="button" class="feature-tile avatars" data-menu="avatars"><span class="feature-art">🧑‍🤝‍🧑</span><strong data-copy="avatars">VLASTNÍ AVATARY</strong></button>
+    <button type="button" class="feature-tile bilingual" data-menu="language"><span class="feature-art">🌍</span><strong data-copy="bilingual">HRÁT V ANGLIČTINĚ NEBO ČEŠTINĚ</strong></button>
+  </nav>
+  <div class="menu-bottom">
+    <button type="button" class="bottom-shortcut" data-menu="stats"><span>▥</span><strong data-copy="stats">STATISTIKY</strong></button>
+    <button type="button" class="menu-start" id="splashStart"><span>▶</span><strong data-copy="start">SPUSTIT HRU</strong></button>
+    <button type="button" class="bottom-shortcut" data-menu="players"><span>👥</span><strong data-copy="players">HRÁČI</strong></button>
+  </div>
 </section>
 <div class="app-shell">
   <header class="topbar">
@@ -37,8 +61,8 @@
 <script src="js/words.js?v=wordset2"></script>
 <script src="js/cards.js?v=free-cards3"></script>
 <script src="js/generated-cards.js?v=cards-corrected38"></script>
-<script src="js/app.js?v=free-cards3"></script>
-<script src="js/title-screen.js?v=splash1"></script>
+<script src="js/app.js?v=title-menu2"></script>
+<script src="js/title-screen.js?v=title-menu2"></script>
 <script>if('serviceWorker'in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));</script>
 </body>
 </html>
