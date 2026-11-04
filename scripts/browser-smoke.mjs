@@ -30,12 +30,16 @@ const endCurrentMode = async () => {
 try {
   await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105 })));
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
-  assert.equal(await page.locator('#sharadesSplash').isVisible(), true, 'First launch shows the approved full-screen title artwork');
-  assert.equal(await page.locator('#splashLanguage').count(), 1, 'Title screen exposes the language selector');
-  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-cz\.png$/, 'Czech title artwork is selected by default');
-  await page.locator('#splashLanguage').selectOption('en');
-  assert.match(await page.locator('#splashArtwork').getAttribute('src'), /title-screen-en\.png$/, 'Selecting English swaps the title artwork');
-  await page.locator('#splashLanguage').selectOption('cs');
+  assert.equal(await page.locator('#sharadesSplash').isVisible(), true, 'First launch shows the interactive neon title menu');
+  assert.equal(await page.locator('[data-language]').count(), 2, 'Title screen exposes Czech and English language controls');
+  assert.equal(await page.locator('[data-menu]').count(), 8, 'Title screen exposes all navigation shortcuts');
+  assert.equal(await page.locator('.feature-tile').count(), 4, 'Title screen shows the four feature tiles');
+  await page.locator('[data-language="en"]').click();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Selecting English changes the title screen language');
+  assert.match(await page.locator('#sharadesSplash').innerText(), /RANDOM WHEEL/, 'English title menu labels are translated');
+  await page.locator('[data-language="cs"]').click();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Selecting Czech restores the Czech title screen');
+  assert.match(await page.locator('#sharadesSplash').innerText(), /KOLO NÁHOD/, 'Czech title menu uses the requested Random Wheel label');
   await page.locator('#splashStart').click();
   await page.locator('.tutorial-step-image').waitFor();
   assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'Starting the title screen opens the existing tutorial');
