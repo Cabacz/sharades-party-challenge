@@ -2152,6 +2152,36 @@
     },
     { once: true },
   );
+  document.addEventListener("sharades:set-language", (event) => {
+    state.lang = event.detail?.language === "en" ? "en" : "cs";
+    state.languageChosen = true;
+    persist();
+    setHeader();
+  });
+  document.addEventListener("sharades:title-start", (event) => {
+    state.lang = event.detail?.language === "en" ? "en" : "cs";
+    state.languageChosen = true;
+    persist();
+    setHeader();
+    show(state.onboarded ? "modes" : "tutorial");
+  });
+  document.addEventListener("sharades:open-screen", (event) => {
+    const allowed = new Set(["settings","categories","avatars","modes","stats","players","ai","custom","achievements","tutorial","offline","profile"]);
+    const screen = event.detail?.screen;
+    if (!allowed.has(screen)) return;
+    if (screen === "tutorial") tutorialStep = 0;
+    show(screen);
+  });
+  document.addEventListener("sharades:randomize", () => {
+    const available = Object.keys(categoryWordGroups());
+    if (!available.length) { show("categories"); return; }
+    const chosen = available[Math.floor(Math.random() * available.length)];
+    state.categories = [chosen];
+    state.category = "all";
+    persist();
+    toast((state.lang === "cs" ? "Kolo náhod vybralo: " : "Random wheel selected: ") + chosen);
+    show("modes");
+  });
   document.addEventListener("sharades:start-tutorial", (event) => {
     const selectedLanguage = event.detail?.language === "en" ? "en" : "cs";
     state.lang = selectedLanguage;
