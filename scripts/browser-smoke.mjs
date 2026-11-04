@@ -7,8 +7,8 @@ const runtimeErrors = [];
 page.on('pageerror', (error) => runtimeErrors.push(error.message));
 page.on('dialog', (dialog) => dialog.accept());
 const enterMode = async (mode) => {
-  await page.locator('#homeBtn').click();
-  await page.locator('[data-action="modes"]').click();
+  if (await page.locator('.home-poster').count() === 0) await page.locator('#homeBtn').click();
+  await page.locator('.poster-continue').click();
   await page.locator(`[data-mode="${mode}"]`).click();
   await page.locator('[data-action="begin"]').click();
 };
@@ -48,20 +48,20 @@ try {
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
   await page.locator('button[data-tutorial-step="1"]').click();
   await page.locator('#app .hero').waitFor();
-  assert.equal(await page.locator('.home-logo').count(), 1, 'Czech home screen renders the game logo');
+  assert.equal(await page.locator('.home-poster').count(), 1, 'Home screen renders the full-screen reference poster');
   assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Czech interface language is active');
 
-  const homeImagesLoaded = await page.locator('.home-family img').evaluate((img) =>
-    img.alt.includes('family') || img.alt.includes('Rodina') ? img.complete && img.naturalWidth > 0 : false);
-  assert.equal(homeImagesLoaded, true, 'Storyboard family illustration loads on the home screen');
-  assert.equal(await page.locator('.home-primary-links [data-screen]').count(), 4, 'Home menu exposes the main destinations');
+  const posterLoaded = await page.locator('.home-poster-art').evaluate((img) => img.complete && img.naturalWidth > 0);
+  assert.equal(posterLoaded, true, 'Czech title poster image loads on the home screen');
+  assert.equal(await page.locator('.home-poster [data-screen]').count(), 4, 'Poster exposes settings, categories, challenges and avatars shortcuts');
+  assert.equal(await page.locator('.poster-hotspot').count(), 9, 'All poster controls have interactive hit areas');
 
-  await page.locator('#langBtn').click();
-  assert.equal(await page.locator('.home-logo').count(), 1, 'English home screen renders the game logo');
+  await page.locator('.poster-language').click();
+  assert.equal((await page.locator('.home-poster-art').getAttribute('src')).includes('title-screen-en.png'), true, 'English title poster is selected');
   assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'English interface language is active');
-  await page.locator('#langBtn').click();
+  await page.locator('.poster-language').click();
 
-  await page.locator('[data-action="modes"]').click();
+  await page.locator('.poster-continue').click();
   assert.equal(await page.locator('.mode-option').count(), 7, 'All seven game modes are available');
   await page.locator('[data-mode="teams"]').click();
   assert.match(await page.locator('#app').innerText(), /Souboj týmů/, 'Team mode can be selected');
