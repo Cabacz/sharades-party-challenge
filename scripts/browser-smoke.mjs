@@ -66,6 +66,7 @@ try {
   }
   await page.locator('[data-action="skip-tutorial"]').click();
 
+  await page.locator('.poster-settings').click();
   await page.locator('[data-screen="players"]').click();
   await page.locator('#playerName').fill('Browser Test');
   await page.locator('[data-action="add-player"]').click();
@@ -163,6 +164,7 @@ try {
   await page.locator('#langBtn').click();
   await page.locator('#homeBtn').click();
 
+  await page.locator('.poster-settings').click();
   await page.locator('[data-screen="ai"]').click();
   await page.locator('#aiTopic').fill('Zvířata');
   await page.locator('[data-action="generate-local"]').click();
@@ -197,14 +199,16 @@ try {
   await page.locator('[data-action="finish-game"]').click();
   await page.locator('#homeBtn').click();
 
+  await page.locator('.poster-settings').click();
   await page.locator('[data-screen="achievements"]').click();
   assert.equal(await page.locator('.feature-row').count(), 5, 'Achievements screen renders five achievements');
   await page.locator('#homeBtn').click();
+  await page.locator('.poster-settings').click();
   await page.locator('[data-screen="offline"]').click();
   assert.equal(await page.locator('.feature-row').count(), 3, 'Offline status screen renders its checks');
   await page.locator('#homeBtn').click();
 
-  await page.locator('[data-screen="settings"]').first().click();
+  await page.locator('.poster-settings').click();
   await page.locator('[data-seconds="60"]').click();
   assert.equal(await page.locator('[data-seconds="60"]').evaluate((button) => button.classList.contains('active')), true, 'Round length can be changed in settings');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).roundSeconds), 60, 'Round length setting persists');
