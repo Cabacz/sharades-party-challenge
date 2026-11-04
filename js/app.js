@@ -921,7 +921,7 @@
     home() {
       const poster = state.lang === "cs" ? "assets/images/title-screen-cz.png" : "assets/images/title-screen-en.png";
       app.innerHTML = `<section class="home-poster" aria-label="Sharades Party Challenge">
-        <img class="home-poster-art" src="${poster}?v=poster-home1" alt="Sharades – ${state.lang === "cs" ? "Předváděj, hádej a bav se spolu" : "Act, guess and laugh together"}">
+        <img class="home-poster-art" src="${poster}" alt="Sharades – ${state.lang === "cs" ? "Předváděj, hádej a bav se spolu" : "Act, guess and laugh together"}">
         <button class="poster-hotspot poster-language" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Switch to English" : "Přepnout do češtiny"}"></button>
         <button class="poster-hotspot poster-sound" type="button" data-action="toggle-sound" aria-label="${state.lang === "cs" ? "Zvuk" : "Sound"}"></button>
         <button class="poster-hotspot poster-settings" type="button" data-screen="settings" aria-label="${t("settings")}"></button>
