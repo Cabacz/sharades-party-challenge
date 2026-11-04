@@ -1190,64 +1190,13 @@
       app.innerHTML = `${head(t("about"))}<div class="card center"><img src="assets/logo.svg" alt="Sharades" style="width:92px;height:92px"><h2>SHARADES</h2><div class="eyebrow">PARTY CHALLENGE</div><p class="subtitle top-gap">${t("aboutText")}</p><div class="feature-list" style="text-align:left"><div class="feature-row"><span class="feature-icon">🌍</span><span><strong>Čeština / English</strong><small>${state.lang === "cs" ? "Dva jazyky, jeden společný zážitek" : "Two languages, one shared experience"}</small></span></div><div class="feature-row"><span class="feature-icon">📱</span><span><strong>PWA</strong><small>${state.lang === "cs" ? "Instalovatelná webová aplikace" : "Installable web app"}</small></span></div><div class="feature-row"><span class="feature-icon">🔒</span><span><strong>${state.lang === "cs" ? "Soukromí" : "Privacy"}</strong><small>${state.lang === "cs" ? "Nastavení a historie zůstávají v tomto zařízení" : "Settings and history stay on this device"}</small></span></div></div><p class="muted tiny top-gap">${t("version")}</p><p class="hint">${t("featureAI")}</p>${btn("⌂ " + t("home"), "home", "btn secondary top-gap")}</div>`;
     },
     tutorial() {
-      const steps =
-        state.lang === "cs"
-          ? [
-              [
-                "Vezmi si telefon do ruky",
-                "Klepni na hvězdičky a odhal slovo týmu.",
-                "assets/tutorial-1.webp",
-              ],
-              [
-                "Ostatní hádají slovo",
-                "Za správnou odpověď získáš bod, přeskočení je bez bodu.",
-                "assets/tutorial-2.webp",
-              ],
-              [
-                "Střídají se týmy",
-                "Každý tým má svůj tah a sbírá body za uhodnutá slova.",
-                "assets/tutorial-3.webp",
-              ],
-              [
-                "Nevíte? Přeskočte slovo",
-                "Čas běží dál; v Náhlé smrti přeskočení ukončí hru.",
-                "assets/tutorial-4.webp",
-              ],
-              [
-                "Sleduj průběh tahu",
-                "Čas, skóre, uhodnutí i přeskočení máš stále na očích.",
-                "assets/tutorial-5.webp",
-              ],
-            ]
-          : [
-              [
-                "Hold the phone in your hand",
-                "Tap the stars to see the word privately; give clues to your team.",
-                "assets/tutorial-1.webp",
-              ],
-              [
-                "Your team guesses the word",
-                "Correct answers earn a point; skips earn no points.",
-                "assets/tutorial-2.webp",
-              ],
-              [
-                "Teams take turns",
-                "Each team gets its own turn and scores correct guesses.",
-                "assets/tutorial-3.webp",
-              ],
-              [
-                "Not sure? Skip the word",
-                "The clock keeps running; in Sudden Death a skip ends the game.",
-                "assets/tutorial-4.webp",
-              ],
-              [
-                "Follow the turn on screen",
-                "Time, score, correct answers, and skips stay visible.",
-                "assets/tutorial-5.webp",
-              ],
-            ];
-      const [title, desc, img] = steps[tutorialStep];
-      app.innerHTML = `${head(t("tutorial"), `${tutorialStep + 1} / ${steps.length}`)}<div class="card center"><div class="progress"><span style="width:${((tutorialStep + 1) / steps.length) * 100}%"></span></div><div class="tutorial-scene" data-tutorial-step="${tutorialStep + 1}" role="img" aria-label="${title}"><span class="scene-spark scene-spark-a" aria-hidden="true">✦</span><span class="scene-spark scene-spark-b" aria-hidden="true">✧</span><img class="tutorial-step-image" src="${img}" alt=""> <span class="scene-action" aria-hidden="true">${["📱", "🎭", "⬆️", "⬇️", "🎉"][tutorialStep]}</span></div><h2>${title}</h2><p class="subtitle">${desc}</p><div class="row between tutorial-nav">${tutorialStep ? '<button class="btn secondary small" data-tutorial-step="-1">← ' + (state.lang === "cs" ? "Zpět" : "Back") + "</button>" : "<span></span>"}<button class="btn small" data-tutorial-step="1">${tutorialStep === steps.length - 1 ? (state.lang === "cs" ? "Rozumím, hrát" : "Got it, play") : state.lang === "cs" ? "Další →" : "Next →"}</button></div><button class="text-btn top-gap" data-action="skip-tutorial">${state.lang === "cs" ? "Přeskočit návod" : "Skip tutorial"}</button></div>`;
+      const isCs = state.lang === "cs";
+      const image = isCs ? "assets/tutorial-sharades-cs.webp" : "assets/tutorial-sharades-en.webp";
+      const buttonLabel = isCs ? "DALŠÍ" : "NEXT";
+      app.innerHTML = `<section class="tutorial-reference" aria-label="${isCs ? "Jak hrát" : "How to play"}">
+        <img class="tutorial-reference-image" src="${image}" alt="${isCs ? "Vyber kategorii, napovídej slovo, ostatní hádají a získávají body." : "Choose a category, give clues, others guess and earn points."}">
+        <button class="tutorial-reference-next" type="button" data-tutorial-finish aria-label="${buttonLabel}"></button>
+      </section>`;
     },
     stats() {
       const guessed = state.history.reduce(
@@ -1658,34 +1607,10 @@
       show("setup");
       return;
     }
-    if (b.dataset.tutorialStep) {
-      tutorialStep = Math.max(
-        0,
-        Math.min(4, tutorialStep + +b.dataset.tutorialStep),
-      );
-      if (
-        tutorialStep === 4 &&
-        currentScreen === "tutorial" &&
-        b.dataset.tutorialStep === "1" &&
-        b.textContent.includes("Rozumím")
-      ) {
-        state.onboarded = true;
-        persist();
-        show("modes");
-        return;
-      }
-      if (
-        tutorialStep === 4 &&
-        currentScreen === "tutorial" &&
-        b.dataset.tutorialStep === "1" &&
-        b.textContent.includes("Got it")
-      ) {
-        state.onboarded = true;
-        persist();
-        show("modes");
-        return;
-      }
-      show("tutorial");
+    if (b.hasAttribute("data-tutorial-finish")) {
+      state.onboarded = true;
+      persist();
+      document.dispatchEvent(new CustomEvent("sharades:show-main-menu"));
       return;
     }
     if (b.dataset.aiCount) {
