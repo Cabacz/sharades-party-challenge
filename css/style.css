@@ -314,3 +314,8 @@ body.poster-home-active main{display:flex;align-items:center;justify-content:cen
 /* The poster always fills the available phone viewport without letterboxing. */
 body.poster-home-active .home-poster{width:100%;height:100%;max-width:none;max-height:none;aspect-ratio:auto}
 body.poster-home-active .home-poster-art{object-fit:cover;object-position:center center}
+
+.poster-shortcuts{margin:16px 0 4px;padding-top:12px;border-top:1px solid #2c76ae}
+.poster-shortcuts>strong{display:block;margin-bottom:9px;color:#d6f0ff;font-size:13px}
+.poster-shortcut-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.poster-shortcut-grid button{min-height:42px;padding:8px;border:1px solid #3288c8;border-radius:12px;background:linear-gradient(145deg,#124c82,#09274d);color:#effaff;font-size:12px;font-weight:900}
