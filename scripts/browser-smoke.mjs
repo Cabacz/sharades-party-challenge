@@ -219,7 +219,7 @@ try {
   assert.deepEqual(await setWorkerOffline(true), { ok: true, enabled: true }, 'Service worker acknowledges offline mode');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v36-all-cards');
+    const cache = await caches.open('sharades-release-v43-poster-home');
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -229,7 +229,7 @@ try {
   assert.deepEqual(await setWorkerOffline(false), { ok: true, enabled: false }, 'Service worker acknowledges returning online');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v36-all-cards');
+    const cache = await caches.open('sharades-release-v43-poster-home');
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
