@@ -28,22 +28,11 @@ const endCurrentMode = async () => {
 };
 
 try {
-  await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105 })));
+  await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: true, onboarded: false, lang: 'cs' })));
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
-  assert.equal(await page.locator('#sharadesSplash').isVisible(), true, 'First launch shows the interactive neon title menu');
-  assert.equal(await page.locator('[data-language]').count(), 2, 'Title screen exposes Czech and English language controls');
-  assert.equal(await page.locator('[data-menu]').count(), 11, 'Title screen exposes all navigation shortcuts');
-  assert.equal(await page.locator('.feature-tile').count(), 4, 'Title screen shows the four feature tiles');
-  await page.locator('[data-language="en"]').click();
-  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Selecting English changes the title screen language');
-  assert.match(await page.locator('#sharadesSplash').innerText(), /RANDOM WHEEL/, 'English title menu labels are translated');
-  await page.locator('[data-language="cs"]').click();
-  assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Selecting Czech restores the Czech title screen');
-  assert.match(await page.locator('#sharadesSplash').innerText(), /KOLO NÁHOD/, 'Czech title menu uses the requested Random Wheel label');
-  await page.locator('#splashStart').click();
   await page.locator('.tutorial-step-image').waitFor();
-  assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'Starting the title screen opens the existing tutorial');
-  assert.equal(await page.locator('#sharadesSplash').isVisible(), false, 'Title screen closes before the tutorial is shown');
+  assert.equal(await page.locator('#sharadesSplash').isVisible(), false, 'The obsolete overlay menu is disabled');
+  assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'First launch proceeds directly to the existing tutorial');
   for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-step="1"]').click();
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
   await page.locator('button[data-tutorial-step="1"]').click();
