@@ -1191,11 +1191,35 @@
     },
     tutorial() {
       const isCs = state.lang === "cs";
-      const image = isCs ? "assets/tutorial-sharades-cs.webp" : "assets/tutorial-sharades-en.webp";
-      const buttonLabel = isCs ? "DALŠÍ" : "NEXT";
-      app.innerHTML = `<section class="tutorial-reference" aria-label="${isCs ? "Jak hrát" : "How to play"}">
-        <img class="tutorial-reference-image" src="${image}" alt="${isCs ? "Vyber kategorii, napovídej slovo, ostatní hádají a získávají body." : "Choose a category, give clues, others guess and earn points."}">
-        <button class="tutorial-reference-next" type="button" data-tutorial-finish aria-label="${buttonLabel}"></button>
+      const steps = isCs
+        ? [
+            ["Vyber kategorii", "Zvolte si téma, které vás baví. Můžete hrát se všemi kategoriemi nebo si vybrat jen některé."],
+            ["Předej telefon", "Hráč na tahu se podívá na slovo. Ostatní hráči ho nesmějí vidět."],
+            ["Předváděj a napovídej", "Vysvětluj slovo gesty a nápovědou. Samotné slovo neříkej."],
+            ["Hádejte společně", "Ostatní se snaží slovo uhodnout dříve, než vyprší čas."],
+            ["Získejte body a bavte se", "Za správnou odpověď získá tým bod. Potom je na řadě další hráč."]
+          ]
+        : [
+            ["Choose a category", "Pick a topic you enjoy. Play with every category or choose only a few."],
+            ["Pass the phone", "The player whose turn it is privately looks at the word. Nobody else should see it."],
+            ["Act it out", "Use gestures and clues to describe the word. Do not say the word itself."],
+            ["Guess together", "Everyone else tries to guess the word before the timer runs out."],
+            ["Score points and have fun", "The team earns a point for each correct answer. Then the next player takes a turn."]
+          ];
+      const step = Math.min(tutorialStep, steps.length - 1);
+      const [heading, description] = steps[step];
+      const nextLabel = step === steps.length - 1
+        ? (isCs ? "ROZUMÍM – SPUSTIT HRU" : "GOT IT – START PLAYING")
+        : (isCs ? "DALŠÍ" : "NEXT");
+      app.innerHTML = `<section class="card tutorial-card" aria-label="${isCs ? "Jak se hraje" : "How to play"}">
+        <div class="row between"><span class="eyebrow">${isCs ? "PRŮVODCE HROU" : "GAME GUIDE"}</span><span class="pill">${step + 1}/${steps.length}</span></div>
+        <div class="progress" aria-hidden="true"><span style="width:${((step + 1) / steps.length) * 100}%"></span></div>
+        <img class="tutorial-step-image" src="assets/tutorial-${step + 1}.webp" alt="${isCs ? "Ilustrace kroku" : "Step illustration"} ${step + 1}" loading="eager">
+        <h2>${heading}</h2><p class="subtitle">${description}</p>
+        <div class="stack tutorial-nav">
+          <button class="btn" type="button" data-tutorial-next>${nextLabel}</button>
+          <button class="btn secondary small" type="button" data-tutorial-skip>${isCs ? "Přeskočit návod" : "Skip tutorial"}</button>
+        </div>
       </section>`;
     },
     stats() {
@@ -1607,7 +1631,18 @@
       show("setup");
       return;
     }
-    if (b.hasAttribute("data-tutorial-finish")) {
+    if (b.hasAttribute("data-tutorial-next")) {
+      if (tutorialStep < 4) {
+        tutorialStep += 1;
+        show("tutorial");
+      } else {
+        state.onboarded = true;
+        persist();
+        document.dispatchEvent(new CustomEvent("sharades:show-main-menu"));
+      }
+      return;
+    }
+    if (b.hasAttribute("data-tutorial-skip")) {
       state.onboarded = true;
       persist();
       document.dispatchEvent(new CustomEvent("sharades:show-main-menu"));
