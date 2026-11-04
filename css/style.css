@@ -310,3 +310,7 @@ body.poster-home-active main{display:flex;align-items:center;justify-content:cen
 .poster-continue{left:22%;right:22%;bottom:0;width:56%;height:8.5%;border-radius:18px}
 @media(max-aspect-ratio:9/16){.home-poster{width:100vw;height:177.7778vw;max-height:100%;}}
 @media(min-aspect-ratio:9/16){.home-poster{height:100dvh;width:56.25dvh;max-width:100%;}}
+
+/* The poster always fills the available phone viewport without letterboxing. */
+body.poster-home-active .home-poster{width:100%;height:100%;max-width:none;max-height:none;aspect-ratio:auto}
+body.poster-home-active .home-poster-art{object-fit:cover;object-position:center center}
