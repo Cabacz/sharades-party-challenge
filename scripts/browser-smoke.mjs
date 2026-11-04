@@ -33,9 +33,9 @@ try {
   await page.locator('.tutorial-step-image').waitFor();
   assert.equal(await page.locator('#sharadesSplash').isVisible(), false, 'The obsolete overlay menu is disabled');
   assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'First launch proceeds directly to the existing tutorial');
-  for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-step="1"]').click();
+  for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-next]').click();
   assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
-  await page.locator('button[data-tutorial-step="1"]').click();
+  await page.locator('button[data-tutorial-next]').click();
   await page.locator('#app .home-poster').waitFor();
   assert.equal(await page.locator('.home-poster').count(), 1, 'Home screen renders the full-screen reference poster');
   assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Czech interface language is active');
@@ -63,9 +63,9 @@ try {
     const image = page.locator('.tutorial-step-image');
     const loaded = await image.evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; });
     assert.equal(loaded, true, `Tutorial image ${i + 1} loads`);
-    if (i < 4) await page.locator('button[data-tutorial-step="1"]').click();
+    if (i < 4) await page.locator('button[data-tutorial-next]').click();
   }
-  await page.locator('[data-action="skip-tutorial"]').click();
+  await page.locator('[data-tutorial-skip]').click();
 
   await page.locator('.poster-settings').click();
   await page.locator('[data-screen="players"]').click();
