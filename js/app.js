@@ -905,7 +905,7 @@
     $("#soundBtn").textContent = state.sound ? "🔊" : "🔇";
   }
   function show(screen) {
-    currentScreen = screen;
+    currentScreen = screen;\n    document.body.classList.toggle("poster-home-active", screen === "home");
     document.body.classList.toggle(
       "intro-active",
       screen === "language" || (screen === "tutorial" && !state.onboarded),
@@ -918,22 +918,18 @@
   }
   const render = {
     home() {
-      const totalWords = Object.values(window.SHARADES_WORDS[state.lang] || {}).flat().length;
-      const player = state.players[0];
-      app.innerHTML = `<section class="hero home-dashboard">
-        <div class="home-dashboard-top"><button class="home-profile" data-screen="profile"><img class="avatar" src="assets/avatar-${player?.avatar || "man"}.svg" alt=""><span><strong>${esc(player?.name || "Sharades")}</strong><small>${state.lang === "cs" ? "Připraven/a hrát" : "Ready to play"}</small></span></button><div class="home-coins" title="${state.lang === "cs" ? "Mince za správné odpovědi" : "Coins for correct answers"}">🪙 ${state.coins ?? 25}</div><button class="icon-btn" data-screen="settings" aria-label="${t("settings")}">⚙</button></div>
-        <div class="home-logo" role="img" aria-label="Sharades Party Challenge"><span>SHARADES!</span><b>PARTY CHALLENGE</b><small>${t("tag")}</small></div>
-        <div class="hero-stage home-family"><img class="hero-scene" src="assets/components/family-and-dog.png" alt="${state.lang === "cs" ? "Rodina a pes připraveni hrát šarády" : "Family and dog ready to play charades"}"></div>
-        ${btn("▶ " + t("new"), "modes", "btn home-play")}
-        <div class="grid home-tiles home-primary-links">
-          <button class="select-card" data-screen="categories"><span class="emoji">🎬</span><strong>${t("categories")}</strong><small>${totalWords} ${t("words")}</small></button>
-          <button class="select-card" data-screen="avatars"><span class="emoji">🎨</span><strong>${t("avatars")}</strong><small>${state.players.length} ${state.lang === "cs" ? "hráčů" : "players"}</small></button>
-          <button class="select-card" data-screen="players"><span class="emoji">👥</span><strong>${t("players")}</strong><small>${state.players.length} ${state.lang === "cs" ? "hráčů" : "players"}</small></button>
-          <button class="select-card" data-screen="settings"><span class="emoji">⚙️</span><strong>${t("settings")}</strong><small>${state.lang.toUpperCase()} · ${state.roundSeconds}s</small></button>
-        </div>
-        <div class="home-quick-links">
-          <button data-screen="ai">🤖 ${t("ai")}</button><button data-screen="custom">✨ ${t("custom")}</button><button data-screen="stats">📊 ${t("stats")}</button><button data-screen="achievements">🏆 ${t("achievements")}</button><button data-screen="tutorial">💡 ${t("tutorial")}</button><button data-screen="offline">📶 ${t("offline")}</button>
-        </div>
+      const poster = state.lang === "cs" ? "assets/images/title-screen-cz.png" : "assets/images/title-screen-en.png";
+      app.innerHTML = `<section class="home-poster" aria-label="Sharades Party Challenge">
+        <img class="home-poster-art" src="${poster}?v=poster-home1" alt="Sharades – ${state.lang === "cs" ? "Předváděj, hádej a bav se spolu" : "Act, guess and laugh together"}">
+        <button class="poster-hotspot poster-language" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Switch to English" : "Přepnout do češtiny"}"></button>
+        <button class="poster-hotspot poster-sound" type="button" data-action="toggle-sound" aria-label="${state.lang === "cs" ? "Zvuk" : "Sound"}"></button>
+        <button class="poster-hotspot poster-settings" type="button" data-screen="settings" aria-label="${t("settings")}"></button>
+        <button class="poster-hotspot poster-categories" type="button" data-screen="categories" aria-label="${t("categories")}"></button>
+        <button class="poster-hotspot poster-wheel" type="button" data-action="random-wheel" aria-label="${state.lang === "cs" ? "Šťastné kolo" : "Lucky wheel"}"></button>
+        <button class="poster-hotspot poster-challenges" type="button" data-screen="modes" aria-label="${state.lang === "cs" ? "Zábavné výzvy" : "Fun challenges"}"></button>
+        <button class="poster-hotspot poster-avatars" type="button" data-screen="avatars" aria-label="${t("avatars")}"></button>
+        <button class="poster-hotspot poster-bilingual" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Hrát anglicky" : "Play in Czech"}"></button>
+        <button class="poster-hotspot poster-continue" type="button" data-action="start-from-title" aria-label="${state.lang === "cs" ? "Pokračovat a začít hrát" : "Continue and start playing"}"></button>
       </section>`;
     },
     language() {
@@ -1654,6 +1650,8 @@
         tutorialStep = 0;
         persist();
         show("tutorial");
+      } else if (currentScreen === "home") {
+        show("home");
       } else show("settings");
       return;
     }
@@ -1784,6 +1782,26 @@
     const a = b.dataset.action;
     if (!a) return;
     switch (a) {
+      case "toggle-sound":
+        state.sound = !state.sound;
+        persist();
+        setHeader();
+        toast(state.sound ? "🔊" : "🔇");
+        break;
+      case "start-from-title":
+        show(state.onboarded ? "modes" : "tutorial");
+        break;
+      case "random-wheel": {
+        const available = Object.keys(categoryWordGroups());
+        if (!available.length) { show("categories"); break; }
+        const chosen = available[Math.floor(Math.random() * available.length)];
+        state.categories = [chosen];
+        state.category = "all";
+        persist();
+        toast((state.lang === "cs" ? "Šťastné kolo vybralo: " : "Lucky wheel selected: ") + chosen);
+        show("modes");
+        break;
+      }
       case "home":
         show("home");
         break;
