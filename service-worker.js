@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v39-title-menu";
+const CACHE = "sharades-release-v40-poster-home";
 const FILES = [
   "./",
   "./index.html",
