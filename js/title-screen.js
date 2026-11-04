@@ -46,3 +46,8 @@
   startButton.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();start();});
   setLanguage(savedLanguage(),false);
 })();
+  document.addEventListener("sharades:show-main-menu",()=>{
+    splash.hidden=false;
+    document.body.classList.add("splash-active");
+    setLanguage(savedLanguage(),false);
+  });
