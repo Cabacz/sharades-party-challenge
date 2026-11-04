@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v46-reference-tutorial";
+const CACHE = "sharades-release-v47-verified-tutorial";
 const FILES = [
   "./",
   "./index.html",
@@ -61,9 +61,6 @@ const FILES = [
   "./assets/tutorial-3.webp",
   "./assets/tutorial-4.webp",
   "./assets/tutorial-5.webp",
-  "./assets/tutorial-sharades-cs.webp",
-  "./assets/tutorial-sharades-en.webp",
-  "./assets/images/title-screen-language.webp",
   "./assets/images/title-screen-cz.png",
   "./assets/images/title-screen-en.png",
 ];
