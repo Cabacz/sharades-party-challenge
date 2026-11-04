@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v44-poster-home";
+const CACHE = "sharades-release-v45-language-poster";
 const FILES = [
   "./",
   "./index.html",
@@ -15,7 +15,7 @@ const FILES = [
   "./js/cards.js?v=free-cards3",
   "./js/generated-cards.js?v=cards-corrected38",
   "./assets/word-cards/card-manifest.json?v=cards-corrected38",
-  "./js/app.js?v=title-menu2",
+  "./js/app.js?v=language-poster1",
   "./assets/word-cards/pole-vault.svg",
   "./assets/word-cards/high-jump.svg",
   "./assets/word-cards/parkour.svg",
@@ -61,6 +61,7 @@ const FILES = [
   "./assets/tutorial-3.webp",
   "./assets/tutorial-4.webp",
   "./assets/tutorial-5.webp",
+  "./assets/images/title-screen-language.webp",
   "./assets/images/title-screen-cz.png",
   "./assets/images/title-screen-en.png",
 ];
