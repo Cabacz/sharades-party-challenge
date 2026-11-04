@@ -1,4 +1,4 @@
-const CACHE = "sharades-release-v43-poster-home";
+const CACHE = "sharades-release-v44-poster-home";
 const FILES = [
   "./",
   "./index.html",
