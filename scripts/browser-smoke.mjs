@@ -34,7 +34,7 @@ try {
   assert.equal(await page.locator('#sharadesSplash').isVisible(), false, 'The obsolete overlay menu is disabled');
   assert.equal(await page.locator('.tutorial-step-image').count(), 1, 'First launch proceeds directly to the existing tutorial');
   for (let step = 0; step < 4; step++) await page.locator('button[data-tutorial-next]').click();
-  assert.match(await page.locator('#app').innerText(), /Rozumím, hrát/, 'Tutorial has a final confirmation step');
+  assert.match(await page.locator('#app').innerText(), /ROZUMÍM\s*[–-]\s*SPUSTIT HRU/i, 'Tutorial has a final confirmation step');
   await page.locator('button[data-tutorial-next]').click();
   await page.locator('#app .home-poster').waitFor();
   assert.equal(await page.locator('.home-poster').count(), 1, 'Home screen renders the full-screen reference poster');
