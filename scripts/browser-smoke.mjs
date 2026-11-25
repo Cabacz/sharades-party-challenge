@@ -1,4 +1,220 @@
-YªçŠx-®éÜj×¢ëiºÚ+Š§j[h‘éÜ¢éí÷Ž÷N‹Z–‹­¦ëeŠw¬Õ¥µÁ½ÉÐ…ÍÍ•ÉÐ™É½´€¹½‘”é…ÍÍ•ÉÐ½ÍÑÉ¥Ðœì)¥µÁ½ÉÐì¡É½µ¥Õ´ô™É½´€Á±…åÝÉ¥¡Ðœì()½¹ÍÐ‰É½ÝÍ•È€ô…Ý…¥Ð¡É½µ¥Õ´¹±…Õ¹ ¡ì¡•…‘±•ÍÌèÑÉÕ”°•á•ÕÑ…‰±•A…Ñ èÁÉ½•ÍÌ¹•¹Ø¹!I=5}	%8ñðÕ¹‘•™¥¹•°…ÉÌèÁÉ½•ÍÌ¹•¹Ø¹!I=5}	%8€ülœ´µ¹¼µÍ…¹‘‰½àt€èmtô¤ì)½¹ÍÐÁ…”€ô…Ý…¥Ð‰É½ÝÍ•È¹¹•ÝA…”¡ìÙ¥•ÝÁ½ÉÐèìÝ¥‘Ñ è€ÌäÀ°¡•¥¡Ðè€àÐÐôô¤ì)½¹ÍÐÉÕ¹Ñ¥µ•ÉÉ½ÉÌ€ômtì)Á…”¹½¸ Á…••ÉÉ½Èœ°€¡•ÉÉ½È¤€ôøÉÕ¹Ñ¥µ•ÉÉ½ÉÌ¹ÁÕÍ ¡•ÉÉ½È¹µ•ÍÍ…”¤¤ì)½¹ÍÐ•¹Ñ•É5½‘”€ô…Íå¹Œ€¡µ½‘”¤€ôøì(€¥˜€ „¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µÁ±…äœ¤¹¥ÍY¥Í¥‰±” ¤¤¤…Ý…¥ÐÁ…”¹±½…Ñ½È œ¡½µ•	Ñ¸œ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µÁ±…äœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È¡m‘…Ñ„µµ½‘”ôˆ‘íµ½‘•ô‰u€¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ñ¥½¸ô‰‰•¥¸‰tœ¤¹±¥¬ ¤ì)ôì)½¹ÍÐÍ•±•ÑÙ…Ñ…È€ô…Íå¹Œ€¡¥¤€ôøì(€¥˜€ „¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…Èµµ½‘…°œ¤¹¥ÍY¥Í¥‰±” ¤¤¤…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ñ¥½¸ô‰½Á•¸µ…Ù…Ñ…ÈµÁ¥­•È‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È¡€¹…Ù…Ñ…Èµµ½‘…°m‘…Ñ„µ…Ù…Ñ…Èµ¡½¥”ôˆ‘í¥‘ô‰u€¤¹±¥¬ ¤ì)ôì)½¹ÍÐ•¹‘QÕÉ¸€ô…Íå¹Œ€ ¤€ôøì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ñ¥½¸ô‰•¹‰tœ¤¹•Ù…±Õ…Ñ” ¡‰ÕÑÑ½¸¤€ôø‰ÕÑÑ½¸¹±¥¬ ¤¤ì)ôì)½¹ÍÐÍ•Ñ]½É­•É=™™±¥¹”€ô…Íå¹Œ€¡•¹…‰±•¤€ôøÁ…”¹•Ù…±Õ…Ñ”¡…Íå¹Œ€¡Ù…±Õ”¤€ôøì(€½¹ÍÐÉ•¥ÍÑÉ…Ñ¥½¸€ô…Ý…¥Ð¹…Ù¥…Ñ½È¹Í•ÉÙ¥•]½É­•È¹É•…‘äì(€¥˜€ …É•¥ÍÑÉ…Ñ¥½¸¹…Ñ¥Ù”¤Ñ¡É½Ü¹•ÜÉÉ½È M•ÉÙ¥”Ý½É­•È¥Ì¹½Ð…Ñ¥Ù”œ¤ì(€É•ÑÕÉ¸¹•ÜAÉ½µ¥Í” ¡É•Í½±Ù”°É•©•Ð¤€ôøì(€€€½¹ÍÐ¡…¹¹•°€ô¹•Ü5•ÍÍ…•¡…¹¹•° ¤ì(€€€½¹ÍÐÑ¥µ•È€ôÍ•ÑQ¥µ•½ÕÐ  ¤€ôøÉ•©•Ð¡¹•ÜÉÉ½È M•ÉÙ¥”Ý½É­•È‘¥¹½Ð…­¹½Ý±•‘”Ñ¡”½™™±¥¹”Í•ÑÑ¥¹œœ¤¤°€ÔÀÀÀ¤ì(€€€¡…¹¹•°¹Á½ÉÐÄ¹½¹µ•ÍÍ…”€ô€¡•Ù•¹Ð¤€ôøì±•…ÉQ¥µ•½ÕÐ¡Ñ¥µ•È¤ìÉ•Í½±Ù”¡•Ù•¹Ð¹‘…Ñ„¤ìôì(€€€É•¥ÍÑÉ…Ñ¥½¸¹…Ñ¥Ù”¹Á½ÍÑ5•ÍÍ…”¡ìÑåÁ”è€MQ}=1%9}5=œ°•¹…‰±•èÙ…±Õ”ô°m¡…¹¹•°¹Á½ÉÐÉt¤ì(€ô¤ì)ô°•¹…‰±•¤ì)½¹ÍÐ•¹‘ÕÉÉ•¹Ñ5½‘”€ô…Íå¹Œ€ ¤€ôøì(€…Ý…¥Ð•¹‘QÕÉ¸ ¤ì(€½¹ÍÐ™¥¹¥Í €ôÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ñ¥½¸ô‰™¥¹¥Í µ…µ”‰tœ¤ì(€…Ý…¥Ð™¥¹¥Í ¹Ý…¥Ñ½È¡ìÍÑ…Ñ”è€Ù¥Í¥‰±”œ°Ñ¥µ•½ÕÐè€ÄÀÀÀÀô¤ì(€…Ý…¥Ð™¥¹¥Í ¹±¥¬ ¤ì)ôì()ÑÉäì(€…Ý…¥ÐÁ…”¹…‘‘%¹¥ÑMÉ¥ÁÐ  ¤€ôøì(€€€Ý¥¹‘½Ü¹½¹™¥É´€ô€ ¤€ôøÑÉÕ”ì(€€€±½…±MÑ½É…”¹Í•Ñ%Ñ•´ Í¡…É…‘•Í}É•±•…Í•}ØÈœ°)M=8¹ÍÑÉ¥¹¥™ä¡ì½¥¹Ìè€ÄÀÔ°±…¹Õ…•¡½Í•¸è™…±Í”°½¹‰½…É‘•è™…±Í”°ÍÑ…ÉÑ±½ÝY•ÉÍ¥½¸è€Ì°±…¹œè€Ìœô¤¤ì(€ô¤ì(€…Ý…¥ÐÁ…”¹½Ñ¼ ¡ÑÑÀè¼¼ÄÈÜ¸À¸À¸ÄèàÀàÀ¼œ°ìÝ…¥ÑU¹Ñ¥°è€‘½µ½¹Ñ•¹Ñ±½…‘•œô¤ì(€½¹ÍÐ™¥ÉÍÑA…¥¹ÑA½ÍÑ•È€ôÁ…”¹±½…Ñ½È œ…ÁÀ€¹¡½µ”µÁ½ÍÑ•Ém‘…Ñ„µÑ•ÍÑ¥ô‰¡½µ”µÁ½ÍÑ•È‰tœ¤ì(€…Ý…¥Ð™¥ÉÍÑA…¥¹ÑA½ÍÑ•È¹Ý…¥Ñ½È¡ìÍÑ…Ñ”è€…ÑÑ…¡•œô¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥Ð™¥ÉÍÑA…¥¹ÑA½ÍÑ•È¹½Õ¹Ð ¤°€Ä°€Q¡”…ÁÀµ½Õ¹ÑÌ¥ÑÌ¡½µ”Á½ÍÑ•È…ÌÍ½½¸…Ì¥Ð±½…‘Ìœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥Ð™¥ÉÍÑA…¥¹ÑA½ÍÑ•È¹•ÑÑÑÉ¥‰ÕÑ” ‘…Ñ„µÑ•ÍÑ¥œ¤°€¡½µ”µÁ½ÍÑ•Èœ°€Q¡”™¥ÉÍÐµÁ…¥¹ÐÁ½ÍÑ•È•áÁ½Í•Ì¥ÑÌÍÑ…‰±”Ñ•ÍÐ¥œ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹±…¹Õ…”µ…Ñ”µ½ÁÑ¥½¹Ìm‘…Ñ„µ±…¹Õ…”µ¡½¥•tœ¤¹½Õ¹Ð ¤°€È°€¥ÉÍÐ±…Õ¹ ½™™•ÉÌÙ¥Í¥‰±”é• …¹¹±¥Í ¡½¥•Ìœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹±…¹Õ…”µ…Ñ”µ½ÁÑ¥½¹Ìm‘…Ñ„µ±…¹Õ…”µ¡½¥”ô‰•¸‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹ÑÕÑ½É¥…°µ…Éœ¤¹Ý…¥Ñ½È ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È ¡Ñµ°œ¤¹•ÑÑÑÉ¥‰ÕÑ” ±…¹œœ¤°€•¸œ°€¡½½Í¥¹œ„±…¹Õ…”½Á•¹ÌÑ¡”ÑÕÑ½É¥…°¥¸Ñ¡…Ð±…¹Õ…”œ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹±…¹Õ…”µ…Ñ”œ¤¹½Õ¹Ð ¤°€À°€1…¹Õ…”¡½¥”±½Í•ÌÑ¡”™¥ÉÍÐµ±…Õ¹ ÁÉ½µÁÐœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹ÑÕÑ½É¥…°µ…É€¹Á¥±°œ¤¹¥¹¹•ÉQ•áÐ ¤°€œÄ¼Ôœ°€¥ÉÍÐ±…¹Õ…”¡½¥”ÍÑ…ÉÑÌÑ¡”ÑÕÑ½É¥…°…ÐÍÑ•À½¹”œ¤ì(€™½È€¡±•ÐÍÑ•À€ô€ÈìÍÑ•À€ðô€ÔìÍÑ•À¬¬¤ì(€€€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÑÕÑ½É¥…°µ¹•áÑtœ¤¹±¥¬ ¤ì(€€€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹ÑÕÑ½É¥…°µ…É€¹Á¥±°œ¤¹¥¹¹•ÉQ•áÐ ¤°€‘íÍÑ•Áô¼Õ€°QÕÑ½É¥…°…‘Ù…¹•ÌÑ¼ÍÑ•À€‘íÍÑ•Áõ€¤ì(€ô(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÑÕÑ½É¥…°µ¹•áÑtœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µ‘…Í¡‰½…Éœ¤¹Ý…¥Ñ½È ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È ¡Ñµ°œ¤¹•ÑÑÑÉ¥‰ÕÑ” ±…¹œœ¤°€•¸œ°€½µÁ±•Ñ¥¹œÑ¡”ÑÕÑ½É¥…°½Á•¹ÌÑ¡”µ…¥¸µ•¹Ô¥¸Ñ¡”¡½Í•¸±…¹Õ…”œ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µÁÉ¥µ…Éäµ±¥¹­Ì€¹Í•±•Ðµ…Éœ¤¹½Õ¹Ð ¤°€Ð°€5…¥¸µ•¹ÔÍ¡½ÝÌ¥ÑÌ™½ÕÈÁÉ¥µ…Éä…µ”Í¡½ÉÑÕÑÌœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µÅÕ¥¬µ±¥¹­Ì‰ÕÑÑ½¸œ¤¹½Õ¹Ð ¤°€Ð°€5…¥¸µ•¹ÔÍ¡½ÝÌ¥ÑÌ™½ÕÈÕÑ¥±¥ÑäÍ¡½ÉÑÕÑÌœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µÕÑ¥±¥Ñäµ±¥¹­Ì‰ÕÑÑ½¸œ¤¹½Õ¹Ð ¤°€È°€M½Õ¹…¹Ù¥‰É…Ñ¥½¸¡…Ù”Ñ¡•¥È½Ý¸‰½ÑÑ½´É½Üœ¤ì(€½¹ÍÐ¡•É½1½…‘•€ô…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µ™…µ¥±ä€¹¡•É¼µÍ•¹”œ¤¹•Ù…±Õ…Ñ”¡…Íå¹Œ€¡¥µœ¤€ôøì…Ý…¥Ð¥µœ¹‘•½‘” ¤ìÉ•ÑÕÉ¸¥µœ¹¹…ÑÕÉ…±]¥‘Ñ €ø€Àìô¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡¡•É½1½…‘•°ÑÉÕ”°€5…¥¸µ•¹Ô™…µ¥±ä¥±±ÕÍÑÉ…Ñ¥½¸±½…‘Ìœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÍÉ••¸ô‰Í•ÑÑ¥¹Ì‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ±…¹Õ…”ô‰Ì‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È ¡Ñµ°œ¤¹•ÑÑÑÉ¥‰ÕÑ” ±…¹œœ¤°€Ìœ°€5…¥¸µ•¹Ô…¸ÍÝ¥Ñ Ñ¼é• œ¤ì((€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡½µ”µÁ±…äœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹µ½‘”µ½ÁÑ¥½¸œ¤¹½Õ¹Ð ¤°€Ü°€±°Í•Ù•¸…µ”µ½‘•Ì…É”…Ù…¥±…‰±”œ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µµ½‘”ô‰Ñ•…µÌ‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ…ÁÀœ¤¹¥¹¹•ÉQ•áÐ ¤°€½M½Õ‰½¨Óõ·¼¼°€Q•…´µ½‘”…¸‰”Í•±•Ñ•œ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¡½µ•	Ñ¸œ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÍÉ••¸ô‰Í•ÑÑ¥¹Ì‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÍÉ••¸ô‰ÑÕÑ½É¥…°‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹ÑÕÑ½É¥…°µ…É€¹Á¥±°œ¤¹¥¹¹•ÉQ•áÐ ¤°€œÄ¼Ôœ°€QÕÑ½É¥…°…¸‰”½Á•¹•™É½´Í•ÑÑ¥¹Ìœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÑÕÑ½É¥…°µÍ­¥Átœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÍÉ••¸ô‰Á±…å•ÉÌ‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œÁ±…å•É9…µ”œ¤¹™¥±° 	É½ÝÍ•ÈQ•ÍÐœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ñ¥½¸ô‰…‘µÁ±…å•È‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹Á±…å•È€¹¹…µ”œ¤¹™¥±Ñ•È¡ì¡…ÍQ•áÐè€	É½ÝÍ•ÈQ•ÍÐœô¤¹½Õ¹Ð ¤°€Ä°€Á±…å•È…¸‰”…‘‘•œ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È œ¡½µ•	Ñ¸œ¤¹±¥¬ ¤ì((€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÍÉ••¸ô‰Á±…å•ÉÌ‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µÍÉ••¸ô‰…Ù…Ñ…ÉÌ‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ñ¥½¸ô‰½Á•¸µ…Ù…Ñ…ÈµÁ¥­•È‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…Èµµ½‘…°m‘…Ñ„µÁ¥¬µ…Ù…Ñ…Étœ¤¹½Õ¹Ð ¤°€ä°€Ù…Ñ…Èµ½‘…°Í¡½ÝÌ„€Ì‰ä€ÌÁ…”œ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…ÈµÁ…”µ‘½Ðœ¤¹½Õ¹Ð ¤°€Ì°€Ù…Ñ…ÈÁ¥­•È¡…ÌÑ¡É•”Á…•Ìœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ…Ù…Ñ…É5½‘…±Q¥Ñ±”œ¤¹¥¹¹•ÉQ•áÐ ¤°€YQIdœ°€Ù…Ñ…ÈÁ¥­•ÈÕÍ•ÌÑ¡”É•ÅÕ•ÍÑ•Ñ¥Ñ±”œ¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…Èµµ½‘…°œ¤¹¥¹¹•ÉQ•áÐ ¤°€½5×ùmqÍqMt«õ•¹…mqÍqMt©!½³5§5­…mqÍqMt©¡±…Á—5•¬¼°€¥ÉÍÐ…Ù…Ñ…ÈÁ…”¡…ÌÑ¡”™…µ¥±ä¡½¥•Ìœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ù…Ñ…ÈµÁ…”ôˆÄ‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…Èµµ½‘…°œ¤¹¥¹¹•ÉQ•áÐ ¤°€½-½Íµ½¹…ÕÐ¼°€M•½¹…Ù…Ñ…ÈÁ…”½Á•¹Ìœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ù…Ñ…ÈµÁ…”ôˆÈ‰tœ¤¹±¥¬ ¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…Èµµ½‘…°œ¤¹¥¹¹•ÉQ•áÐ ¤°€½Q×7#…¬¼°€Q¡¥É…Ù…Ñ…ÈÁ…”½Á•¹Ìœ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…Ù…Ñ…ÈµÁ…”ôˆÀ‰tœ¤¹±¥¬ ¤ì(€™½È€¡½¹ÍÐ…Ù…Ñ…È½˜l¥É°œ°€‰½ät¤ì(€€€…Ý…¥ÐÍ•±•ÑÙ…Ñ…È¡…Ù…Ñ…È¤ì(€€€…Ý…¥ÐÁ…”¹Ý…¥Ñ½ÉÕ¹Ñ¥½¸  ¤€ôø‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È œ¹¡…É…Ñ•Èµ™Õ±°œ¤¹ÍÉŒ¹ÍÑ…ÉÑÍ]¥Ñ  ‘…Ñ„é¥µ…”½ÍÙœ­áµ°œ¤¤ì(€€€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹¡…É…Ñ•Èµ™Õ±°œ¤¹•Ù…±Õ…Ñ”¡…Íå¹Œ€¡¥µœ¤€ôøì…Ý…¥Ð¥µœ¹‘•½‘” ¤ìÉ•ÑÕÉ¸¥µœ¹¹…ÑÕÉ…±]¥‘Ñ €ø€Àìô¤°ÑÉÕ”°Q¡”€‘í…Ù…Ñ…Éô…Ù…Ñ…È…ÉÐ±½…‘Ì¥¸Ñ¡”•‘¥Ñ½É€¤ì(€€€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ” ¡¥¤€ôø)M=8¹Á…ÉÍ”¡±½…±MÑ½É…”¹•Ñ%Ñ•´ Í¡…É…‘•Í}É•±•…Í•}ØÈœ¤¤¹Á±…å•ÉÍlÁt¹…Ù…Ñ…È€ôôô¥°…Ù…Ñ…È¤°ÑÉÕ”°Q¡”€‘í…Ù…Ñ…Éô…Ù…Ñ…È…¸‰”Í•±•Ñ•‘€¤ì(€ô(€…Ý…¥ÐÍ•±•ÑÙ…Ñ…È µ…¸œ¤ì(€…Ý…¥ÐÍ•±•ÑÙ…Ñ…È É½‰½Ðœ¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡…Ý…¥ÐÁ…”¹±½…Ñ½È œ¹…Ù…Ñ…ÈµÕÉÉ•¹Ðµ¡½¥”¥µœœ¤¹•ÑÑÑÉ¥‰ÕÑ” ÍÉŒœ¤°€½…Ù…Ñ…ÈµÉ½‰½Ñp¹ÍÙœ¼°€Ù…Ñ…ÈÍ•±•Ñ¥½¸Í…Ù•ÌÑ¼„Á±…å•Èœ¤ì(€…Ý…¥ÐÍ•±•ÑÙ…Ñ…È µ…¸œ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…ÁÁ•…É…¹”µÑ…ˆô‰¡…¥È‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…ÁÁ•…É…¹”ô‰¡…¥È‰um‘…Ñ„µÙ…±Õ”ô‰ÕÉ±ä‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹Ý…¥Ñ½ÉÕ¹Ñ¥½¸  ¤€ôø‘•½‘•UI%½µÁ½¹•¹Ð¡‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È œ¹¡…É…Ñ•Èµ™Õ±°œ¤¹ÍÉŒ¹ÍÁ±¥Ð œ°œ¥lÅtñð€œœ¤¹¥¹±Õ‘•Ì œŒÌàÈÔÐÐœ¤¤ì(€…Ý…¥ÐÁ…”¹Ý…¥Ñ½ÉÕ¹Ñ¥½¸  ¤€ôø‘•½‘•UI%½µÁ½¹•¹Ð¡‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È œ¹¡…É…Ñ•Èµ™Õ±°œ¤¹ÍÉŒ¹ÍÁ±¥Ð œ°œ¥lÅtñð€œœ¤¹¥¹±Õ‘•Ì ¥É±”àôˆÔÈˆäôˆÄàˆÈôˆÜˆœ¤¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ”  ¤€ôø)M=8¹Á…ÉÍ”¡±½…±MÑ½É…”¹•Ñ%Ñ•´ Í¡…É…‘•Í}É•±•…Í•}ØÈœ¤¤¹½¥¹Ì¤°€äÔ°€ÕÉ±ä¡…¥ÉÍÑå±”¡…¹•ÌÑ¡”½É¥¥¹…°MY…¹‘•‘ÕÑÌ¥ÑÌ½¥¸ÁÉ¥”œ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ”  ¤€ôø)M=8¹Á…ÉÍ”¡±½…±MÑ½É…”¹•Ñ%Ñ•´ Í¡…É…‘•Í}É•±•…Í•}ØÈœ¤¤¹½Íµ•Ñ¥U¹±½­Ì¹¡…¥È¹¥¹±Õ‘•Ì ÕÉ±äœ¤¤°ÑÉÕ”°€AÕÉ¡…Í•¡…¥ÉÍÑå±”ÍÑ…åÌÕ¹±½­•œ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…ÁÁ•…É…¹”ô‰¡…¥È‰um‘…Ñ„µÙ…±Õ”ô‰ÍÁ¥­ä‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹Ý…¥Ñ½ÉÕ¹Ñ¥½¸  ¤€ôø‘•½‘•UI%½µÁ½¹•¹Ð¡‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È œ¹¡…É…Ñ•Èµ™Õ±°œ¤¹ÍÉŒ¹ÍÁ±¥Ð œ°œ¥lÅtñð€œœ¤¹¥¹±Õ‘•Ì 4Ðà€Ìà€ÐÄ€ÄÍ°ÄÜ€ÄÌœ¤¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ”  ¤€ôø)M=8¹Á…ÉÍ”¡±½…±MÑ½É…”¹•Ñ%Ñ•´ Í¡…É…‘•Í}É•±•…Í•}ØÈœ¤¤¹½¥¹Ì¤°€àÌ°€MÁ¥­ä¡…¥ÉÍÑå±”ÕÍ•Ì¥ÑÌ½Ý¸Í¡…Á”…¹ÁÕÉ¡…Í”ÁÉ¥”œ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…ÁÁ•…É…¹”ô‰¡…¥È‰um‘…Ñ„µÙ…±Õ”ô‰ÕÉ±ä‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…ÁÁ•…É…¹”µÑ…ˆô‰½ÕÑ™¥Ð‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È m‘…Ñ„µ…ÁÁ•…É…¹”ô‰½ÕÑ™¥Ð‰um‘…Ñ„µÙ…±Õ”ô‰É••¸‰tœ¤¹±¥¬ ¤ì(€…Ý…¥ÐÁ…”¹Ý…¥Ñ½ÉÕ¹Ñ¥½¸  ¤€ôø‘•½‘•UI%½µÁ½¹•¹Ð¡‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È œ¹¡…É…Ñ•Èµ™Õ±°œ¤¹ÍÉŒ¹ÍÁ±¥Ð œ°œ¥lÅtñð€œœ¤¹¥¹±Õ‘•Ì œŒÔÕÜÜàœ¤¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡…Ý…¥ÐÁ…”¹—~;ÞÚ$z{-®éÜj×tor('#homeBtn').click();
+import assert from 'node:assert/strict';
+import { chromium } from 'playwright';
+
+const browser = await chromium.launch({ headless: true, executablePath: process.env.CHROME_BIN || undefined, args: process.env.CHROME_BIN ? ['--no-sandbox'] : [] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+const runtimeErrors = [];
+page.on('pageerror', (error) => runtimeErrors.push(error.message));
+const enterMode = async (mode) => {
+  if (!(await page.locator('.home-play').isVisible())) await page.locator('#homeBtn').click();
+  await page.locator('.home-play').click();
+  await page.locator(`[data-mode="${mode}"]`).click();
+  await page.locator('[data-action="begin"]').click();
+};
+const selectAvatar = async (id) => {
+  if (!(await page.locator('.avatar-modal').isVisible())) await page.locator('[data-action="open-avatar-picker"]').click();
+  await page.locator(`.avatar-modal [data-avatar-choice="${id}"]`).click();
+};
+const endTurn = async () => {
+  await page.locator('[data-action="end"]').evaluate((button) => button.click());
+};
+const setWorkerOffline = async (enabled) => page.evaluate(async (value) => {
+  const registration = await navigator.serviceWorker.ready;
+  if (!registration.active) throw new Error('Service worker is not active');
+  return new Promise((resolve, reject) => {
+    const channel = new MessageChannel();
+    const timer = setTimeout(() => reject(new Error('Service worker did not acknowledge the offline setting')), 5000);
+    channel.port1.onmessage = (event) => { clearTimeout(timer); resolve(event.data); };
+    registration.active.postMessage({ type: 'SET_OFFLINE_MODE', enabled: value }, [channel.port2]);
+  });
+}, enabled);
+const endCurrentMode = async () => {
+  await endTurn();
+  const finish = page.locator('[data-action="finish-game"]');
+  await finish.waitFor({ state: 'visible', timeout: 10000 });
+  await finish.click();
+};
+
+try {
+  await page.addInitScript(() => {
+    window.confirm = () => true;
+    localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: false, onboarded: false, startFlowVersion: 3, lang: 'cs' }));
+  });
+  await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
+  const firstPaintPoster = page.locator('#app .home-poster[data-testid="home-poster"]');
+  await firstPaintPoster.waitFor({ state: 'attached' });
+  assert.equal(await firstPaintPoster.count(), 1, 'The app mounts its home poster as soon as it loads');
+  assert.equal(await firstPaintPoster.getAttribute('data-testid'), 'home-poster', 'The first-paint poster exposes its stable test id');
+  assert.equal(await page.locator('.language-gate-options [data-language-choice]').count(), 2, 'First launch offers visible Czech and English choices');
+  await page.locator('.language-gate-options [data-language-choice="en"]').click();
+  await page.locator('.tutorial-card').waitFor();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Choosing a language opens the tutorial in that language');
+  assert.equal(await page.locator('.language-gate').count(), 0, 'Language choice closes the first-launch prompt');
+  assert.equal(await page.locator('.tutorial-card .pill').innerText(), '1/5', 'First language choice starts the tutorial at step one');
+  for (let step = 2; step <= 5; step++) {
+    await page.locator('[data-tutorial-next]').click();
+    assert.equal(await page.locator('.tutorial-card .pill').innerText(), `${step}/5`, `Tutorial advances to step ${step}`);
+  }
+  await page.locator('[data-tutorial-next]').click();
+  await page.locator('.home-dashboard').waitFor();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Completing the tutorial opens the main menu in the chosen language');
+  assert.equal(await page.locator('.home-primary-links .select-card').count(), 4, 'Main menu shows its four primary game shortcuts');
+  assert.equal(await page.locator('.home-quick-links button').count(), 4, 'Main menu shows its four utility shortcuts');
+  assert.equal(await page.locator('.home-utility-links button').count(), 2, 'Sound and vibration have their own bottom row');
+  const heroLoaded = await page.locator('.home-family .hero-scene').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; });
+  assert.equal(heroLoaded, true, 'Main menu family illustration loads');
+  await page.locator('[data-screen="settings"]').click();
+  await page.locator('[data-language="cs"]').click();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Main menu can switch to Czech');
+
+  await page.locator('.home-play').click();
+  assert.equal(await page.locator('.mode-option').count(), 7, 'All seven game modes are available');
+  await page.locator('[data-mode="teams"]').click();
+  assert.match(await page.locator('#app').innerText(), /Souboj tÃ½mÅ¯/, 'Team mode can be selected');
+  await page.locator('#homeBtn').click();
+  await page.locator('[data-screen="settings"]').click();
+  await page.locator('[data-screen="tutorial"]').click();
+  assert.equal(await page.locator('.tutorial-card .pill').innerText(), '1/5', 'Tutorial can be opened from settings');
+  await page.locator('[data-tutorial-skip]').click();
+  await page.locator('[data-screen="players"]').click();
+  await page.locator('#playerName').fill('Browser Test');
+  await page.locator('[data-action="add-player"]').click();
+  assert.equal(await page.locator('.player .name').filter({ hasText: 'Browser Test' }).count(), 1, 'A player can be added');
+  await page.locator('#homeBtn').click();
+
+  await page.locator('[data-screen="players"]').click();
+  await page.locator('[data-screen="avatars"]').click();
+  await page.locator('[data-action="open-avatar-picker"]').click();
+  assert.equal(await page.locator('.avatar-modal [data-pick-avatar]').count(), 9, 'Avatar modal shows a 3 by 3 page');
+  assert.equal(await page.locator('.avatar-page-dot').count(), 3, 'Avatar picker has three pages');
+  assert.equal(await page.locator('#avatarModalTitle').innerText(), 'AVATARY', 'Avatar picker uses the requested title');
+  assert.match(await page.locator('.avatar-modal').innerText(), /MuÅ¾[\s\S]*Å½ena[\s\S]*HolÄiÄka[\s\S]*ChlapeÄek/, 'First avatar page has the family choices');
+  await page.locator('[data-avatar-page="1"]').click();
+  assert.match(await page.locator('.avatar-modal').innerText(), /Kosmonaut/, 'Second avatar page opens');
+  await page.locator('[data-avatar-page="2"]').click();
+  assert.match(await page.locator('.avatar-modal').innerText(), /TuÄÅˆÃ¡k/, 'Third avatar page opens');
+  await page.locator('[data-avatar-page="0"]').click();
+  for (const avatar of ['girl', 'boy']) {
+    await selectAvatar(avatar);
+    await page.waitForFunction(() => document.querySelector('.character-full').src.startsWith('data:image/svg+xml'));
+    assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, `The ${avatar} avatar art loads in the editor`);
+    assert.equal(await page.evaluate((id) => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].avatar === id, avatar), true, `The ${avatar} avatar can be selected`);
+  }
+  await selectAvatar('man');
+  await selectAvatar('robot');
+  assert.match(await page.locator('.avatar-current-choice img').getAttribute('src'), /avatar-robot\.svg/, 'Avatar selection saves to a player');
+  await selectAvatar('man');
+  await page.locator('[data-appearance-tab="hair"]').click();
+  await page.locator('[data-appearance="hair"][data-value="curly"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('#382544'));
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('circle cx="52" cy="18" r="7"'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 95, 'Curly hairstyle changes the original SVG and deducts its coin price');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).cosmeticUnlocks.hair.includes('curly')), true, 'Purchased hairstyle stays unlocked');
+  await page.locator('[data-appearance="hair"][data-value="spiky"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('M48 38 41 13l17 13'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 83, 'Spiky hairstyle uses its own shape and purchase price');
+  await page.locator('[data-appearance="hair"][data-value="curly"]').click();
+  await page.locator('[data-appearance-tab="outfit"]').click();
+  await page.locator('[data-appearance="outfit"][data-value="green"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('#55d778'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 75, 'Unlocking an outfit recolors the original SVG and charges coins');
+  await page.locator('[data-appearance-tab="expression"]').click();
+  await page.locator('[data-appearance="expression"][data-value="wow"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('cx="80" cy="68"'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].appearance.expression), 'wow', 'Face expression is applied to the original character SVG');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 70, 'Unlocking an expression charges its coin price');
+  await page.locator('[data-appearance-tab="hat"]').click();
+  await page.locator('[data-appearance="hat"][data-value="crown"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="#ffd534"'));
+  assert.equal(await page.locator('.look-hat').count(), 0, 'Crown is drawn as part of the character SVG, not as an emoji overlay');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 50, 'Unlocking a crown charges its coin price');
+  await page.locator('[data-appearance-tab="accessory"]').click();
+  await page.locator('[data-appearance="accessory"][data-value="glasses"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('rect x="59" y="40"'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 40, 'Unlocking glasses draws them onto the original SVG');
+  await page.locator('[data-appearance="accessory"][data-value="bow"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="#ff58bf"'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 32, 'Bow accessory appears on the character and is purchased once');
+  await page.locator('[data-appearance="accessory"][data-value="headphones"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 20, 'Headphones are rendered on the character');
+  await page.locator('[data-appearance-tab="hat"]').click();
+  await page.locator('[data-appearance="hat"][data-value="cap"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="#1778d4"'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 15, 'Cap is rendered on the character and charged once');
+  await page.locator('[data-appearance-tab="hair"]').click();
+  await page.locator('[data-appearance="hair"][data-value="blonde"]').click();
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('#efc458'));
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 0, 'Blonde hairstyle recolors the original hair and charges once');
+  await page.locator('[data-appearance-tab="hat"]').click();
+  await page.locator('[data-appearance="hat"][data-value="party"]').click();
+  assert.match(await page.locator('#toast').innerText(), /8 mincÃ­/, 'Unaffordable cosmetics explain the required price');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 0, 'Insufficient balance does not charge the player');
+  await selectAvatar('robot');
+  assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for avatars without hair');
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Purchased headphones and crown render on the robot avatar');
+  await selectAvatar('cat');
+  assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for the cat avatar');
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Purchased accessories render on the cat avatar');
+  await selectAvatar('dog');
+  assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for the dog avatar');
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="url(#fur)"'));
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'The original dog avatar SVG loads with purchased accessories');
+  for (const avatar of ['woman', 'girl', 'boy']) {
+    await selectAvatar(avatar);
+    await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
+    assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, `Purchased accessories render on the ${avatar} avatar`);
+  }
+  await selectAvatar('child');
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Purchased accessories render on the legacy child avatar');
+  await selectAvatar('man');
+  assert.equal(await page.locator('.appearance-tabs').innerText().then(text => text.includes('ÄŒepice')), true, 'Character editor labels are localized in Czech');
+  await page.locator('#langBtn').click();
+  await page.locator('[data-screen="players"]').click();
+  await page.locator('[data-screen="avatars"]').click();
+  assert.equal(await page.locator('[data-appearance-tab="hair"]').innerText(), 'Hair', 'Character editor labels are localized in English');
+  await page.locator('[data-action="open-avatar-picker"]').click();
+  assert.match(await page.locator('.avatar-modal').innerText(), /Man[\s\S]*Woman[\s\S]*Girl[\s\S]*Boy/, 'The avatar modal labels are localized in English');
+  await page.locator('.avatar-modal-close').click();
+  await page.locator('#langBtn').click();
+
+  await page.locator('[data-screen="settings"]').click();
+  await page.locator('[data-screen="ai"]').click();
+  await page.locator('#aiTopic').fill('ZvÃ­Å™ata');
+  await page.locator('[data-action="generate-local"]').click();
+  assert.equal(await page.locator('[data-generated-index]').count(), 10, 'Local word generator creates the requested number of suggestions');
+  assert.equal((await page.locator('.feature-row').allTextContents()).every((row) => row.includes('ZvÃ­Å™ata')), true, 'Czech topic generates words from the matching category');
+  await page.locator('[data-action="add-generated"]').click();
+  assert.equal(await page.locator('#customText').inputValue().then(v => v.split('\n').filter(Boolean).length), 10, 'Generated suggestions can be added to custom words');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).customWords.length), 10, 'Saved generated words persist in the custom word deck');
+  assert.equal(await page.evaluate(() => Object.values(JSON.parse(localStorage.getItem('sharades_release_v2')).customWordCategories).filter((category) => category === 'ZvÃ­Å™ata').length), 10, 'Generated words retain their source category when saved');
+  await page.locator('#homeBtn').click();
+  await page.locator('[data-screen="categories"]').click();
+  assert.equal(await page.locator('[data-category="ZvÃ­Å™ata"]').count(), 1, 'Saved generated category remains available in category selection');
+  await page.locator('#homeBtn').click();
+
+  await page.locator('[data-screen="settings"]').click();
+  await page.locator('[data-screen="ai"]').click();
+  await page.locator('#aiLanguage').selectOption('en');
+  await page.locator('#aiTopic').fill('Minecraft');
+  await page.locator('[data-action="generate-local"]').click();
+  assert.equal(await page.locator('[data-generated-index]').count(), 10, 'English topic generation returns the requested number of themed words');
+  assert.equal((await page.locator('.feature-row').allTextContents()).every((row) => row.includes('Minecraft')), true, 'English language is independent of the Czech interface language');
+  const chosenGeneratedWord = await page.locator('[data-generated-index]').first().evaluate((input) => input.closest('label').querySelector('strong').innerText);
+  for (let index = 1; index < 10; index++) await page.locator('[data-generated-index]').nth(index).uncheck();
+  await page.locator('[data-action="start-generated"]').click();
+  assert.equal(await page.locator('[data-action="begin"]').count(), 1, 'Selected generated words can proceed to the normal game setup');
+  await page.locator('[data-action="begin"]').click();
+  assert.equal((await page.locator('#wordCat').innerText()).toLowerCase(), 'minecraft', 'Generated game uses the selected topic deck');
+  assert.equal(await page.locator('#wordText').innerText(), 'âœ¦ âœ¦ âœ¦ âœ¦ âœ¦', 'Generated game keeps its word hidden until the actor reveals it');
+  await page.locator('#wordReveal').click();
+  assert.equal(await page.locator('#wordText').innerText(), chosenGeneratedWord, 'Actor can reveal the selected generated word');
+  await endTurn();
+  await page.locator('[data-action="finish-game"]').click();
+  await page.locator('#homeBtn').click();
 
   await page.locator('[data-screen="settings"]').click();
   await page.locator('[data-screen="achievements"]').click();
