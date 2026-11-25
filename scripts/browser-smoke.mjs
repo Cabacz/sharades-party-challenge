@@ -48,6 +48,7 @@ try {
     await page.locator('[data-tutorial-next]').click();
     assert.equal(await page.locator('.tutorial-card .pill').innerText(), `${step}/5`, `Tutorial advances to step ${step}`);
   }
+  await page.locator('[data-tutorial-next]').click();
   await page.locator('.home-dashboard').waitFor();
   assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Completing the tutorial opens the main menu in the chosen language');
   assert.equal(await page.locator('.home-primary-links .select-card').count(), 4, 'Main menu shows its four primary game shortcuts');
