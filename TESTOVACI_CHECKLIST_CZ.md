@@ -1,8 +1,8 @@
 # Testovací checklist Android
 
 - [ ] Na GitHub Pages se otevře kořenový `index.html` bez 404.
-- [ ] První spuštění nabídne češtinu/angličtinu; volba se uloží a otevře hlavní menu.
-- [ ] Tutoriál lze otevřít z nastavení; podporuje zpět/další i přeskočení a dokončí se návratem do menu.
+- [ ] První spuštění nabídne češtinu/angličtinu; volba se uloží, otevře tutoriál a jeho dokončení přejde do hlavního menu.
+- [ ] Tutoriál podporuje další i přeskočení a po dokončení otevře menu.
 - [ ] Logo, hlavní ilustrace a pět obrázků tutoriálu se načtou.
 - [ ] Jazyk lze přepnout do angličtiny a zpět.
 - [ ] Je dostupných osm kategorií; jejich výběr opravdu omezuje slova v kole.
@@ -14,6 +14,8 @@
 - [ ] Lze vybrat kategorie a uložit vlastní slova.
 - [ ] Lze přidat a odebrat hráče a měnit názvy týmů.
 - [ ] Kolo začne, čas se odpočítává a pozastavení funguje.
+- [ ] Herní obrazovka odpovídá neonovému portrétnímu návrhu; pozadí, karta slova, kategorie, postup a tlačítka se vykreslí bez zakrytí obsahu.
+- [ ] Ilustrace nebo lokální symbol se zobrazí na kartičce po odhalení slova.
 - [ ] „Uhodnuto“ zvýší body; „Přeskočit“ změní slovo.
 - [ ] Po vypršení času se zobrazí souhrn a lze přejít na další tým.
 - [ ] Po vyčerpání tahů se zobrazí výsledky a vítěz.

@@ -437,3 +437,49 @@ body.main-menu-active .home-quick-links button:nth-child(4){background:linear-gr
 .word-card-art.is-symbol{background:radial-gradient(circle at 50% 40%,#164d7e,#071630 75%);color:#fff}
 html[data-theme=light] .word-reveal{color:#f8fbff;background:linear-gradient(155deg,#123c70,#071630)}
 html[data-theme=light] .word-reveal .word{color:#fff9dc}
+
+/* Immersive portrait game screen based on the supplied round mockup. */
+body.game-screen-active{overflow:hidden}
+body.game-screen-active .app-shell{width:100%;max-width:none;height:100dvh;min-height:0;margin:0;padding:0;overflow:hidden}
+body.game-screen-active .topbar,body.game-screen-active footer{display:none!important}
+body.game-screen-active main{display:block;flex:1 1 100%;width:100%;height:100%;min-height:0;padding:0;overflow:hidden;touch-action:manipulation}
+.game-screen.team-round{position:relative;isolation:isolate;display:block;width:min(100%,480px);height:100%;min-height:0;max-width:none;margin:0 auto;padding:calc(env(safe-area-inset-top) + 10px) 16px calc(env(safe-area-inset-bottom) + 18px);overflow:hidden;background:#071630}
+.game-screen.team-round:before,.game-screen.team-round:after{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none}
+.game-screen.team-round:before{background-image:linear-gradient(180deg,#06132fc9 0%,#0917383d 24%,#07163008 48%,#07163038 70%,#06142fe8 100%),url("../assets/game-room-background.webp");background-size:cover;background-position:center 51%;}
+.game-screen.team-round:after{border-left:2px solid #00d2ff;border-right:2px solid #00d2ff;box-shadow:inset 0 0 24px #00d2ff1d,0 0 20px #00d2ff2c}
+.game-screen .round-heading{position:absolute;z-index:3;top:calc(env(safe-area-inset-top) + 8px);left:18px;right:18px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0}
+.game-title-meta{min-width:0;display:grid;gap:3px}
+.game-mode-chip{justify-self:start;max-width:100%;padding:4px 11px;border:1px solid #91dfff;border-radius:999px;background:#15386dcc;color:#fff;font-size:11px;font-weight:1000;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 10px #0007}
+.game-title-meta p{margin:0;color:#e0eeff;font-size:10px;line-height:1.2;text-shadow:0 2px 4px #000}
+.game-title-meta p strong{color:#fff}
+.game-top-actions{display:flex;gap:7px}
+.game-top-actions .control-button{display:grid;place-items:center;width:36px;min-width:36px;height:36px;min-height:36px;padding:0;border:1px solid #6edfff;border-radius:12px;background:#0a2b55dc;color:#fff;font-size:17px;font-weight:1000;box-shadow:0 3px 0 #03152f}
+.game-top-actions .game-end-button{border-color:#ff8c9b;background:#721d39dd;font-size:23px}
+.game-screen .game-scoreline{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 56px);left:17px;right:17px;display:flex;align-items:center;gap:8px}
+.game-medal{flex:0 0 36px;display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffe99a;border-radius:11px;background:linear-gradient(145deg,#ffda4d,#e98d17);font-size:23px;box-shadow:0 3px 0 #9a4c16,0 0 16px #ffd54d66}
+.game-screen .round-scores{flex:1;min-width:0;gap:5px}
+.game-screen .round-score{min-width:0;padding:5px 8px;border-color:#69c9f1aa;border-radius:11px;background:#09264bcf;box-shadow:0 2px 8px #0006}
+.game-screen .round-score.active{border:1px solid #ffe66d;background:#173c62e8;box-shadow:0 0 12px #ffe66d40}
+.game-screen .round-score small{font-size:9px;color:#f1f8ff}
+.game-screen .round-score strong{font-size:18px;line-height:1;color:#ffe66d}
+.game-progress{flex:0 0 auto;padding:5px 8px;border:1px solid #ffffffa8;border-radius:10px;background:#071630c9;color:#fff;font-size:12px;font-weight:1000;text-shadow:0 2px 4px #000}
+.game-category-pill{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 106px);left:50%;max-width:62%;overflow:hidden;transform:translateX(-50%);padding:6px 14px;border:1px solid #e6f4ff;border-radius:999px;background:#0c3264e8;color:#fff;font-size:12px;font-weight:1000;text-align:center;text-overflow:ellipsis;text-transform:uppercase;white-space:nowrap;box-shadow:0 3px 12px #0007}
+.game-screen .round-timer{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 102px);left:15px;width:70px;height:70px;margin:0;border:3px solid #ffe66d;box-shadow:0 0 0 3px #071630,0 0 18px #ffe66d4d}
+.game-screen .round-timer:before{inset:5px;background:radial-gradient(circle,#18385f,#061630)}
+.game-screen .round-timer .time{font-size:27px;color:#fff;text-shadow:0 2px 4px #000}
+.game-screen .round-timer .time:after{content:"s";margin-left:2px;font-size:10px;color:#ffe66d}
+.game-screen .word-reveal{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 151px);left:8%;width:84%;min-height:82px;grid-template-columns:56px minmax(0,1fr);grid-template-rows:1fr auto;align-items:center;justify-items:stretch;column-gap:8px;padding:8px 12px;border:2px solid #f6f9ff;border-radius:16px;background:linear-gradient(145deg,#fff 0%,#edf4ff 100%);color:#071630;box-shadow:0 6px 0 #03152f,0 0 0 2px #00d2ffb3,0 0 20px #00d2ff70}
+.game-screen .word-card-art{grid-column:1;grid-row:1 / span 2;width:54px;height:54px;margin:0;border:0;border-radius:10px;background-color:transparent;background-image:none;box-shadow:none}
+.game-screen .word-card-art.is-symbol{background:linear-gradient(145deg,#d7edff,#aacdf1);color:#09264b;font-size:38px}
+.game-screen .word-reveal:not(.revealed) .word-card-art{visibility:hidden}
+.game-screen .word-reveal .word{grid-column:2;grid-row:1;align-self:end;padding:0;margin:0;color:#071630;font-size:clamp(21px,6.3vw,30px);font-weight:1000;line-height:1.04;text-align:left;text-shadow:none;letter-spacing:0}
+.game-screen .word-reveal:not(.revealed) .word{align-self:center;color:#075985;font-size:22px;letter-spacing:4px}
+.game-screen .word-reveal .reveal-hint{grid-column:2;grid-row:2;align-self:start;padding:2px 0 0;color:#47617e;font-size:9px;line-height:1.1;text-align:left}
+.game-screen .mode-rule{position:absolute;z-index:2;right:18px;bottom:calc(env(safe-area-inset-bottom) + 96px);left:18px;margin:0;color:#e8f5ff;font-size:10px;line-height:1.25;text-align:center;text-shadow:0 2px 5px #000}
+.game-screen .game-actions{position:absolute;z-index:3;right:18px;bottom:calc(env(safe-area-inset-bottom) + 22px);left:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.game-screen .game-actions .btn{min-height:58px;padding:10px 6px;border-radius:16px;font-size:clamp(14px,4.1vw,18px);letter-spacing:.2px;text-shadow:0 1px #0003}
+.game-screen .game-actions .game-correct{border:2px solid #a3ffbf;box-shadow:0 5px 0 #126543,0 0 17px #4ade8066}
+.game-screen .game-actions .game-skip{border:2px solid #ff9db1;box-shadow:0 5px 0 #891432,0 0 17px #f43f5e66}
+.game-screen .round-stats{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-height:700px){.game-screen.team-round{padding-bottom:calc(env(safe-area-inset-bottom) + 12px)}.game-screen .round-heading{top:calc(env(safe-area-inset-top) + 5px)}.game-screen .game-scoreline{top:calc(env(safe-area-inset-top) + 48px)}.game-screen .game-category-pill{top:calc(env(safe-area-inset-top) + 91px)}.game-screen .round-timer{top:calc(env(safe-area-inset-top) + 87px);width:60px;height:60px}.game-screen .round-timer .time{font-size:23px}.game-screen .word-reveal{top:calc(env(safe-area-inset-top) + 132px);min-height:72px}.game-screen .word-card-art{width:48px;height:48px}.game-screen .game-actions{bottom:calc(env(safe-area-inset-bottom) + 12px)}.game-screen .game-actions .btn{min-height:50px}.game-screen .mode-rule{bottom:calc(env(safe-area-inset-bottom) + 70px)}}
+@media(min-width:520px){.game-screen .word-reveal{left:12%;width:76%}.game-screen .game-actions{right:28px;left:28px}.game-screen .round-timer{left:22px}}

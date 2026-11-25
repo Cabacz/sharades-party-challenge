@@ -53,7 +53,7 @@
     lang: "cs",
     languageChosen: false,
     onboarded: false,
-    startFlowVersion: 2,
+    startFlowVersion: 3,
     players: [
       { name: "Alex", avatar: "man", team: 0 },
       { name: "Sam", avatar: "woman", team: 1 },
@@ -455,10 +455,10 @@
       const s = JSON.parse(localStorage.getItem(KEY) || "null");
       if (s) {
         state = { ...defaults(), ...s };
-        if (s.startFlowVersion !== 2) {
+        if (s.startFlowVersion !== 3) {
           state.languageChosen = false;
           state.onboarded = false;
-          state.startFlowVersion = 2;
+          state.startFlowVersion = 3;
           localStorage.setItem(KEY, JSON.stringify(state));
         }
       }
@@ -782,6 +782,7 @@
       "intro-active",
       screen === "tutorial",
     );
+    document.body.classList.toggle("game-screen-active", screen === "game");
     if (screen !== "game") stopTimer();
     if (screen !== "game") run.paused = false;
     render[screen] ? render[screen]() : render.home();
@@ -802,7 +803,7 @@
         <button class="poster-hotspot poster-avatars" type="button" data-screen="avatars" aria-label="${t("avatars")}"></button>
         <button class="poster-hotspot poster-bilingual" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Hrát anglicky" : "Play in Czech"}"></button>
         <button class="poster-hotspot poster-continue" type="button" data-action="start-from-title"><span>▶ ${state.lang === "cs" ? "POKRAČOVAT DO MENU" : "CONTINUE TO MENU"}</span></button>
-        ${state.languageChosen ? "" : `<section class="language-gate" role="dialog" aria-modal="true" aria-labelledby="languageGateTitle"><div class="language-gate-card"><span class="eyebrow">SHARADES • PARTY CHALLENGE</span><h2 id="languageGateTitle">${state.lang === "cs" ? "Vyber si jazyk" : "Choose your language"}</h2><p>${state.lang === "cs" ? "Po výběru se otevře hlavní nabídka." : "Choose a language to open the main menu."}</p><div class="language-gate-options"><button type="button" data-language-choice="cs">🇨🇿 Čeština</button><button type="button" data-language-choice="en">🇬🇧 English</button></div></div></section>`}
+        ${state.languageChosen ? "" : `<section class="language-gate" role="dialog" aria-modal="true" aria-labelledby="languageGateTitle"><div class="language-gate-card"><span class="eyebrow">SHARADES • PARTY CHALLENGE</span><h2 id="languageGateTitle">${state.lang === "cs" ? "Vyber si jazyk" : "Choose your language"}</h2><p>${state.lang === "cs" ? "Po výběru se spustí krátký návod ke hře." : "A short game tutorial starts after you choose."}</p><div class="language-gate-options"><button type="button" data-language-choice="cs">🇨🇿 Čeština</button><button type="button" data-language-choice="en">🇬🇧 English</button></div></div></section>`}
       </section>`;
     },
     mainMenu() {
@@ -1376,13 +1377,15 @@
     const teamName = run.teamCount > 1 ? state.teams[run.turn]?.name || "" : t("partyName");
     const revealed = !!run.revealed;
     const wordLabel = revealed ? esc(run.word?.word || "—") : "✦ ✦ ✦ ✦ ✦";
+    const cardProgress = Math.min(run.turnGuessed + run.turnSkipped + 1, 10);
     app.innerHTML = `<section class="game-screen team-round">
-      <header class="round-heading"><div><span class="eyebrow">${modeLabel(state.mode)}</span><h2>${esc(teamName)}</h2><p>${cs ? "Na tahu" : "Playing"}: <strong>${esc(currentActor())}</strong> · ${t("round")} ${run.round}/${run.roundLimit}</p></div><button class="control-button" data-action="pause">Ⅱ ${t("pause")}</button></header>
-      <div class="round-scores">${state.teams.slice(0, run.teamCount).map((team, i) => `<div class="round-score ${i === run.turn ? "active" : ""}"><small>${esc(run.teamCount > 1 ? team.name : t("partyName"))}</small><strong class="score">${team.score}</strong></div>`).join("")}</div>
-      <div class="timer-ring compact round-timer" id="timerRing" style="--progress:100%"><div class="timer-content"><div class="time" id="timeText">${run.remaining}</div><div class="muted tiny">${t("remaining")}</div></div></div>
-      <button class="word-reveal ${revealed ? "revealed" : ""}" id="wordReveal" data-action="toggle-word" aria-label="${cs ? (revealed ? "Skrýt slovo" : "Odhalit slovo") : (revealed ? "Hide word" : "Reveal word")}"><span class="word-card-art" id="wordCardArt" aria-hidden="true"></span><span class="category" id="wordCat">${esc(run.word?.cat || "")}</span><strong class="word" id="wordText">${wordLabel}</strong><span class="reveal-hint">${revealed ? (cs ? "Napověz podle pravidel režimu · klepnutím slovo skryješ" : "Give clues by the mode rules · tap to hide") : (cs ? "Jen pro hráče na tahu · klepni pro zobrazení slova" : "For the player on turn · tap to reveal the word")}</span></button>
-      <div class="round-dashboard"><div class="round-stats"><div><small>${cs ? "Uhodnuto v tahu" : "Guessed this turn"}</small><strong id="turnGuessed">${run.turnGuessed}</strong></div><div><small>${cs ? "Přeskočeno" : "Skipped"}</small><strong id="turnSkipped">${run.turnSkipped}</strong></div><div><small>${cs ? "Série" : "Streak"}</small><strong id="turnStreak">${run.streak || 0}</strong></div></div>
-      <p class="mode-rule">${modeDescription(state.mode)}</p><div class="button-row game-actions">${btn("✓ " + t("correct"), "correct", "btn green game-correct")}${btn("↻ " + t("skip"), "skip-word", "btn game-skip")}</div><div class="game-controls"><button class="control-button" data-action="end">■ ${t("end")}</button></div></div></section>`;
+      <header class="round-heading"><div class="game-title-meta"><span class="game-mode-chip">${modeLabel(state.mode)}</span><p><strong>${esc(teamName)}</strong> · ${cs ? "Na tahu" : "Playing"}: ${esc(currentActor())} · ${t("round")} ${run.round}/${run.roundLimit}</p></div><div class="game-top-actions"><button class="control-button" data-action="pause" aria-label="${t("pause")}">Ⅱ</button><button class="control-button game-end-button" data-action="end" aria-label="${t("end")}">×</button></div></header>
+      <div class="game-scoreline"><span class="game-medal" aria-hidden="true">🏆</span><div class="round-scores">${state.teams.slice(0, run.teamCount).map((team, i) => `<div class="round-score ${i === run.turn ? "active" : ""}"><small>${esc(run.teamCount > 1 ? team.name : t("partyName"))}</small><strong class="score">${team.score}</strong></div>`).join("")}</div><span class="game-progress" id="wordProgress">${cardProgress}/10</span></div>
+      <span class="game-category-pill" id="wordCat">${esc(run.word?.cat || "")}</span>
+      <div class="timer-ring round-timer" id="timerRing" style="--progress:100%"><div class="timer-content"><div class="time" id="timeText">${run.remaining}</div></div></div>
+      <button class="word-reveal ${revealed ? "revealed" : ""}" id="wordReveal" data-action="toggle-word" aria-label="${cs ? (revealed ? "Skrýt slovo" : "Odhalit slovo") : (revealed ? "Hide word" : "Reveal word")}"><span class="word-card-art" id="wordCardArt" aria-hidden="true"></span><strong class="word" id="wordText">${wordLabel}</strong><span class="reveal-hint">${revealed ? (cs ? "Předveď slovo!" : "Act it out!") : (cs ? "Klepni pro odhalení" : "Tap to reveal")}</span></button>
+      <p class="mode-rule">${modeDescription(state.mode)}</p><div class="button-row game-actions">${btn("✓ " + (cs ? "UHÁDL!" : "GUESSED!"), "correct", "btn green game-correct")}${btn("↻ " + t("skip"), "skip-word", "btn game-skip")}</div>
+      <div class="round-stats" aria-hidden="true"><div><small>${cs ? "Uhodnuto v tahu" : "Guessed this turn"}</small><strong id="turnGuessed">${run.turnGuessed}</strong></div><div><small>${cs ? "Přeskočeno" : "Skipped"}</small><strong id="turnSkipped">${run.turnSkipped}</strong></div><div><small>${cs ? "Série" : "Streak"}</small><strong id="turnStreak">${run.streak || 0}</strong></div></div></section>`;
     applyCardArt($("#wordCardArt"), run.word);
     run.timer = setInterval(() => {
       if (run.paused) return;
@@ -1419,6 +1422,8 @@
     run.wordSeen = false;
     $("#wordText").textContent = run.word ? "✦ ✦ ✦ ✦ ✦" : "—";
     $("#wordCat").textContent = esc(run.word?.cat || "");
+    const progress = $("#wordProgress");
+    if (progress) progress.textContent = `${Math.min(run.turnGuessed + run.turnSkipped + 1, 10)}/10`;
     $("#wordReveal")?.classList.remove("revealed");
     applyCardArt($("#wordCardArt"), run.word);
     if (!run.word) {
@@ -1538,11 +1543,12 @@
     if (b.dataset.languageChoice) {
       state.lang = b.dataset.languageChoice;
       state.languageChosen = true;
-      state.onboarded = true;
+      state.onboarded = false;
       state.categories = [];
       state.category = "all";
       persist();
-      show("mainMenu");
+      tutorialStep = 0;
+      show("tutorial");
       return;
     }
     if (b.dataset.mode) {
@@ -2049,5 +2055,5 @@
     },
     { once: true },
   );
-  show(!state.languageChosen ? "home" : "mainMenu");
+  show(!state.languageChosen ? "home" : !state.onboarded ? "tutorial" : "mainMenu");
 })();

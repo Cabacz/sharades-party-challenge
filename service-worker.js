@@ -1,16 +1,17 @@
-const CACHE = "sharades-release-v54-mockup-tutorial-cards";
+const CACHE = "sharades-release-v56-onboarding-game-screen";
 const FILES = [
   "./",
   "./index.html",
   "./card-gallery.html",
   "./css/card-gallery.css?v=2",
   "./js/card-gallery.js?v=2",
-  "./css/style.css?v=mockup-tutorial-cards3",
+  "./css/style.css?v=game-screen-v1",
   "./data/words.js?v=wordset2",
   "./data/cards.json?v=cards-corrected38",
   "./js/cards.js?v=free-cards3",
   "./js/generated-cards.js?v=cards-corrected38",
-  "./js/app.js?v=mockup-tutorial-cards3",
+  "./js/app.js?v=game-screen-v2",
+  "./assets/game-room-background.webp",
   "./assets/cards/pole-vault.svg",
   "./assets/cards/high-jump.svg",
   "./assets/cards/parkour.svg",

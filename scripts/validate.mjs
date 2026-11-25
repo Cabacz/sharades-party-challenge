@@ -86,8 +86,8 @@ for (let step = 1; step <= 5; step++) {
   assert(image.subarray(0, 4).toString('ascii') === 'RIFF' && image.subarray(8, 12).toString('ascii') === 'WEBP', `tutorial illustration is a valid WebP: ${imagePath}`);
 }
 
-assert(app.includes('class="home-poster" data-testid="home-poster"') && app.includes('show(!state.languageChosen ? "home" : "mainMenu")'), 'first launch shows the poster/language gate and returning players open the main menu');
-assert(app.includes('data-language-choice="cs"') && app.includes('data-language-choice="en"') && app.includes('state.onboarded = true') && app.includes('show("mainMenu")'), 'language choice opens the main menu');
+assert(app.includes('class="home-poster" data-testid="home-poster"') && app.includes('show(!state.languageChosen ? "home" : !state.onboarded ? "tutorial" : "mainMenu")'), 'first launch shows the poster/language gate, then routes returning players by onboarding state');
+assert(app.includes('data-language-choice="cs"') && app.includes('data-language-choice="en"') && app.includes('tutorialStep = 0;\n      show("tutorial")'), 'language choice opens the tutorial');
 assert(app.includes('mainMenu()') && app.includes('class="home-dashboard"') && app.includes('show("mainMenu")'), 'tutorial completion opens the designed main menu');
 assert(html.includes('js/app.js') && html.includes('data/words.js') && html.includes('js/cards.js') && html.includes('service-worker.js'), 'app scripts and offline worker are wired in HTML');
 assert(!/DeviceOrientationEvent|deviceorientation|enable-tilt|tiltEnabled|tiltBase|sensitivity/i.test(app), 'gameplay has no tilt sensor logic');

@@ -32,7 +32,7 @@ const endCurrentMode = async () => {
 };
 
 try {
-  await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: false, onboarded: false, startFlowVersion: 2, lang: 'cs' })));
+  await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: false, onboarded: false, startFlowVersion: 3, lang: 'cs' })));
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
   const firstPaintPoster = page.locator('#app .home-poster[data-testid="home-poster"]');
   await firstPaintPoster.waitFor({ state: 'attached' });
@@ -40,9 +40,16 @@ try {
   assert.equal(await firstPaintPoster.getAttribute('data-testid'), 'home-poster', 'The first-paint poster exposes its stable test id');
   assert.equal(await page.locator('.language-gate-options [data-language-choice]').count(), 2, 'First launch offers visible Czech and English choices');
   await page.locator('.language-gate-options [data-language-choice="en"]').click();
-  await page.locator('.home-dashboard').waitFor();
-  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Choosing a language opens the main menu in that language');
+  await page.locator('.tutorial-card').waitFor();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Choosing a language opens the tutorial in that language');
   assert.equal(await page.locator('.language-gate').count(), 0, 'Language choice closes the first-launch prompt');
+  assert.equal(await page.locator('.tutorial-card .pill').innerText(), '1/5', 'First language choice starts the tutorial at step one');
+  for (let step = 2; step <= 5; step++) {
+    await page.locator('[data-tutorial-next]').click();
+    assert.equal(await page.locator('.tutorial-card .pill').innerText(), `${step}/5`, `Tutorial advances to step ${step}`);
+  }
+  await page.locator('.home-dashboard').waitFor();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Completing the tutorial opens the main menu in the chosen language');
   assert.equal(await page.locator('.home-primary-links .select-card').count(), 4, 'Main menu shows its four primary game shortcuts');
   assert.equal(await page.locator('.home-quick-links button').count(), 4, 'Main menu shows its four utility shortcuts');
   assert.equal(await page.locator('.home-utility-links button').count(), 2, 'Sound and vibration have their own bottom row');
@@ -221,7 +228,7 @@ try {
   assert.deepEqual(await setWorkerOffline(true), { ok: true, enabled: true }, 'Service worker acknowledges offline mode');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v54-mockup-tutorial-cards');
+    const cache = await caches.open('sharades-release-v56-onboarding-game-screen');
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -231,7 +238,7 @@ try {
   assert.deepEqual(await setWorkerOffline(false), { ok: true, enabled: false }, 'Service worker acknowledges returning online');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v54-mockup-tutorial-cards');
+    const cache = await caches.open('sharades-release-v56-onboarding-game-screen');
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
@@ -241,6 +248,8 @@ try {
   await page.locator('[data-category="Zvířata"]').click();
   await page.locator('[data-action="begin"]').click();
   assert.equal(await page.locator('#timeText').innerText(), '60', 'A round starts with the timer selected in settings');
+  assert.equal(await page.locator('body').evaluate((body) => body.classList.contains('game-screen-active')), true, 'The round enters the immersive game layout');
+  assert.equal(await page.locator('#wordProgress').innerText(), '1/10', 'The word card counter starts at the first card');
   assert.equal(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The word stays masked until the actor taps the card');
   await page.locator('#wordReveal').click();
   assert.notEqual(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The actor can reveal the word from the card');
@@ -248,6 +257,7 @@ try {
   await page.waitForTimeout(150);
   assert.equal(await page.locator('#wordCardArt').evaluate((element) => Boolean(element.textContent.trim() || element.style.backgroundImage)), true, 'Each word card keeps a local illustration or emoji fallback');
   assert.equal(await page.locator('.round-score .score').first().innerText(), '1', 'Correct guess increments the team score');
+  assert.equal(await page.locator('#wordProgress').innerText(), '2/10', 'The card counter advances after a correct answer');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 1, 'Correct guess also earns a persistent coin');
 
   for (let turn = 0; turn < 6; turn++) {

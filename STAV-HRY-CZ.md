@@ -2,15 +2,15 @@
 
 ## Funkční základ
 
-- První vykreslení otevře interaktivní titulní plakát; jazyk lze přepínat přímo z plakátu i v nastavení.
-- Pětikrokový ilustrovaný tutoriál s tlačítky zpět/další a přeskočením.
+- První vykreslení otevře interaktivní titulní plakát s volbou češtiny nebo angličtiny; po výběru jazyka naváže pětikrokový ilustrovaný tutoriál a po dokončení hlavní menu. Při dalším spuštění se otevře hlavní menu.
+- Tutoriál nabízí postup kroků i přeskočení; ilustrace se jemně animují s podporou omezení pohybu v systému.
 - Hlavní menu a mobilní grafika používají tmavě modré pozadí, neonově modré okraje a zaoblená 3D tlačítka.
 - Osm kategorií v češtině i angličtině, každá má 40 jedinečných slov; vybrané dlaždice omezují herní balíček na slova z těch kategorií.
 - Hráči, názvy týmů, avatary a lokálně uložené nastavení.
 - Editor postavy: výběr hráče a čtyř hlavních avatarů (muž, žena, holčička a chlapeček) inspirovaných rodinným portrétem. Dřívější avatary dítěte, psa, robota a kočky zůstávají pod „Další postavy“, aby se zachovaly uložené volby. Pro každého hráče se ukládá účes, čepice, barva oblečení, doplněk, pozadí a výraz.
 - Nastavení zahrnuje jazyk, délku kola, zvukové efekty, hudební smyčku, vibrace, tmavý režim a přepínač offline-only režimu.
 - Sedm režimů: Klasika, Souboj týmů, Náhlá smrt, Maraton, Dvojité body, Pantomima a Kreslení.
-- Týmový herní průběh: hráč na tahu drží telefon, klepnutím na hvězdičky si soukromě zobrazí slovo a dává spoluhráčům nápovědu podle zvoleného režimu. Na obrazovce jsou průběžně skóre, odpočet, počet správných odpovědí, přeskočení a série.
+- Týmový herní průběh: hráč na tahu drží telefon, klepnutím na kartičku si soukromě zobrazí slovo a dává spoluhráčům nápovědu podle zvoleného režimu. Herní plocha používá portrétní ilustraci obýváku, neonový rámeček, skóre, kategorii, počítadlo kartiček, kruhový odpočet a plastická 3D tlačítka „UHÁDL!“ a „Přeskočit“. Souhrn kola a výsledková tabule zůstávají součástí průběhu.
 - Hádací slovo má obrázkovou kartičku s průhledným pozadím. V projektu je 24 hotových ilustrací: 16 výřezů ze sprite archu, 7 samostatných vektorových ilustrací a samostatný výřez králíka. Každý vestavěný výraz má odpovídající piktogram; obrázky se škálují bez deformace.
 - Návrhy slov fungují výhradně z místních českých a anglických slovníků. Hra nepoužívá Supabase ani externí API; pro slova bez připravené ilustrace ukáže odpovídající symbol.
 - Profil začíná s 25 mincemi; správná odpověď přidá mince podle bodové hodnoty režimu. Zamčené kosmetické volby lze v editoru odemknout za mince, cena se odečte a nákup zůstává uložený.
@@ -38,4 +38,4 @@
 - Editor zatím nemá samostatný obchod ani další způsoby získávání mincí. Barvy vlasů, oblečení, výraz, čepice a doplňky se vykreslují přímo do původních SVG postav. Siluety postav se nemění.
 - Nové kartičky používají lokální obrázky ze `assets/cards/`; slova bez konkrétního obrázku mají lokální emoji/ikonový fallback.
 - Statistika medailí a oblíbených kategorií je základní lokální přehled, nikoli plný systém odměn.
-- Ověření proběhlo v lokálním prohlížeči; před publikací je potřeba praktický test na Androidu/iOS a kontrola nasazení GitHub Pages.
+- CI ověřuje syntax, datové soubory, interaktivní průchod hrou a sestavení debug APK. Před veřejným vydáním je stále vhodný fyzický test na Androidu/iOS.
