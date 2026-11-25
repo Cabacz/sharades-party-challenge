@@ -5,7 +5,6 @@ const browser = await chromium.launch({ headless: true, executablePath: process.
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const runtimeErrors = [];
 page.on('pageerror', (error) => runtimeErrors.push(error.message));
-page.on('dialog', (dialog) => dialog.accept());
 const enterMode = async (mode) => {
   if (!(await page.locator('.home-play').isVisible())) await page.locator('#homeBtn').click();
   await page.locator('.home-play').click();
@@ -15,6 +14,14 @@ const enterMode = async (mode) => {
 const selectAvatar = async (id) => {
   if (!(await page.locator('.avatar-modal').isVisible())) await page.locator('[data-action="open-avatar-picker"]').click();
   await page.locator(`.avatar-modal [data-avatar-choice="${id}"]`).click();
+};
+const endTurnAndConfirm = async () => {
+  const dialogPromise = page.waitForEvent('dialog', { timeout: 5000 }).then(async (dialog) => {
+    assert.equal(dialog.type(), 'confirm', 'Ending a turn asks for confirmation');
+    await dialog.accept();
+  });
+  await page.locator('[data-action="end"]').click();
+  await dialogPromise;
 };
 const setWorkerOffline = async (enabled) => page.evaluate(async (value) => {
   const registration = await navigator.serviceWorker.ready;
@@ -28,8 +35,11 @@ const setWorkerOffline = async (enabled) => page.evaluate(async (value) => {
 }, enabled);
 const endCurrentMode = async () => {
   const pause = page.locator('[data-action="pause"]');
-  if (/Pokračovat|Resume/.test(await pause.innerText())) await pause.click();
-  await page.locator('[data-action="end"]').click();
+  if (/Pokračovat|Resume/.test(await pause.innerText())) {
+    await pause.click();
+    await page.waitForFunction(() => !/Pokračovat|Resume/.test(document.querySelector('[data-action="pause"]')?.innerText || ''));
+  }
+  await endTurnAndConfirm();
   const finish = page.locator('[data-action="finish-game"]');
   await finish.waitFor({ state: 'visible', timeout: 10000 });
   await finish.click();
@@ -209,7 +219,7 @@ try {
   assert.equal(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'Generated game keeps its word hidden until the actor reveals it');
   await page.locator('#wordReveal').click();
   assert.equal(await page.locator('#wordText').innerText(), chosenGeneratedWord, 'Actor can reveal the selected generated word');
-  await page.locator('[data-action="end"]').click();
+  await endTurnAndConfirm();
   await page.locator('[data-action="finish-game"]').click();
   await page.locator('#homeBtn').click();
 
@@ -267,7 +277,7 @@ try {
 
   for (let turn = 0; turn < 6; turn++) {
     if (await page.locator('[data-action="end"]').count()) {
-      await page.locator('[data-action="end"]').click();
+      await endTurnAndConfirm();
     }
     await page.locator('[data-action="next-turn"]').waitFor();
     if (turn < 5) {
