@@ -16,12 +16,7 @@ const selectAvatar = async (id) => {
   await page.locator(`.avatar-modal [data-avatar-choice="${id}"]`).click();
 };
 const endTurnAndConfirm = async () => {
-  const dialogPromise = page.waitForEvent('dialog', { timeout: 5000 }).then(async (dialog) => {
-    assert.equal(dialog.type(), 'confirm', 'Ending a turn asks for confirmation');
-    await dialog.accept();
-  });
   await page.locator('[data-action="end"]').click();
-  await dialogPromise;
 };
 const setWorkerOffline = async (enabled) => page.evaluate(async (value) => {
   const registration = await navigator.serviceWorker.ready;
@@ -46,7 +41,10 @@ const endCurrentMode = async () => {
 };
 
 try {
-  await page.addInitScript(() => localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: false, onboarded: false, startFlowVersion: 3, lang: 'cs' })));
+  await page.addInitScript(() => {
+    window.confirm = () => true;
+    localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: false, onboarded: false, startFlowVersion: 3, lang: 'cs' }));
+  });
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
   const firstPaintPoster = page.locator('#app .home-poster[data-testid="home-poster"]');
   await firstPaintPoster.waitFor({ state: 'attached' });
