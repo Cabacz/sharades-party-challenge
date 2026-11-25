@@ -1971,7 +1971,7 @@
         b.textContent = run.paused ? "▶ " + t("resume") : "Ⅱ " + t("pause");
         break;
       case "end":
-        if (confirm(t("quit"))) finishTurn();
+        finishTurn();
         break;
       case "next-turn":
         nextTurn();
