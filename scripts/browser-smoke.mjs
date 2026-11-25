@@ -47,7 +47,7 @@ try {
   assert.equal(await firstPaintPoster.getAttribute('data-testid'), 'home-poster', 'The first-paint poster exposes its stable test id');
   assert.equal(await page.locator('.language-gate-options [data-language-choice]').count(), 2, 'First launch offers visible Czech and English choices');
   assert.equal(await page.locator('.welcome-language-panel').isVisible(), true, 'Language choices are displayed in the welcome screen instead of a blocking overlay');
-  assert.equal(await page.locator('.welcome-language-panel [data-language-choice]').allTextContents(), ['🇨🇿 ČEŠTINA', '🇬🇧 ENGLISH'], 'Both language choices have readable labels');
+  assert.deepEqual(await page.locator('.welcome-language-panel [data-language-choice]').allTextContents(), ['🇨🇿 ČEŠTINA', '🇬🇧 ENGLISH'], 'Both language choices have readable labels');
   const welcomeLoaded = await page.locator('.home-poster-art').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0 && img.src.includes('family-welcome.webp'); });
   assert.equal(welcomeLoaded, true, 'The new welcome family illustration loads before onboarding');
   await page.locator('.language-gate-options [data-language-choice="en"]').click();
