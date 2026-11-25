@@ -27,8 +27,12 @@ const setWorkerOffline = async (enabled) => page.evaluate(async (value) => {
   });
 }, enabled);
 const endCurrentMode = async () => {
+  const pause = page.locator('[data-action="pause"]');
+  if (/Pokračovat|Resume/.test(await pause.innerText())) await pause.click();
   await page.locator('[data-action="end"]').click();
-  await page.locator('[data-action="finish-game"]').click();
+  const finish = page.locator('[data-action="finish-game"]');
+  await finish.waitFor({ state: 'visible', timeout: 10000 });
+  await finish.click();
 };
 
 try {
