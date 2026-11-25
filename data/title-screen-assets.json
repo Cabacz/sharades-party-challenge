@@ -1,17 +1,18 @@
 {
   "project": "Sharades – Party Challenge",
-  "package": "title-screen",
+  "package": "language-welcome-and-main-menu",
   "languages": [
     "cs",
     "en"
   ],
   "main_artwork": {
     "cs": {
-      "path": "assets/images/title-screen-cz.png"
+      "path": "assets/family-welcome.webp"
     },
     "en": {
-      "path": "assets/images/title-screen-en.png"
+      "path": "assets/family-welcome.webp"
     }
   },
-  "integration": "Connect window.openSharadesTutorial(language) or listen for sharades:start-tutorial and open the existing tutorial."
+  "main_menu_artwork": "assets/family-menu.webp",
+  "integration": "Choose a language to open the five-step localized tutorial; finishing or skipping it opens the main menu."
 }

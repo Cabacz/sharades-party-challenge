@@ -791,19 +791,20 @@
   }
   const render = {
     home() {
-      const poster = state.lang === "cs" ? "assets/images/title-screen-cz.png" : "assets/images/title-screen-en.png";
-      app.innerHTML = `<section class="home-poster" data-testid="home-poster" aria-label="Sharades Party Challenge">
-        <img class="home-poster-art" src="${poster}" alt="Sharades – ${state.lang === "cs" ? "Předváděj, hádej a bav se spolu" : "Act, guess and laugh together"}">
-        <button class="poster-hotspot poster-language" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Switch to English" : "Přepnout do češtiny"}"></button>
-        <button class="poster-hotspot poster-sound" type="button" data-action="toggle-sound" aria-label="${state.lang === "cs" ? "Zvuk" : "Sound"}"></button>
-        <button class="poster-hotspot poster-settings" type="button" data-screen="settings" aria-label="${t("settings")}"></button>
-        <button class="poster-hotspot poster-categories" type="button" data-screen="categories" aria-label="${t("categories")}"></button>
-        <button class="poster-hotspot poster-wheel" type="button" data-action="random-wheel" aria-label="${state.lang === "cs" ? "Šťastné kolo" : "Lucky wheel"}"></button>
-        <button class="poster-hotspot poster-challenges" type="button" data-screen="modes" aria-label="${state.lang === "cs" ? "Zábavné výzvy" : "Fun challenges"}"></button>
-        <button class="poster-hotspot poster-avatars" type="button" data-screen="avatars" aria-label="${t("avatars")}"></button>
-        <button class="poster-hotspot poster-bilingual" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Hrát anglicky" : "Play in Czech"}"></button>
-        <button class="poster-hotspot poster-continue" type="button" data-action="start-from-title"><span>▶ ${state.lang === "cs" ? "POKRAČOVAT DO MENU" : "CONTINUE TO MENU"}</span></button>
-        ${state.languageChosen ? "" : `<section class="language-gate" role="dialog" aria-modal="true" aria-labelledby="languageGateTitle"><div class="language-gate-card"><span class="eyebrow">SHARADES • PARTY CHALLENGE</span><h2 id="languageGateTitle">${state.lang === "cs" ? "Vyber si jazyk" : "Choose your language"}</h2><p>${state.lang === "cs" ? "Po výběru se spustí krátký návod ke hře." : "A short game tutorial starts after you choose."}</p><div class="language-gate-options"><button type="button" data-language-choice="cs">🇨🇿 Čeština</button><button type="button" data-language-choice="en">🇬🇧 English</button></div></div></section>`}
+      const cs = state.lang === "cs";
+      app.innerHTML = `<section class="home-poster welcome-screen" data-testid="home-poster" aria-label="${cs ? "Výběr jazyka" : "Choose your language"}">
+        <img class="home-poster-art" src="assets/family-welcome.webp" alt="${cs ? "Rodina se psem hraje šarády v barevném obýváku" : "A family and their dog play charades in a colorful living room"}" fetchpriority="high">
+        <div class="welcome-vignette" aria-hidden="true"></div>
+        <header class="welcome-brand"><span class="welcome-brand-title">${cs ? "ŠARÁDY" : "CHARADES"}</span><strong>${cs ? "HÁDEJ SLOVO" : "GUESS THE WORD"}</strong><small>PARTY CHALLENGE</small></header>
+        <div class="welcome-copy"><span class="eyebrow">${cs ? "PŘEDVÁDĚJ · HÁDEJ · BAV SE" : "ACT · GUESS · HAVE FUN"}</span><h1>${cs ? "HRAJTE SPOLU" : "PLAY TOGETHER"}</h1><p>${cs ? "Vyberte jazyk a pusťte se do hry." : "Choose a language and start playing."}</p></div>
+        <section class="welcome-language-panel" aria-labelledby="languageGateTitle">
+          <h2 id="languageGateTitle">${cs ? "VYBER SI JAZYK" : "CHOOSE YOUR LANGUAGE"}</h2>
+          <div class="language-gate-options welcome-language-options">
+            <button type="button" data-language-choice="cs" aria-label="Čeština">🇨🇿 <span>ČEŠTINA</span></button>
+            <button type="button" data-language-choice="en" aria-label="English">🇬🇧 <span>ENGLISH</span></button>
+          </div>
+          <small>${cs ? "Po výběru tě provede krátký ilustrovaný návod." : "A short illustrated tutorial follows your choice."}</small>
+        </section>
       </section>`;
     },
     mainMenu() {
@@ -822,7 +823,7 @@
       ];
       app.innerHTML = `<section class="home-dashboard" aria-label="${cs ? "Hlavní menu" : "Main menu"}">
         <div class="home-logo"><span>${cs ? "ŠARÁDY" : "CHARADES"}</span><b>${cs ? "HÁDEJ SLOVO" : "GUESS THE WORD"}</b><small>PARTY CHALLENGE</small></div>
-        <div class="hero-stage home-family"><img class="hero-scene" src="assets/characters.png" alt="${cs ? "Rodina se baví při hře šarád" : "Family having fun playing charades"}" loading="eager"></div>
+        <div class="hero-stage home-family"><img class="hero-scene" src="assets/family-menu.webp" alt="${cs ? "Rodina se baví při hře šarád" : "Family having fun playing charades"}" loading="eager"></div>
         <button class="btn green home-play" data-screen="modes">▶ ${cs ? "HRÁT" : "PLAY"}<small>${cs ? "SPUSTIT KOLO" : "START A ROUND"}</small></button>
         <div class="grid home-primary-links">${primary.map(([screen, icon, label, hint]) => screen === "random-wheel"
           ? `<button class="select-card" data-action="random-wheel"><span class="emoji">${icon}</span><strong>${label}</strong><small>${hint}</small></button>`
@@ -929,7 +930,7 @@
         <label class="row settings-toggle"><input type="checkbox" id="themePref" ${state.theme === "dark" ? "checked" : ""}> ${state.lang === "cs" ? "Tmavý režim" : "Dark mode"}</label>
         <label class="row settings-toggle"><input type="checkbox" id="offlinePref" ${state.offlineMode ? "checked" : ""}> ${state.lang === "cs" ? "Používat pouze uložené soubory" : "Use cached files only"}</label>
         <p class="notice settings-hint">${state.lang === "cs" ? "Offline režim blokuje síťové požadavky stránky. Pro první uložení hry ji nejdřív otevři online." : "Offline mode blocks network requests from the app. Open the game online once to cache it first."}</p>
-        ${btn(t("save"), "save-settings")}<div class="poster-shortcuts"><strong>${state.lang === "cs" ? "Další části hry" : "More game sections"}</strong><div class="poster-shortcut-grid"><button type="button" data-screen="players">👥 ${t("players")}</button><button type="button" data-screen="ai">🤖 ${t("ai")}</button><button type="button" data-screen="custom">✨ ${t("custom")}</button><button type="button" data-screen="stats">📊 ${t("stats")}</button><button type="button" data-screen="achievements">🏆 ${t("achievements")}</button><button type="button" data-screen="tutorial">💡 ${t("tutorial")}</button><button type="button" data-screen="offline">📶 ${t("offline")}</button></div></div>${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+        ${btn(t("save"), "save-settings")}<div class="poster-shortcuts"><strong>${state.lang === "cs" ? "Další části hry" : "More game sections"}</strong><div class="poster-shortcut-grid"><button type="button" data-screen="players">👥 ${t("players")}</button><button type="button" data-screen="ai">🤖 ${t("ai")}</button><button type="button" data-screen="custom">✨ ${t("custom")}</button><button type="button" data-screen="stats">📊 ${t("stats")}</button><button type="button" data-screen="achievements">🏆 ${t("achievements")}</button><button type="button" data-screen="tutorial">💡 ${t("tutorial")}</button><button type="button" data-screen="offline">📶 ${t("offline")}</button><button type="button" data-screen="about">ℹ️ ${t("about")}</button></div></div>${btn(t("reset"), "reset", "btn secondary top-gap")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     ai() {
       const language = generatedLanguage || state.lang;

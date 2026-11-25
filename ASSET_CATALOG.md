@@ -6,7 +6,9 @@ Přehled vizuálních souborů, které jsou aktuálně v novém projektu. Původ
 
 | Soubor | Použití |
 |---|---|
-| `assets/Images/title-screen-cz.png` | Stávající česká titulní grafika; hlavní kandidát pro první etapu. |
+| `assets/family-welcome.webp` | Úvodní obrazovka s výběrem jazyka; rodina a pes ve 3D cartoon stylu. |
+| `assets/family-menu.webp` | Široká rodinná ilustrace pro hlavní menu ve stejném stylu. |
+| `assets/Images/title-screen-cz.png`, `assets/images/title-screen-en.png` | Ponechané původní plakáty; aplikace už používá nové čisté ilustrace a text kreslí jako přístupné HTML. |
 | `assets/Characters/character-spritesheet-reference.png` | Referenční arch postav. |
 | `assets/Characters/sharades-character-ui-storyboard.png` | Storyboard postav a rozhraní. |
 | `assets/Characters/sharades-bilingual-ui-kit-board.png` | Návrhová tabule dvojjazyčného UI. |

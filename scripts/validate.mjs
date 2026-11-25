@@ -86,9 +86,10 @@ for (let step = 1; step <= 5; step++) {
   assert(image.subarray(0, 4).toString('ascii') === 'RIFF' && image.subarray(8, 12).toString('ascii') === 'WEBP', `tutorial illustration is a valid WebP: ${imagePath}`);
 }
 
-assert(app.includes('class="home-poster" data-testid="home-poster"') && app.includes('show(!state.languageChosen ? "home" : !state.onboarded ? "tutorial" : "mainMenu")'), 'first launch shows the poster/language gate, then routes returning players by onboarding state');
+assert(app.includes('class="home-poster welcome-screen" data-testid="home-poster"') && app.includes('class="welcome-language-panel"') && app.includes('assets/family-welcome.webp') && app.includes('show(!state.languageChosen ? "home" : !state.onboarded ? "tutorial" : "mainMenu")'), 'first launch shows the illustrated language welcome screen, then routes returning players by onboarding state');
 assert(app.includes('data-language-choice="cs"') && app.includes('data-language-choice="en"') && app.includes('tutorialStep = 0;\n      show("tutorial")'), 'language choice opens the tutorial');
-assert(app.includes('mainMenu()') && app.includes('class="home-dashboard"') && app.includes('show("mainMenu")'), 'tutorial completion opens the designed main menu');
+assert(app.includes('mainMenu()') && app.includes('class="home-dashboard"') && app.includes('assets/family-menu.webp') && app.includes('show("mainMenu")'), 'tutorial completion opens the designed main menu with matching family artwork');
+assert(app.includes('data-screen="about"') && app.includes('about()'), 'about screen is reachable from application settings');
 assert(html.includes('js/app.js') && html.includes('data/words.js') && html.includes('js/cards.js') && html.includes('service-worker.js'), 'app scripts and offline worker are wired in HTML');
 assert(!/DeviceOrientationEvent|deviceorientation|enable-tilt|tiltEnabled|tiltBase|sensitivity/i.test(app), 'gameplay has no tilt sensor logic');
 assert(!/SHARADES_CARD_API_URL|api\.openai\.com|supabase/i.test(`${app}\n${html}`), 'frontend does not connect to external AI or database APIs');

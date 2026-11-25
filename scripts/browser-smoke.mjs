@@ -46,6 +46,10 @@ try {
   assert.equal(await firstPaintPoster.count(), 1, 'The app mounts its home poster as soon as it loads');
   assert.equal(await firstPaintPoster.getAttribute('data-testid'), 'home-poster', 'The first-paint poster exposes its stable test id');
   assert.equal(await page.locator('.language-gate-options [data-language-choice]').count(), 2, 'First launch offers visible Czech and English choices');
+  assert.equal(await page.locator('.welcome-language-panel').isVisible(), true, 'Language choices are displayed in the welcome screen instead of a blocking overlay');
+  assert.equal(await page.locator('.welcome-language-panel [data-language-choice]').allTextContents(), ['🇨🇿 ČEŠTINA', '🇬🇧 ENGLISH'], 'Both language choices have readable labels');
+  const welcomeLoaded = await page.locator('.home-poster-art').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0 && img.src.includes('family-welcome.webp'); });
+  assert.equal(welcomeLoaded, true, 'The new welcome family illustration loads before onboarding');
   await page.locator('.language-gate-options [data-language-choice="en"]').click();
   await page.locator('.tutorial-card').waitFor();
   assert.equal(await page.locator('html').getAttribute('lang'), 'en', 'Choosing a language opens the tutorial in that language');
@@ -63,6 +67,7 @@ try {
   assert.equal(await page.locator('.home-utility-links button').count(), 2, 'Sound and vibration have their own bottom row');
   const heroLoaded = await page.locator('.home-family .hero-scene').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; });
   assert.equal(heroLoaded, true, 'Main menu family illustration loads');
+  assert.match(await page.locator('.home-family .hero-scene').getAttribute('src'), /family-menu\.webp/, 'Main menu uses the matching wide family artwork');
   await page.locator('[data-screen="settings"]').click();
   await page.locator('[data-language="cs"]').click();
   assert.equal(await page.locator('html').getAttribute('lang'), 'cs', 'Main menu can switch to Czech');
@@ -221,6 +226,14 @@ try {
   assert.equal(await page.locator('.feature-row').count(), 5, 'Achievements screen renders five achievements');
   await page.locator('#homeBtn').click();
   await page.locator('[data-screen="settings"]').click();
+  await page.locator('[data-screen="stats"]').click();
+  assert.equal(await page.locator('.grid.three .card').count(), 3, 'Statistics screen renders its three gameplay summaries');
+  await page.locator('#homeBtn').click();
+  await page.locator('[data-screen="settings"]').click();
+  await page.locator('[data-screen="about"]').click();
+  assert.equal(await page.locator('#app').innerText().then((text) => text.includes('SHARADES') && text.includes('PWA')), true, 'About screen describes the game and PWA');
+  await page.locator('#homeBtn').click();
+  await page.locator('[data-screen="settings"]').click();
   await page.locator('[data-screen="offline"]').click();
   assert.equal(await page.locator('.feature-row').count(), 3, 'Offline status screen renders its checks');
   await page.locator('#homeBtn').click();
@@ -236,7 +249,8 @@ try {
   assert.deepEqual(await setWorkerOffline(true), { ok: true, enabled: true }, 'Service worker acknowledges offline mode');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v56-onboarding-game-screen');
+    const cacheName = (await caches.keys()).find((name) => name.startsWith('sharades-release-v'));
+    const cache = await caches.open(cacheName);
     return !!await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -246,7 +260,8 @@ try {
   assert.deepEqual(await setWorkerOffline(false), { ok: true, enabled: false }, 'Service worker acknowledges returning online');
   await page.waitForFunction(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open('sharades-release-v56-onboarding-game-screen');
+    const cacheName = (await caches.keys()).find((name) => name.startsWith('sharades-release-v'));
+    const cache = await caches.open(cacheName);
     return !await cache.match(new URL('offline-mode', registration.scope).href);
   });
   await page.locator('#homeBtn').click();
