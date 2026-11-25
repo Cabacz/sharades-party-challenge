@@ -1,6 +1,4 @@
 (() => {
-  // Paid image generation is opt-in. The free build never contacts an image API.
-  window.SHARADES_CARD_API_URL = "";
   const exact = {
     cs: {
       Popelka: 0, Mimoň: 1, Lev: 2, Tučňák: 3,
@@ -38,11 +36,11 @@
     },
   };
   window.SHARADES_CARD_ART = {
-    sheet: "assets/word-cards/family-card-cutout-sprites-v2.png",
+    sheet: "assets/cards/family-card-cutout-sprites-v2.png",
     exact,
     cutout(word, language) {
       if ((language === "en" && word === "Rabbit") || (language !== "en" && word === "Králík"))
-        return "assets/word-cards/rabbit-family-cutout.png";
+        return "assets/cards/rabbit-family-cutout.png";
       return null;
     },
     custom(word, language) {
@@ -51,7 +49,7 @@
         en: { "Pole vault": "pole-vault.svg", "High jump": "high-jump.svg", Parkour: "parkour.svg", "Vacuum cleaner": "vacuum-cleaner.svg", Iron: "iron.svg", Vacuuming: "vacuum-cleaner.svg", "Slipping on ice": "slipping-on-ice.svg", "Washing a window": "washing-window.svg" },
       };
       const file = (localized[language] || localized.cs)[word];
-      return file ? `assets/word-cards/${file}` : null;
+      return file ? `assets/cards/${file}` : null;
     },
     generated(word, language) {
       return window.SHARADES_GENERATED_CARD_FILES?.[language]?.[word] || null;

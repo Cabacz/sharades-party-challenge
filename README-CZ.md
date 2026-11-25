@@ -14,8 +14,9 @@ Pak navštiv `http://localhost:8000`. Pro instalaci PWA a offline režim je pot�
 
 ## Struktura
 
-- `index.html`, `css/`, `js/` – současná hra, rozhraní, slovníky a styly.
-- `assets/` – loga, avatary, ilustrace a podklady z předchozí práce.
+- `index.html`, `manifest.json`, `css/`, `js/`, `data/`, `assets/` – PWA, rozhraní, lokální slovníky a obrázkové kartičky.
+- `data/words.js` a `data/cards.json` – český/anglický slovník a katalog obrázkových kartiček.
+- `assets/cards/` – lokální ilustrace a obrázkové archy ke slovům.
 - `Menu/` – samostatný prototyp menu, ponechaný jako reference.
 - `Reference/`, `References/` – koncepční grafické podklady a snímky předchozího rozhraní.
 - `PROJECT_CONTEXT_CZ.md` – sjednocené zadání a plán etap.
@@ -24,7 +25,7 @@ Pak navštiv `http://localhost:8000`. Pro instalaci PWA a offline režim je pot�
 
 ## Aktuální stav
 
-Repozitář nyní obsahuje základní hratelnou verzi s onboardingem, kategoriemi, sedmi režimy, koly, skóre a statistikami. Podrobnosti a omezení jsou v [STAV-HRY-CZ.md](STAV-HRY-CZ.md). Projekt je PWA, nikoli nativní Android APK.
+Repozitář nyní obsahuje hratelnou verzi s úvodním plakátem, onboardingem, kategoriemi, sedmi režimy, obrázkovými kartičkami, skóre a statistikami. Slovníky a ilustrace fungují lokálně. Podrobnosti jsou v [STAV-HRY-CZ.md](STAV-HRY-CZ.md). Android test APK se sestavuje v GitHub Actions.
 
 ## Ověření
 

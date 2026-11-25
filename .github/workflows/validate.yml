@@ -24,8 +24,7 @@ jobs:
           node --check js/cards.js
           node --check js/generated-cards.js
           node --check js/card-gallery.js
-          node --check js/title-screen.js
-          node --check js/words.js
+          node --check data/words.js
           node --check service-worker.js
       - name: Validate local app assets and dictionary
         run: node scripts/validate.mjs

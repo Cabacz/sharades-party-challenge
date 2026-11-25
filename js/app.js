@@ -7,6 +7,23 @@
   const legacyAvatarIds = ["child", "dog", "robot", "cat"];
   const avatarIds = [...featuredAvatarIds, ...legacyAvatarIds];
   const humanAvatarIds = [...featuredAvatarIds, "child"];
+  const avatarChoices = [
+    [
+      ["man", "man", "👨", "Muž", "Man"], ["woman", "woman", "👩", "Žena", "Woman"], ["girl", "girl", "👧", "Holčička", "Girl"],
+      ["boy", "boy", "👦", "Chlapeček", "Boy"], ["child", "child", "🧒", "Dítě", "Child"], ["dog", "dog", "🐶", "Pes", "Dog"],
+      ["robot", "robot", "🤖", "Robot", "Robot"], ["cat", "cat", "🐱", "Kočka", "Cat"], ["family", "woman", "👨‍👩‍👧‍🐕", "Rodina", "Family"],
+    ],
+    [
+      ["astronaut", "boy", "🧑‍🚀", "Kosmonaut", "Astronaut"], ["superhero", "man", "🦸", "Superhrdina", "Superhero"], ["chef", "woman", "👩‍🍳", "Kuchař", "Chef"],
+      ["artist", "girl", "🎨", "Umělec", "Artist"], ["magician", "child", "🪄", "Kouzelník", "Magician"], ["explorer", "man", "🧭", "Průzkumník", "Explorer"],
+      ["gamer", "boy", "🎮", "Hráč", "Gamer"], ["musician", "woman", "🎸", "Hudebník", "Musician"], ["scientist", "robot", "🔬", "Vědec", "Scientist"],
+    ],
+    [
+      ["lion", "dog", "🦁", "Lev", "Lion"], ["fox", "cat", "🦊", "Liška", "Fox"], ["rabbit", "child", "🐰", "Králíček", "Bunny"],
+      ["panda", "dog", "🐼", "Panda", "Panda"], ["unicorn", "girl", "🦄", "Jednorožec", "Unicorn"], ["dragon", "robot", "🐲", "Drak", "Dragon"],
+      ["owl", "cat", "🦉", "Sova", "Owl"], ["tiger", "dog", "🐯", "Tygr", "Tiger"], ["penguin", "robot", "🐧", "Tučňák", "Penguin"],
+    ],
+  ];
   const appearanceDefaults = () => ({
     hair: "natural",
     hat: "none",
@@ -34,8 +51,9 @@
   let appearanceTab = "hair";
   const defaults = () => ({
     lang: "cs",
-    onboarded: false,
     languageChosen: false,
+    onboarded: false,
+    startFlowVersion: 2,
     players: [
       { name: "Alex", avatar: "man", team: 0 },
       { name: "Sam", avatar: "woman", team: 1 },
@@ -67,11 +85,10 @@
     generatedRoundWords = null,
     generatedLanguage = null,
     avatarPlayer = 0,
+    avatarPage = 0,
+    avatarModalOpen = false,
     tutorialStep = 0,
-    currentScreen = "home",
-    tiltEnabled = false,
-    tiltBase = null,
-    tiltLocked = false;
+    currentScreen = "home";
   let musicContext = null,
     musicTimer = null,
     musicIndex = 0;
@@ -81,8 +98,6 @@
   const cardArtRequests = new WeakMap();
   let cardArtRequestId = 0;
   let cardDatabasePromise = null;
-  let cardGenerationId = 0;
-  let cardGenerationPending = false;
   let avatarPreviewVersion = 0;
   let state = defaults(),
     run = {
@@ -92,6 +107,7 @@
       remaining: 60,
       score: 0,
       word: null,
+      revealed: false,
       wordSeen: false,
       deck: [],
       used: [],
@@ -193,6 +209,7 @@
       featureAI:
         "Funguje bez placeného API: návrhy slov se vybírají z místního slovníku. Nové AI obrázky se nevytvářejí; hra ukáže připravenou ilustraci nebo odpovídající symbol.",
       selectPlayer: "Vyber hráče",
+      partyName: "Všichni",
     },
     en: {
       help: "Help",
@@ -284,6 +301,7 @@
       featureAI:
         "Works without a paid API: word suggestions come from the local dictionary. New AI images are not created; the game shows an included illustration or a matching symbol.",
       selectPlayer: "Choose player",
+      partyName: "Everyone",
     },
   };
   const t = (k) => (strings[state.lang] || strings.cs)[k] || k,
@@ -320,16 +338,6 @@
       });
     }
     return cardDatabasePromise;
-  }
-  async function saveCardSheet(id, blob) {
-    const db = await cardDatabase();
-    if (!db) return false;
-    return new Promise((resolve) => {
-      const transaction = db.transaction("sheets", "readwrite");
-      transaction.objectStore("sheets").put(blob, id);
-      transaction.oncomplete = () => resolve(true);
-      transaction.onerror = () => resolve(false);
-    });
   }
   async function cardSheetUrl(id) {
     if (cardSheetUrls.has(id)) return cardSheetUrls.get(id);
@@ -442,98 +450,18 @@
       element.style.backgroundPosition = "center";
     } else applyCroppedCard(element, art.sheet, spriteIndex, 4, 4, requestId);
   }
-  function blobToDataUrl(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(blob);
-    });
-  }
-  async function optimizeCardReference(blob) {
-    if (!window.createImageBitmap) return blobToDataUrl(blob);
-    const bitmap = await createImageBitmap(blob);
-    const scale = Math.min(1, 1024 / Math.max(bitmap.width, bitmap.height));
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(bitmap.width * scale);
-    canvas.height = Math.round(bitmap.height * scale);
-    canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    bitmap.close();
-    const optimized = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-    return blobToDataUrl(optimized || blob);
-  }
-  async function generateCardSheet(words, language) {
-    const endpoint = window.SHARADES_CARD_API_URL;
-    if (!endpoint) return;
-    const requestId = ++cardGenerationId;
-    cardGenerationPending = true;
-    const status = state.lang === "cs"
-      ? "Vytvářím rodinné obrázky ke slovům…"
-      : "Creating family illustrations for these words…";
-    const statusElement = $("#cardGenerationStatus");
-    if (statusElement) statusElement.textContent = status;
-    toast(status);
-    try {
-      const referenceResponse = await fetch("assets/word-cards/family-card-cutout-sprites-v2.png");
-      if (!referenceResponse.ok) throw new Error("family reference unavailable");
-      const reference = await optimizeCardReference(await referenceResponse.blob());
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          words: words.map(({ word, cat }) => ({ word, category: cat })),
-          language,
-          referenceImage: reference,
-        }),
-      });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || `card service ${response.status}`);
-      const bytes = Uint8Array.from(atob(result.imageBase64), (char) => char.charCodeAt(0));
-      const blob = new Blob([bytes], { type: result.mimeType || "image/webp" });
-      const sheetId = `cards-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-      if (!(await saveCardSheet(sheetId, blob))) throw new Error("local image storage unavailable");
-      const columns = Number(result.columns) || 4;
-      const rows = Number(result.rows) || Math.ceil(words.length / columns);
-      words.forEach((item, index) => {
-        item.card = { sheetId, index, columns, rows, language };
-        state.wordCards[item.word] = item.card;
-      });
-      persist();
-      if (requestId === cardGenerationId) cardGenerationPending = false;
-      if (currentScreen === "game" && words.some((item) => item.word === run.word?.word))
-        applyCardArt($("#wordCardArt"), run.word);
-      if (requestId === cardGenerationId && currentScreen === "ai") {
-        suggestions.forEach((item, index) =>
-          applyCardArt($(`[data-suggestion-card="${index}"]`), item),
-        );
-        const statusElement = $("#cardGenerationStatus");
-        if (statusElement)
-          statusElement.textContent = state.lang === "cs"
-            ? "Rodinné obrázky jsou připravené."
-            : "Family illustrations are ready.";
-      }
-      toast(state.lang === "cs" ? "Obrázkové kartičky jsou připravené." : "Picture cards are ready.");
-    } catch (error) {
-      if (requestId !== cardGenerationId) return;
-      cardGenerationPending = false;
-      if (currentScreen === "ai") {
-        const statusElement = $("#cardGenerationStatus");
-        if (statusElement)
-          statusElement.textContent = state.lang === "cs"
-            ? "AI obrázky zatím nejsou dostupné; používají se ilustrační obrázky kategorií."
-            : "AI images are unavailable; category illustrations are shown for now.";
-      }
-      const message = state.lang === "cs"
-        ? "Slova jsou připravená, ale obrázky teď nebylo možné vytvořit."
-        : "Words are ready, but the picture cards could not be created right now.";
-      toast(message);
-      console.warn("Card image generation unavailable:", error?.message || error);
-    }
-  }
   function restore() {
     try {
       const s = JSON.parse(localStorage.getItem(KEY) || "null");
-      if (s) state = { ...defaults(), ...s };
+      if (s) {
+        state = { ...defaults(), ...s };
+        if (s.startFlowVersion !== 2) {
+          state.languageChosen = false;
+          state.onboarded = false;
+          state.startFlowVersion = 2;
+          localStorage.setItem(KEY, JSON.stringify(state));
+        }
+      }
     } catch (e) {}
   }
   restore();
@@ -549,64 +477,6 @@
       clearInterval(run.timer);
       run.timer = null;
     }
-  }
-  function enableTilt() {
-    const Api = window.DeviceOrientationEvent;
-    if (!Api) {
-      toast(
-        state.lang === "cs"
-          ? "Naklánění není na tomto zařízení dostupné"
-          : "Tilt is unavailable on this device",
-      );
-      return;
-    }
-    const start = (permission) => {
-      if (permission === "denied") {
-        toast(
-          state.lang === "cs"
-            ? "Povolení k pohybu nebylo uděleno"
-            : "Motion permission was denied",
-        );
-        return;
-      }
-      tiltEnabled = true;
-      tiltBase = null;
-      window.addEventListener("deviceorientation", handleTilt, true);
-      toast(
-        state.lang === "cs"
-          ? "Naklánění zapnuto — drž telefon rovně"
-          : "Tilt enabled — hold the phone steady",
-      );
-    };
-    if (typeof Api.requestPermission === "function")
-      Api.requestPermission()
-        .then(start)
-        .catch(() => start("denied"));
-    else start("granted");
-  }
-  function handleTilt(event) {
-    if (
-      !tiltEnabled ||
-      currentScreen !== "game" ||
-      run.paused ||
-      event.beta == null
-    )
-      return;
-    if (tiltBase == null) {
-      tiltBase = event.beta;
-      return;
-    }
-    let delta = event.beta - tiltBase;
-    if (delta > 180) delta -= 360;
-    if (delta < -180) delta += 360;
-    if (Math.abs(delta) < 16) {
-      tiltLocked = false;
-      return;
-    }
-    if (tiltLocked) return;
-    tiltLocked = true;
-    if (delta < 0) correct();
-    else skip();
   }
   function buzz() {
     if (state.vibration && navigator.vibrate) navigator.vibrate(25);
@@ -907,9 +777,10 @@
   function show(screen) {
     currentScreen = screen;
     document.body.classList.toggle("poster-home-active", screen === "home");
+    document.body.classList.toggle("main-menu-active", screen === "mainMenu");
     document.body.classList.toggle(
       "intro-active",
-      screen === "language" || (screen === "tutorial" && !state.onboarded),
+      screen === "tutorial",
     );
     if (screen !== "game") stopTimer();
     if (screen !== "game") run.paused = false;
@@ -919,16 +790,46 @@
   }
   const render = {
     home() {
-      app.innerHTML = `<section class="home-menu" aria-label="Sharades Party Challenge">
-        <img class="home-menu-art" src="assets/images/title-screen-language.webp" alt="Sharades Party Challenge" onerror="this.onerror=null;this.src='assets/images/title-screen-cz.png'">
+      const poster = state.lang === "cs" ? "assets/images/title-screen-cz.png" : "assets/images/title-screen-en.png";
+      app.innerHTML = `<section class="home-poster" data-testid="home-poster" aria-label="Sharades Party Challenge">
+        <img class="home-poster-art" src="${poster}" alt="Sharades – ${state.lang === "cs" ? "Předváděj, hádej a bav se spolu" : "Act, guess and laugh together"}">
+        <button class="poster-hotspot poster-language" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Switch to English" : "Přepnout do češtiny"}"></button>
+        <button class="poster-hotspot poster-sound" type="button" data-action="toggle-sound" aria-label="${state.lang === "cs" ? "Zvuk" : "Sound"}"></button>
+        <button class="poster-hotspot poster-settings" type="button" data-screen="settings" aria-label="${t("settings")}"></button>
+        <button class="poster-hotspot poster-categories" type="button" data-screen="categories" aria-label="${t("categories")}"></button>
+        <button class="poster-hotspot poster-wheel" type="button" data-action="random-wheel" aria-label="${state.lang === "cs" ? "Šťastné kolo" : "Lucky wheel"}"></button>
+        <button class="poster-hotspot poster-challenges" type="button" data-screen="modes" aria-label="${state.lang === "cs" ? "Zábavné výzvy" : "Fun challenges"}"></button>
+        <button class="poster-hotspot poster-avatars" type="button" data-screen="avatars" aria-label="${t("avatars")}"></button>
+        <button class="poster-hotspot poster-bilingual" type="button" data-language="${state.lang === "cs" ? "en" : "cs"}" aria-label="${state.lang === "cs" ? "Hrát anglicky" : "Play in Czech"}"></button>
+        <button class="poster-hotspot poster-continue" type="button" data-action="start-from-title"><span>▶ ${state.lang === "cs" ? "POKRAČOVAT DO MENU" : "CONTINUE TO MENU"}</span></button>
+        ${state.languageChosen ? "" : `<section class="language-gate" role="dialog" aria-modal="true" aria-labelledby="languageGateTitle"><div class="language-gate-card"><span class="eyebrow">SHARADES • PARTY CHALLENGE</span><h2 id="languageGateTitle">${state.lang === "cs" ? "Vyber si jazyk" : "Choose your language"}</h2><p>${state.lang === "cs" ? "Po výběru se otevře hlavní nabídka." : "Choose a language to open the main menu."}</p><div class="language-gate-options"><button type="button" data-language-choice="cs">🇨🇿 Čeština</button><button type="button" data-language-choice="en">🇬🇧 English</button></div></div></section>`}
       </section>`;
     },
-    language() {
-      app.innerHTML = `<section class="language-poster" aria-label="${state.lang === "cs" ? "Výběr jazyka" : "Choose language"}">
-        <img class="language-poster-art" src="assets/images/title-screen-language.webp" alt="Sharades Party Challenge" onerror="this.onerror=null;this.src='assets/images/title-screen-cz.png'">
-        <div class="language-choice" role="group" aria-label="${state.lang === "cs" ? "Vyber jazyk" : "Choose your language"}">
-          <button type="button" class="language-choice-button language-en" data-language="en" aria-label="English">🇬🇧<span>ENGLISH</span></button>
-          <button type="button" class="language-choice-button language-cs" data-language="cs" aria-label="Čeština">🇨🇿<span>ČEŠTINA</span></button>
+    mainMenu() {
+      const cs = state.lang === "cs";
+      const primary = [
+        ["categories", "📚", cs ? "KATEGORIE" : "CATEGORIES", cs ? "Vyber slova do hry" : "Choose words for play"],
+        ["custom", "🛠️", cs ? "VLASTNÍ HRA" : "CUSTOM GAME", cs ? "Přidej vlastní slova" : "Add your own words"],
+        ["ai", "🤖", cs ? "AI GENERÁTOR" : "WORD GENERATOR", cs ? "Vytvoř nová slova" : "Create new words"],
+        ["random-wheel", "🎡", cs ? "KOLO NÁHODY" : "LUCKY WHEEL", cs ? "Nech volbu na náhodě" : "Let chance decide"],
+      ];
+      const shortcuts = [
+        ["players", "👩‍👧", cs ? "HRÁČI A AVATARY" : "PLAYERS & AVATARS"],
+        ["stats", "📊", cs ? "STATISTIKY" : "STATISTICS"],
+        ["achievements", "🏅", cs ? "ÚSPĚCHY" : "ACHIEVEMENTS"],
+        ["settings", "⚙️", cs ? "NASTAVENÍ" : "SETTINGS"],
+      ];
+      app.innerHTML = `<section class="home-dashboard" aria-label="${cs ? "Hlavní menu" : "Main menu"}">
+        <div class="home-logo"><span>${cs ? "ŠARÁDY" : "CHARADES"}</span><b>${cs ? "HÁDEJ SLOVO" : "GUESS THE WORD"}</b><small>PARTY CHALLENGE</small></div>
+        <div class="hero-stage home-family"><img class="hero-scene" src="assets/characters.png" alt="${cs ? "Rodina se baví při hře šarád" : "Family having fun playing charades"}" loading="eager"></div>
+        <button class="btn green home-play" data-screen="modes">▶ ${cs ? "HRÁT" : "PLAY"}<small>${cs ? "SPUSTIT KOLO" : "START A ROUND"}</small></button>
+        <div class="grid home-primary-links">${primary.map(([screen, icon, label, hint]) => screen === "random-wheel"
+          ? `<button class="select-card" data-action="random-wheel"><span class="emoji">${icon}</span><strong>${label}</strong><small>${hint}</small></button>`
+          : `<button class="select-card" data-screen="${screen}"><span class="emoji">${icon}</span><strong>${label}</strong><small>${hint}</small></button>`).join("")}</div>
+        <div class="home-quick-links">${shortcuts.map(([screen, icon, label]) => `<button type="button" data-screen="${screen}"><span class="menu-icon">${icon}</span>${label}</button>`).join("")}</div>
+        <div class="home-utility-links">
+          <button type="button" data-action="toggle-sound"><span class="menu-icon">${state.sound ? "🔊" : "🔇"}</span>${cs ? "ZVUK" : "SOUND"}</button>
+          <button type="button" data-action="toggle-vibration"><span class="menu-icon">${state.vibration ? "📳" : "📴"}</span>${cs ? "VIBRACE" : "VIBRATION"}</button>
         </div>
       </section>`;
     },
@@ -1011,7 +912,7 @@
       app.innerHTML = `${head(state.lang === "cs" ? "Profil" : "Profile")}<div class="card center">${p ? `<img class="avatar" src="assets/avatar-${p.avatar}.svg" alt=""><h2>${esc(p.name)}</h2>` : ""}<div class="home-coins">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div><p class="notice top-gap">${state.lang === "cs" ? "Za správné odpovědi získáváš mince. Svůj vzhled upravíš v editoru postavy." : "Earn coins for correct answers. Personalize your look in the character editor."}</p>${btn("🎨 " + t("avatars"), "avatars", "btn cyan")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
     },
     players() {
-      app.innerHTML = `${head(t("players"))}<div class="card"><div class="field"><label>${t("name")}</label><div class="row"><input id="playerName" class="field-input" maxlength="24" placeholder="${t("name")}" style="min-width:0;flex:1;padding:12px;background:#0d0e20;color:white;border:1px solid var(--stroke);border-radius:12px">${btn("＋", "add-player", "btn small cyan")}</div></div><div class="player-list">${state.players.map((p, i) => `<div class="player"><img class="avatar" src="assets/avatar-${p.avatar}.svg" alt=""><div class="name">${esc(p.name)}</div><select data-playerteam="${i}" aria-label="${t("team")}">${state.teams.map((tm, j) => `<option value="${j}" ${p.team === j ? "selected" : ""}>${esc(tm.name)}</option>`).join("")}</select><button class="remove" data-remove="${i}">×</button></div>`).join("")}</div><div class="divider"></div>${state.teams.map((team, i) => `<div class="field"><label>${t("teamName")} ${i + 1}</label><input data-teamname="${i}" maxlength="30" value="${esc(team.name)}"></div>`).join("")}${btn("＋ " + t("addTeam"), "add-team", "btn cyan top-gap")}${btn(t("save"), "save-players", "btn secondary top-gap")}</div>${btn("← " + t("back"), "home", "btn secondary top-gap")}`;
+      app.innerHTML = `${head(t("players"))}<div class="card"><div class="field"><label>${t("name")}</label><div class="row"><input id="playerName" class="field-input" maxlength="24" placeholder="${t("name")}" style="min-width:0;flex:1;padding:12px;background:#0d0e20;color:white;border:1px solid var(--stroke);border-radius:12px">${btn("＋", "add-player", "btn small cyan")}</div></div><div class="player-list">${state.players.map((p, i) => `<div class="player"><img class="avatar" src="assets/avatar-${p.avatar}.svg" alt=""><div class="name">${esc(p.name)}</div><select data-playerteam="${i}" aria-label="${t("team")}">${state.teams.map((tm, j) => `<option value="${j}" ${p.team === j ? "selected" : ""}>${esc(tm.name)}</option>`).join("")}</select><button class="remove" data-remove="${i}">×</button></div>`).join("")}</div><div class="divider"></div>${state.teams.map((team, i) => `<div class="field"><label>${t("teamName")} ${i + 1}</label><input data-teamname="${i}" maxlength="30" value="${esc(team.name)}"></div>`).join("")}<button type="button" class="btn cyan top-gap" data-screen="avatars">🎭 ${t("avatars")}</button>${btn("＋ " + t("addTeam"), "add-team", "btn cyan top-gap")}${btn(t("save"), "save-players", "btn secondary top-gap")}</div>${btn("← " + t("back"), "home", "btn secondary top-gap")}`;
     },
     custom() {
       app.innerHTML = `${head(t("custom"))}<div class="card"><p class="muted tiny">${t("custom")} — ${t("customHint")}</p><div class="field"><textarea id="customText" rows="8" maxlength="8000" placeholder="${state.lang === "cs" ? "Horská dráha\nGrilování\nAstronaut" : "Roller coaster\nBarbecue\nAstronaut"}">${esc(state.customWords.join("\n"))}</textarea></div><p class="hint">${state.customWords.length} ${t("words")}</p>${btn(t("save"), "save-custom")}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
@@ -1031,7 +932,7 @@
     },
     ai() {
       const language = generatedLanguage || state.lang;
-      app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${language === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${state.lang === "cs" ? "Jazyk slov" : "Word language"}</label><select id="aiLanguage"><option value="cs" ${language === "cs" ? "selected" : ""}>🇨🇿 Čeština</option><option value="en" ${language === "en" ? "selected" : ""}>🇬🇧 English</option></select></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Ulož nebo rovnou hraj vybraná slova. Obrázek používá připravenou ilustraci, jinak odpovídající symbol." : "Save or play selected words. Cards use an included illustration when available, otherwise a matching symbol."}</p></div></div><p id="cardGenerationStatus" class="card-generation-status">${cardGenerationPending ? (state.lang === "cs" ? "Vytvářím rodinné obrázky ke slovům…" : "Creating family illustrations for these words…") : ""}</p><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row generated-word-row"><input type="checkbox" data-generated-index="${i}" checked><span class="generated-card-thumb" data-suggestion-card="${i}"></span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div><div class="stack top-gap">${btn("＋ " + t("addWords"), "add-generated", "btn green")}${btn("▶ " + (state.lang === "cs" ? "Hrát vybraná slova" : "Play selected words"), "start-generated", "btn cyan")}</div>` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+      app.innerHTML = `${head(t("ai"), t("aiNote"))}<div class="card"><div class="field"><label>${t("aiTopic")}</label><input id="aiTopic" maxlength="80" placeholder="${language === "cs" ? "např. dinosauři, Minecraft, dovolená" : "e.g. dinosaurs, Minecraft, holiday"}" value=""></div><div class="field"><label>${state.lang === "cs" ? "Jazyk slov" : "Word language"}</label><select id="aiLanguage"><option value="cs" ${language === "cs" ? "selected" : ""}>🇨🇿 Čeština</option><option value="en" ${language === "en" ? "selected" : ""}>🇬🇧 English</option></select></div><div class="field"><label>${t("aiCount")}</label><div class="chips">${[5, 10, 15, 20].map((n) => `<button class="chip ${n === 10 ? "active" : ""}" data-ai-count="${n}">${n}</button>`).join("")}</div><input id="aiCount" type="hidden" value="10"></div><div class="field"><label>${state.lang === "cs" ? "Obtížnost" : "Difficulty"}</label><select id="aiDifficulty"><option value="easy" ${state.difficulty === "easy" ? "selected" : ""}>${state.lang === "cs" ? "Lehká" : "Easy"}</option><option value="normal" ${state.difficulty === "normal" ? "selected" : ""}>${state.lang === "cs" ? "Střední" : "Medium"}</option><option value="hard" ${state.difficulty === "hard" ? "selected" : ""}>${state.lang === "cs" ? "Těžká" : "Hard"}</option></select></div><p class="notice">${t("featureAI")}</p>${btn("✨ " + t("generate"), "generate-local", "btn cyan")}${suggestions.length ? `<div class="section-title"><div><h3>${t("generated")} (${suggestions.length})</h3><p class="hint">${state.lang === "cs" ? "Ulož nebo rovnou hraj vybraná slova. Obrázek používá připravenou ilustraci, jinak odpovídající symbol." : "Save or play selected words. Cards use an included illustration when available, otherwise a matching symbol."}</p></div></div><p id="cardGenerationStatus" class="card-generation-status">${state.lang === "cs" ? "Používají se připravené ilustrace a symboly." : "Included illustrations and symbols are used."}</p><div class="feature-list">${suggestions.map((w, i) => `<label class="feature-row generated-word-row"><input type="checkbox" data-generated-index="${i}" checked><span class="generated-card-thumb" data-suggestion-card="${i}"></span><span><strong>${esc(w.word)}</strong><small>${esc(w.cat)}</small></span></label>`).join("")}</div><div class="stack top-gap">${btn("＋ " + t("addWords"), "add-generated", "btn green")}${btn("▶ " + (state.lang === "cs" ? "Hrát vybraná slova" : "Play selected words"), "start-generated", "btn cyan")}</div>` : ""}${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
       suggestions.forEach((word, index) => applyCardArt($(`[data-suggestion-card="${index}"]`), word));
     },
     avatars() {
@@ -1122,17 +1023,29 @@
       if (!humanAvatarIds.includes(player.avatar)) delete options.hair;
       if (!options[appearanceTab]) appearanceTab = Object.keys(options)[0] || "hat";
       const tab = options[appearanceTab];
-      const avatarCard = (id, featured = false) => `<button class="avatar-option ${featured ? "avatar-choice-card" : "avatar-legacy-option"} ${player.avatar === id ? "selected" : ""}" data-pick-avatar="${id}" aria-label="${labels[id]}" aria-pressed="${player.avatar === id}"><img src="assets/avatar-${id}.svg" alt=""><span>${labels[id]}</span>${player.avatar === id ? '<b aria-hidden="true">✓</b>' : ""}</button>`;
+      const selectedAvatar = player.avatarChoice || player.avatar;
+      const avatarCard = ([id, avatar, badge, cs, en], index) => `<button class="avatar-choice-tile pastel-${index % 9} ${selectedAvatar === id ? "selected" : ""}" data-pick-avatar="${avatar}" data-avatar-choice="${id}" aria-label="${state.lang === "cs" ? cs : en}" aria-pressed="${selectedAvatar === id}"><img src="assets/avatar-${avatar}.svg" alt=""><span class="avatar-costume" aria-hidden="true">${badge}</span><strong>${state.lang === "cs" ? cs : en}</strong>${selectedAvatar === id ? '<b aria-hidden="true">✓</b>' : ""}</button>`;
+      const currentChoice = avatarChoices.flat().find(([id]) => id === selectedAvatar) || avatarChoices.flat().find(([, id]) => id === player.avatar) || avatarChoices[0][0];
+      const pageChoices = avatarChoices[avatarPage].map(avatarCard).join("");
+      const modalCopy = state.lang === "cs" ? "AVATARY" : "AVATARS";
+      const closeCopy = state.lang === "cs" ? "Zavřít výběr avatarů" : "Close avatar picker";
       app.innerHTML = `${head(t("avatars"), state.lang === "cs" ? "Vyber postavu a uprav její vzhled." : "Choose a character and personalize their look.")}<div class="card character-editor">
         <div class="character-wallet">🪙 ${state.coins ?? 25} ${state.lang === "cs" ? "mincí" : "coins"}</div>
         <div class="field"><label>${t("forPlayer")}</label><select id="avatarPlayer">${state.players.map((p, i) => `<option value="${i}" ${i === avatarPlayer ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div>
         <div class="character-preview appearance-bg-${appearance.background}" data-outfit="${appearance.outfit}"><img class="character-full" src="assets/avatar-${player.avatar}.svg" alt="${esc(player.name)}"></div>
         <h3 class="avatar-picker-title">${state.lang === "cs" ? "Vyber postavu" : "Choose a character"}</h3>
-        <div class="avatar-picker avatar-picker-featured">${featuredAvatarIds.map((id) => avatarCard(id, true)).join("")}</div>
-        <details class="avatar-legacy" ${legacyAvatarIds.includes(player.avatar) ? "open" : ""}><summary>${state.lang === "cs" ? "Další postavy" : "More characters"}<span>${state.lang === "cs" ? "Dítě · Robot · Kočka · Pes" : "Child · Robot · Cat · Dog"}</span></summary><div class="avatar-picker avatar-picker-legacy">${legacyAvatarIds.map((id) => avatarCard(id)).join("")}</div></details>
+        <div class="avatar-current-choice"><img src="assets/avatar-${player.avatar}.svg" alt=""><span>${state.lang === "cs" ? currentChoice[3] : currentChoice[4]}</span><button type="button" class="btn green small" data-action="open-avatar-picker">${modalCopy}</button></div>
         <div class="appearance-tabs">${Object.entries(options).map(([id, item]) => `<button class="chip ${appearanceTab === id ? "active" : ""}" data-appearance-tab="${id}">${item[state.lang]}</button>`).join("")}</div>
         <h3 class="appearance-section-title">${tab[state.lang]}</h3><div class="appearance-options">${tab.values.map(([id, icon, cs, en]) => { const unlocked = state.cosmeticUnlocks[appearanceTab]?.includes(id); const cost = cosmeticPrices[appearanceTab]?.[id] || 0; const detail = unlocked ? (appearance[appearanceTab] === id ? (state.lang === "cs" ? "Použito" : "Equipped") : (state.lang === "cs" ? "Odemčeno" : "Owned")) : `🔒 🪙 ${cost}`; return `<button class="appearance-option ${appearance[appearanceTab] === id ? "selected" : ""} ${unlocked ? "" : "locked"}" data-appearance="${appearanceTab}" data-value="${id}" aria-pressed="${appearance[appearanceTab] === id}"><span>${icon}</span><strong>${state.lang === "cs" ? cs : en}<small>${detail}</small></strong></button>`; }).join("")}</div>
-        <p class="hint top-gap">${state.lang === "cs" ? "Změny vzhledu se ukládají pro každého hráče v tomto zařízení." : "Appearance changes are saved per player on this device."}</p>${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>`;
+        <p class="hint top-gap">${state.lang === "cs" ? "Změny vzhledu se ukládají pro každého hráče v tomto zařízení." : "Appearance changes are saved per player on this device."}</p>${btn("← " + t("back"), "home", "btn secondary top-gap")}</div>
+        <div class="avatar-modal" ${avatarModalOpen ? "" : "hidden"}>
+          <button class="avatar-modal-backdrop" type="button" data-action="close-avatar-picker" aria-label="${closeCopy}"></button>
+          <section class="avatar-modal-panel" role="dialog" aria-modal="true" aria-labelledby="avatarModalTitle">
+            <header class="avatar-modal-heading"><h2 id="avatarModalTitle">${modalCopy}</h2><button type="button" class="avatar-modal-close" data-action="close-avatar-picker" aria-label="${closeCopy}">×</button></header>
+            <div class="avatar-picker-featured" aria-label="${modalCopy}">${pageChoices}</div>
+            <nav class="avatar-page-dots" aria-label="${state.lang === "cs" ? "Stránky avatarů" : "Avatar pages"}">${avatarChoices.map((_, index) => `<button type="button" class="avatar-page-dot ${avatarPage === index ? "active" : ""}" data-avatar-page="${index}" aria-label="${state.lang === "cs" ? `Stránka ${index + 1}` : `Page ${index + 1}`}" aria-current="${avatarPage === index ? "page" : "false"}"></button>`).join("")}</nav>
+          </section>
+        </div>`;
       updateCharacterArtwork(player.avatar, appearance);
     },
     achievements() {
@@ -1209,7 +1122,7 @@
       const step = Math.min(tutorialStep, steps.length - 1);
       const [heading, description] = steps[step];
       const nextLabel = step === steps.length - 1
-        ? (isCs ? "ROZUMÍM – SPUSTIT HRU" : "GOT IT – START PLAYING")
+        ? (isCs ? "ROZUMÍM – HLAVNÍ MENU" : "GOT IT – MAIN MENU")
         : (isCs ? "DALŠÍ" : "NEXT");
       app.innerHTML = `<section class="card tutorial-card" aria-label="${isCs ? "Jak se hraje" : "How to play"}">
         <div class="row between"><span class="eyebrow">${isCs ? "PRŮVODCE HROU" : "GAME GUIDE"}</span><span class="pill">${step + 1}/${steps.length}</span></div>
@@ -1428,6 +1341,7 @@
       totalSeconds: marathon ? 120 : state.roundSeconds,
       score: 0,
       word: null,
+      revealed: false,
       wordSeen: false,
       deck,
       used: [],
@@ -1465,9 +1379,10 @@
     app.innerHTML = `<section class="game-screen team-round">
       <header class="round-heading"><div><span class="eyebrow">${modeLabel(state.mode)}</span><h2>${esc(teamName)}</h2><p>${cs ? "Na tahu" : "Playing"}: <strong>${esc(currentActor())}</strong> · ${t("round")} ${run.round}/${run.roundLimit}</p></div><button class="control-button" data-action="pause">Ⅱ ${t("pause")}</button></header>
       <div class="round-scores">${state.teams.slice(0, run.teamCount).map((team, i) => `<div class="round-score ${i === run.turn ? "active" : ""}"><small>${esc(run.teamCount > 1 ? team.name : t("partyName"))}</small><strong class="score">${team.score}</strong></div>`).join("")}</div>
+      <div class="timer-ring compact round-timer" id="timerRing" style="--progress:100%"><div class="timer-content"><div class="time" id="timeText">${run.remaining}</div><div class="muted tiny">${t("remaining")}</div></div></div>
       <button class="word-reveal ${revealed ? "revealed" : ""}" id="wordReveal" data-action="toggle-word" aria-label="${cs ? (revealed ? "Skrýt slovo" : "Odhalit slovo") : (revealed ? "Hide word" : "Reveal word")}"><span class="word-card-art" id="wordCardArt" aria-hidden="true"></span><span class="category" id="wordCat">${esc(run.word?.cat || "")}</span><strong class="word" id="wordText">${wordLabel}</strong><span class="reveal-hint">${revealed ? (cs ? "Napověz podle pravidel režimu · klepnutím slovo skryješ" : "Give clues by the mode rules · tap to hide") : (cs ? "Jen pro hráče na tahu · klepni pro zobrazení slova" : "For the player on turn · tap to reveal the word")}</span></button>
-      <div class="round-dashboard"><div class="dashboard-top"><div class="timer-ring compact" id="timerRing" style="--progress:100%"><div class="timer-content"><div class="time" id="timeText">${run.remaining}</div><div class="muted tiny">${t("remaining")}</div></div></div><div class="round-stats"><div><small>${cs ? "Uhodnuto v tahu" : "Guessed this turn"}</small><strong id="turnGuessed">${run.turnGuessed}</strong></div><div><small>${cs ? "Přeskočeno" : "Skipped"}</small><strong id="turnSkipped">${run.turnSkipped}</strong></div><div><small>${cs ? "Série" : "Streak"}</small><strong id="turnStreak">${run.streak || 0}</strong></div></div></div>
-      <p class="mode-rule">${modeDescription(state.mode)}</p><div class="button-row game-actions">${btn("↻ " + t("skip"), "skip-word", "btn game-skip")}${btn("✓ " + t("correct"), "correct", "btn green game-correct")}</div><div class="game-controls"><button class="control-button" data-action="end">■ ${t("end")}</button></div></div></section>`;
+      <div class="round-dashboard"><div class="round-stats"><div><small>${cs ? "Uhodnuto v tahu" : "Guessed this turn"}</small><strong id="turnGuessed">${run.turnGuessed}</strong></div><div><small>${cs ? "Přeskočeno" : "Skipped"}</small><strong id="turnSkipped">${run.turnSkipped}</strong></div><div><small>${cs ? "Série" : "Streak"}</small><strong id="turnStreak">${run.streak || 0}</strong></div></div>
+      <p class="mode-rule">${modeDescription(state.mode)}</p><div class="button-row game-actions">${btn("✓ " + t("correct"), "correct", "btn green game-correct")}${btn("↻ " + t("skip"), "skip-word", "btn game-skip")}</div><div class="game-controls"><button class="control-button" data-action="end">■ ${t("end")}</button></div></div></section>`;
     applyCardArt($("#wordCardArt"), run.word);
     run.timer = setInterval(() => {
       if (run.paused) return;
@@ -1612,23 +1527,34 @@
     }
     if (b.dataset.language) {
       state.lang = b.dataset.language;
+      state.languageChosen = true;
+      state.onboarded = true;
       state.categories = [];
       state.category = "all";
       persist();
-      if (currentScreen === "language") {
-        state.languageChosen = true;
-        tutorialStep = 0;
-        persist();
-        show("tutorial");
-      } else if (currentScreen === "home") {
-        show("home");
-      } else show("settings");
+      show("mainMenu");
+      return;
+    }
+    if (b.dataset.languageChoice) {
+      state.lang = b.dataset.languageChoice;
+      state.languageChosen = true;
+      state.onboarded = true;
+      state.categories = [];
+      state.category = "all";
+      persist();
+      show("mainMenu");
       return;
     }
     if (b.dataset.mode) {
       state.mode = b.dataset.mode;
       persist();
       show("setup");
+      return;
+    }
+    if (b.dataset.avatarPage !== undefined) {
+      avatarPage = Number(b.dataset.avatarPage) || 0;
+      avatarModalOpen = true;
+      show("avatars");
       return;
     }
     if (b.hasAttribute("data-tutorial-next")) {
@@ -1638,14 +1564,14 @@
       } else {
         state.onboarded = true;
         persist();
-        document.dispatchEvent(new CustomEvent("sharades:show-main-menu"));
+        show("mainMenu");
       }
       return;
     }
     if (b.hasAttribute("data-tutorial-skip")) {
       state.onboarded = true;
       persist();
-      document.dispatchEvent(new CustomEvent("sharades:show-main-menu"));
+      show("mainMenu");
       return;
     }
     if (b.dataset.aiCount) {
@@ -1660,6 +1586,8 @@
     if (b.dataset.pickAvatar) {
       if (state.players[avatarPlayer]) {
         state.players[avatarPlayer].avatar = b.dataset.pickAvatar;
+        state.players[avatarPlayer].avatarChoice = b.dataset.avatarChoice || b.dataset.pickAvatar;
+        avatarModalOpen = false;
         persist();
         show("avatars");
       }
@@ -1739,14 +1667,35 @@
     const a = b.dataset.action;
     if (!a) return;
     switch (a) {
+      case "open-avatar-picker":
+        avatarPage = 0;
+        avatarModalOpen = true;
+        show("avatars");
+        break;
+      case "close-avatar-picker":
+        avatarModalOpen = false;
+        show("avatars");
+        break;
       case "toggle-sound":
         state.sound = !state.sound;
         persist();
         setHeader();
+        if (currentScreen === "mainMenu") show("mainMenu");
         toast(state.sound ? "🔊" : "🔇");
         break;
+      case "toggle-vibration":
+        state.vibration = !state.vibration;
+        persist();
+        if (currentScreen === "mainMenu") show("mainMenu");
+        toast(state.vibration ? (state.lang === "cs" ? "📳 Vibrace zapnuty" : "📳 Vibration on") : (state.lang === "cs" ? "📴 Vibrace vypnuty" : "📴 Vibration off"));
+        break;
+      case "change-language":
+        state.lang = state.lang === "cs" ? "en" : "cs";
+        persist();
+        show("mainMenu");
+        break;
       case "start-from-title":
-        show(state.onboarded ? "modes" : "tutorial");
+        show("mainMenu");
         break;
       case "random-wheel": {
         const available = Object.keys(categoryWordGroups());
@@ -1760,7 +1709,7 @@
         break;
       }
       case "home":
-        show("home");
+        show("mainMenu");
         break;
       case "modes":
         show("modes");
@@ -1771,7 +1720,7 @@
       case "skip-tutorial":
         state.onboarded = true;
         persist();
-        show("modes");
+        show("mainMenu");
         break;
       case "begin": {
         const f = $("#familyMode");
@@ -1827,7 +1776,7 @@
       case "save-categories":
         persist();
         toast(t("saved"));
-        show("home");
+        show("mainMenu");
         break;
       case "save-custom": {
         const raw = $("#customText")
@@ -2010,9 +1959,6 @@
       case "toggle-word":
         toggleWord();
         break;
-      case "enable-tilt":
-        enableTilt();
-        break;
       case "pause":
         run.paused = !run.paused;
         b.textContent = run.paused ? "▶ " + t("resume") : "Ⅱ " + t("pause");
@@ -2032,30 +1978,6 @@
     }
   });
   app.addEventListener("change", (e) => {
-    if (e.target.id === "titleLanguage") {
-      state.lang = e.target.value;
-      state.categories = [];
-      state.category = "all";
-      state.languageChosen = true;
-      persist();
-      const image = $(".title-art img");
-      if (image) {
-        image.src =
-          state.lang === "cs"
-            ? "assets/images/title-screen-cz.png"
-            : "assets/Images/title-screen-en.webp";
-        image.alt =
-          state.lang === "cs"
-            ? "Sharades! Předváděj, hádej a bav se spolu."
-            : "Sharades! Act, guess and laugh together.";
-      }
-      document.documentElement.lang = state.lang;
-      window.setTimeout(() => {
-        tutorialStep = 0;
-        show("tutorial");
-      }, 450);
-      return;
-    }
     if (e.target.id === "familyMode") {
       state.family = e.target.checked;
       persist();
@@ -2099,7 +2021,7 @@
   $("#langBtn").addEventListener("click", () => {
     state.lang = state.lang === "cs" ? "en" : "cs";
     persist();
-    show("home");
+    show("mainMenu");
   });
   $("#soundBtn").addEventListener("click", () => {
     state.sound = !state.sound;
@@ -2107,10 +2029,10 @@
     setHeader();
     toast(state.sound ? "🔊" : "🔇");
   });
-  $("#homeBtn").addEventListener("click", () => show("home"));
+  $("#homeBtn").addEventListener("click", () => show("mainMenu"));
   $("#brandHome").addEventListener("click", (e) => {
     e.preventDefault();
-    show("home");
+    show("mainMenu");
   });
   $("#helpBtn").addEventListener("click", () => {
     tutorialStep = 0;
@@ -2127,51 +2049,5 @@
     },
     { once: true },
   );
-  document.addEventListener("sharades:set-language", (event) => {
-    state.lang = event.detail?.language === "en" ? "en" : "cs";
-    state.languageChosen = true;
-    persist();
-    setHeader();
-  });
-  document.addEventListener("sharades:title-start", (event) => {
-    state.lang = event.detail?.language === "en" ? "en" : "cs";
-    state.languageChosen = true;
-    persist();
-    setHeader();
-    show(state.onboarded ? "modes" : "tutorial");
-  });
-  document.addEventListener("sharades:open-screen", (event) => {
-    const allowed = new Set(["settings","categories","avatars","modes","stats","players","ai","custom","achievements","tutorial","offline","profile"]);
-    const screen = event.detail?.screen;
-    if (!allowed.has(screen)) return;
-    if (screen === "tutorial") tutorialStep = 0;
-    show(screen);
-  });
-  document.addEventListener("sharades:randomize", () => {
-    const available = Object.keys(categoryWordGroups());
-    if (!available.length) { show("categories"); return; }
-    const chosen = available[Math.floor(Math.random() * available.length)];
-    state.categories = [chosen];
-    state.category = "all";
-    persist();
-    toast((state.lang === "cs" ? "Kolo náhod vybralo: " : "Random wheel selected: ") + chosen);
-    show("modes");
-  });
-  document.addEventListener("sharades:start-tutorial", (event) => {
-    const selectedLanguage = event.detail?.language === "en" ? "en" : "cs";
-    state.lang = selectedLanguage;
-    state.languageChosen = true;
-    state.categories = [];
-    state.category = "all";
-    tutorialStep = 0;
-    persist();
-    setHeader();
-    document.body.classList.remove("splash-active");
-    const splash = document.getElementById("sharadesSplash");
-    if (splash) splash.hidden = true;
-    show("tutorial");
-  });
-  show(
-    !state.languageChosen ? "language" : state.onboarded ? "modes" : "tutorial",
-  );
+  show(!state.languageChosen ? "home" : "mainMenu");
 })();

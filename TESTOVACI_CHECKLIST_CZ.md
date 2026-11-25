@@ -1,16 +1,16 @@
 # Testovací checklist Android
 
 - [ ] Na GitHub Pages se otevře kořenový `index.html` bez 404.
-- [ ] První spuštění nabídne jazyk, uloží jej a otevře krokový návod.
-- [ ] Návod podporuje zpět/další i přeskočení a končí potvrzením.
-- [ ] Logo a tři avatary se načtou.
+- [ ] První spuštění nabídne češtinu/angličtinu; volba se uloží a otevře hlavní menu.
+- [ ] Tutoriál lze otevřít z nastavení; podporuje zpět/další i přeskočení a dokončí se návratem do menu.
+- [ ] Logo, hlavní ilustrace a pět obrázků tutoriálu se načtou.
 - [ ] Jazyk lze přepnout do angličtiny a zpět.
 - [ ] Je dostupných osm kategorií; jejich výběr opravdu omezuje slova v kole.
 - [ ] Všech sedm režimů se spustí a použije vlastní pravidlo.
 - [ ] Dvojité body přičítají dva body; náhlá smrt skončí po přeskočení.
 - [ ] Maraton skončí po dvou minutách a ukáže skóre.
-- [ ] Naklánění zařízení lze zapnout po udělení oprávnění; tlačítka fungují jako alternativa.
-- [ ] Lze vybrat postavu; plánované úpravy vzhledu jsou označené jako nedostupné.
+- [ ] Kolo se ovládá dotykovými tlačítky; aplikace nevyžaduje oprávnění k pohybovým senzorům.
+- [ ] Lze vybrat avatara a upravovat jeho vzhled; kosmetika správně účtuje a ukládá mince.
 - [ ] Lze vybrat kategorie a uložit vlastní slova.
 - [ ] Lze přidat a odebrat hráče a měnit názvy týmů.
 - [ ] Kolo začne, čas se odpočítává a pozastavení funguje.
@@ -18,4 +18,4 @@
 - [ ] Po vypršení času se zobrazí souhrn a lze přejít na další tým.
 - [ ] Po vyčerpání tahů se zobrazí výsledky a vítěz.
 - [ ] Obnovení stránky zachová nastavení.
-- [ ] Po prvním online otevření se hlavní hra znovu otevře v režimu letadlo.
+- [ ] Po prvním online otevření lze hru znovu otevřít bez připojení k internetu.

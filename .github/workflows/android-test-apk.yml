@@ -26,8 +26,8 @@ jobs:
       - name: Package current Sharades web app
         run: |
           mkdir -p android-test/app/src/main/assets/www
-          cp index.html card-gallery.html manifest.webmanifest service-worker.js icon.svg android-test/app/src/main/assets/www/
-          cp -r css js assets android-test/app/src/main/assets/www/
+          cp index.html card-gallery.html manifest.json service-worker.js icon.svg android-test/app/src/main/assets/www/
+          cp -r css js data assets android-test/app/src/main/assets/www/
       - name: Build test APK
         working-directory: android-test
         run: gradle assembleDebug
