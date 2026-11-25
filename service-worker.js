@@ -1,16 +1,16 @@
-const CACHE = "sharades-release-v56-onboarding-game-screen";
+const CACHE = "sharades-release-v57-family-card-scenes";
 const FILES = [
   "./",
   "./index.html",
   "./card-gallery.html",
   "./css/card-gallery.css?v=2",
   "./js/card-gallery.js?v=2",
-  "./css/style.css?v=game-screen-v1",
+  "./css/style.css?v=family-art-v1",
   "./data/words.js?v=wordset2",
   "./data/cards.json?v=cards-corrected38",
   "./js/cards.js?v=free-cards3",
   "./js/generated-cards.js?v=cards-corrected38",
-  "./js/app.js?v=game-screen-v2",
+  "./js/app.js?v=family-art-v1",
   "./assets/game-room-background.webp",
   "./assets/cards/pole-vault.svg",
   "./assets/cards/high-jump.svg",

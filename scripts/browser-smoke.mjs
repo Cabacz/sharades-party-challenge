@@ -256,7 +256,7 @@ try {
   assert.notEqual(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The actor can reveal the word from the card');
   await page.locator('[data-action="correct"]').click();
   await page.waitForTimeout(150);
-  assert.equal(await page.locator('#wordCardArt').evaluate((element) => Boolean(element.textContent.trim() || element.style.backgroundImage)), true, 'Each word card keeps a local illustration or emoji fallback');
+  assert.equal(await page.locator('#gameFamilyArt').evaluate((element) => Boolean(element.textContent.trim() || element.style.backgroundImage)), true, 'Each game word has a large local family illustration or emoji fallback');
   assert.equal(await page.locator('.round-score .score').first().innerText(), '1', 'Correct guess increments the team score');
   assert.equal(await page.locator('#wordProgress').innerText(), '2/10', 'The card counter advances after a correct answer');
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 1, 'Correct guess also earns a persistent coin');

@@ -1383,10 +1383,11 @@
       <div class="game-scoreline"><span class="game-medal" aria-hidden="true">🏆</span><div class="round-scores">${state.teams.slice(0, run.teamCount).map((team, i) => `<div class="round-score ${i === run.turn ? "active" : ""}"><small>${esc(run.teamCount > 1 ? team.name : t("partyName"))}</small><strong class="score">${team.score}</strong></div>`).join("")}</div><span class="game-progress" id="wordProgress">${cardProgress}/10</span></div>
       <span class="game-category-pill" id="wordCat">${esc(run.word?.cat || "")}</span>
       <div class="timer-ring round-timer" id="timerRing" style="--progress:100%"><div class="timer-content"><div class="time" id="timeText">${run.remaining}</div></div></div>
-      <button class="word-reveal ${revealed ? "revealed" : ""}" id="wordReveal" data-action="toggle-word" aria-label="${cs ? (revealed ? "Skrýt slovo" : "Odhalit slovo") : (revealed ? "Hide word" : "Reveal word")}"><span class="word-card-art" id="wordCardArt" aria-hidden="true"></span><strong class="word" id="wordText">${wordLabel}</strong><span class="reveal-hint">${revealed ? (cs ? "Předveď slovo!" : "Act it out!") : (cs ? "Klepni pro odhalení" : "Tap to reveal")}</span></button>
+      <div class="game-family-art" id="gameFamilyArt" aria-hidden="true"></div>
+      <button class="word-reveal ${revealed ? "revealed" : ""}" id="wordReveal" data-action="toggle-word" aria-label="${cs ? (revealed ? "Skrýt slovo" : "Odhalit slovo") : (revealed ? "Hide word" : "Reveal word")}"><strong class="word" id="wordText">${wordLabel}</strong><span class="reveal-hint">${revealed ? (cs ? "Předveď slovo!" : "Act it out!") : (cs ? "Klepni pro odhalení" : "Tap to reveal")}</span></button>
       <p class="mode-rule">${modeDescription(state.mode)}</p><div class="button-row game-actions">${btn("✓ " + (cs ? "UHÁDL!" : "GUESSED!"), "correct", "btn green game-correct")}${btn("↻ " + t("skip"), "skip-word", "btn game-skip")}</div>
       <div class="round-stats" aria-hidden="true"><div><small>${cs ? "Uhodnuto v tahu" : "Guessed this turn"}</small><strong id="turnGuessed">${run.turnGuessed}</strong></div><div><small>${cs ? "Přeskočeno" : "Skipped"}</small><strong id="turnSkipped">${run.turnSkipped}</strong></div><div><small>${cs ? "Série" : "Streak"}</small><strong id="turnStreak">${run.streak || 0}</strong></div></div></section>`;
-    applyCardArt($("#wordCardArt"), run.word);
+    applyCardArt($("#gameFamilyArt"), run.word);
     run.timer = setInterval(() => {
       if (run.paused) return;
       run.remaining--;
@@ -1425,7 +1426,7 @@
     const progress = $("#wordProgress");
     if (progress) progress.textContent = `${Math.min(run.turnGuessed + run.turnSkipped + 1, 10)}/10`;
     $("#wordReveal")?.classList.remove("revealed");
-    applyCardArt($("#wordCardArt"), run.word);
+    applyCardArt($("#gameFamilyArt"), run.word);
     if (!run.word) {
       finishTurn();
       toast(t("empty"));
