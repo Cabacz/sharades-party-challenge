@@ -13,7 +13,7 @@
 - Týmový herní průběh: hráč na tahu drží telefon, klepnutím na kartičku si soukromě zobrazí slovo a dává spoluhráčům nápovědu podle zvoleného režimu. Herní plocha používá portrétní ilustraci obýváku, neonový rámeček, skóre, kategorii, počítadlo kartiček, kruhový odpočet a plastická 3D tlačítka „UHÁDL!“ a „Přeskočit“. Souhrn kola a výsledková tabule zůstávají součástí průběhu.
 - Hádací slovo má obrázkovou kartičku s průhledným pozadím. V projektu je 24 hotových ilustrací: 16 výřezů ze sprite archu, 7 samostatných vektorových ilustrací a samostatný výřez králíka. Každý vestavěný výraz má odpovídající piktogram; obrázky se škálují bez deformace.
 - Návrhy slov fungují výhradně z místních českých a anglických slovníků. Hra nepoužívá Supabase ani externí API; pro slova bez připravené ilustrace ukáže odpovídající symbol.
-- Profil začíná s 25 mincemi; správná odpověď přidá mince podle bodové hodnoty režimu. Zamčené kosmetické volby lze v editoru odemknout za mince, cena se odečte a nákup zůstává uložený.
+- Všechny avatary i kosmetické úpravy jsou dostupné zdarma. Volby vzhledu se ukládají pro každého hráče bez měny a zamykání.
 - Hra se ovládá dotykem; senzor náklonu ani pohybová oprávnění se nepoužívají.
 - Lokální návrhy slov s tématem, samostatně zvoleným jazykem slov, obtížností a počtem; vybraná slova lze uložit do vlastních nebo spustit jako samostatný herní balíček. Vestavěné tematické balíčky zahrnují Minecraft, dinosaury a Harryho Pottera.
 - Výsledky a základní statistiky se ukládají lokálně.
@@ -35,7 +35,7 @@
 ## Zatím plánované nebo omezené
 
 - Slovníky obsahují 320 českých a 320 anglických položek. Nejde o 640 hotových obrázků: připravených ilustrací je 24 a ostatní výrazy zobrazují odpovídající symbol.
-- Editor zatím nemá samostatný obchod ani další způsoby získávání mincí. Barvy vlasů, oblečení, výraz, čepice a doplňky se vykreslují přímo do původních SVG postav. Siluety postav se nemění.
+- Barvy vlasů, oblečení, výraz, čepice a doplňky se vykreslují přímo do původních SVG postav. Siluety postav se nemění.
 - Nové kartičky používají lokální obrázky ze `assets/cards/`; slova bez konkrétního obrázku mají lokální emoji/ikonový fallback.
 - Statistika medailí a oblíbených kategorií je základní lokální přehled, nikoli plný systém odměn.
 - CI ověřuje syntax, datové soubory, interaktivní průchod hrou a sestavení debug APK. Před veřejným vydáním je stále vhodný fyzický test na Androidu/iOS.

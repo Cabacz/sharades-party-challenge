@@ -10,7 +10,7 @@
 - [ ] Dvojité body přičítají dva body; náhlá smrt skončí po přeskočení.
 - [ ] Maraton skončí po dvou minutách a ukáže skóre.
 - [ ] Kolo se ovládá dotykovými tlačítky; aplikace nevyžaduje oprávnění k pohybovým senzorům.
-- [ ] Lze vybrat avatara a upravovat jeho vzhled; kosmetika správně účtuje a ukládá mince.
+- [ ] Lze vybrat všechny avatary a vzhledy zdarma; editor nezobrazuje mince ani zamčené volby.
 - [ ] Lze vybrat kategorie a uložit vlastní slova.
 - [ ] Lze přidat a odebrat hráče a měnit názvy týmů.
 - [ ] Kolo začne, čas se odpočítává a pozastavení funguje.

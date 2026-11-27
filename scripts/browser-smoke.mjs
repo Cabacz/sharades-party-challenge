@@ -38,7 +38,7 @@ const endCurrentMode = async () => {
 try {
   await page.addInitScript(() => {
     window.confirm = () => true;
-    localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 105, languageChosen: false, onboarded: false, startFlowVersion: 3, lang: 'cs' }));
+    localStorage.setItem('sharades_release_v2', JSON.stringify({ coins: 0, languageChosen: false, onboarded: false, startFlowVersion: 3, lang: 'cs' }));
   });
   await page.goto('http://127.0.0.1:8080/', { waitUntil: 'domcontentloaded' });
   const firstPaintPoster = page.locator('#app .home-poster[data-testid="home-poster"]');
@@ -89,6 +89,7 @@ try {
 
   await page.locator('[data-screen="players"]').click();
   await page.locator('[data-screen="avatars"]').click();
+  assert.equal(await page.locator('.character-wallet, .home-coins, .appearance-option.locked').count(), 0, 'Avatar editor has no currency or locked appearance choices');
   await page.locator('[data-action="open-avatar-picker"]').click();
   assert.equal(await page.locator('.avatar-modal [data-pick-avatar]').count(), 9, 'Avatar modal shows a 3 by 3 page');
   assert.equal(await page.locator('.avatar-page-dot').count(), 3, 'Avatar picker has three pages');
@@ -106,6 +107,7 @@ try {
     assert.equal(await page.evaluate((id) => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].avatar === id, avatar), true, `The ${avatar} avatar can be selected`);
   }
   await selectAvatar('man');
+  assert.equal(await page.evaluate(() => { const saved = JSON.parse(localStorage.getItem('sharades_release_v2')); return !Object.hasOwn(saved, 'coins') && !Object.hasOwn(saved, 'cosmeticUnlocks'); }), true, 'Legacy currency fields are removed from saved state');
   await selectAvatar('robot');
   assert.match(await page.locator('.avatar-current-choice img').getAttribute('src'), /avatar-robot\.svg/, 'Avatar selection saves to a player');
   await selectAvatar('man');
@@ -113,56 +115,44 @@ try {
   await page.locator('[data-appearance="hair"][data-value="curly"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('#382544'));
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('circle cx="52" cy="18" r="7"'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 95, 'Curly hairstyle changes the original SVG and deducts its coin price');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).cosmeticUnlocks.hair.includes('curly')), true, 'Purchased hairstyle stays unlocked');
   await page.locator('[data-appearance="hair"][data-value="spiky"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('M48 38 41 13l17 13'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 83, 'Spiky hairstyle uses its own shape and purchase price');
   await page.locator('[data-appearance="hair"][data-value="curly"]').click();
   await page.locator('[data-appearance-tab="outfit"]').click();
   await page.locator('[data-appearance="outfit"][data-value="green"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('#55d778'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 75, 'Unlocking an outfit recolors the original SVG and charges coins');
   await page.locator('[data-appearance-tab="expression"]').click();
   await page.locator('[data-appearance="expression"][data-value="wow"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('cx="80" cy="68"'));
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].appearance.expression), 'wow', 'Face expression is applied to the original character SVG');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 70, 'Unlocking an expression charges its coin price');
   await page.locator('[data-appearance-tab="hat"]').click();
   await page.locator('[data-appearance="hat"][data-value="crown"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="#ffd534"'));
   assert.equal(await page.locator('.look-hat').count(), 0, 'Crown is drawn as part of the character SVG, not as an emoji overlay');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 50, 'Unlocking a crown charges its coin price');
   await page.locator('[data-appearance-tab="accessory"]').click();
   await page.locator('[data-appearance="accessory"][data-value="glasses"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('rect x="59" y="40"'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 40, 'Unlocking glasses draws them onto the original SVG');
   await page.locator('[data-appearance="accessory"][data-value="bow"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="#ff58bf"'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 32, 'Bow accessory appears on the character and is purchased once');
   await page.locator('[data-appearance="accessory"][data-value="headphones"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 20, 'Headphones are rendered on the character');
   await page.locator('[data-appearance-tab="hat"]').click();
   await page.locator('[data-appearance="hat"][data-value="cap"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="#1778d4"'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 15, 'Cap is rendered on the character and charged once');
   await page.locator('[data-appearance-tab="hair"]').click();
   await page.locator('[data-appearance="hair"][data-value="blonde"]').click();
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('#efc458'));
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 0, 'Blonde hairstyle recolors the original hair and charges once');
   await page.locator('[data-appearance-tab="hat"]').click();
   await page.locator('[data-appearance="hat"][data-value="party"]').click();
-  assert.match(await page.locator('#toast').innerText(), /8 mincí/, 'Unaffordable cosmetics explain the required price');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 0, 'Insufficient balance does not charge the player');
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('sharades_release_v2')).players[0].appearance.hat === 'party');
   await selectAvatar('robot');
   assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for avatars without hair');
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
-  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Purchased headphones and crown render on the robot avatar');
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Selected headphones and crown render on the robot avatar');
   await selectAvatar('cat');
   assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for the cat avatar');
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('stroke="#39e8ff" stroke-width="5"'));
-  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Purchased accessories render on the cat avatar');
+  assert.equal(await page.locator('.character-full').evaluate(async (img) => { await img.decode(); return img.naturalWidth > 0; }), true, 'Selected accessories render on the cat avatar');
   await selectAvatar('dog');
   assert.equal(await page.locator('[data-appearance-tab="hair"]').count(), 0, 'Hair choices are hidden for the dog avatar');
   await page.waitForFunction(() => decodeURIComponent(document.querySelector('.character-full').src.split(',')[1] || '').includes('fill="url(#fur)"'));
@@ -281,7 +271,6 @@ try {
   assert.equal(await page.locator('#gameFamilyArt').evaluate((element) => Boolean(element.textContent.trim() || element.style.backgroundImage)), true, 'Each game word has a large local family illustration or emoji fallback');
   assert.equal(await page.locator('.round-score .score').first().innerText(), '1', 'Correct guess increments the team score');
   assert.equal(await page.locator('#wordProgress').innerText(), '2/10', 'The card counter advances after a correct answer');
-  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('sharades_release_v2')).coins), 1, 'Correct guess also earns a persistent coin');
 
   for (let turn = 0; turn < 6; turn++) {
     if (await page.locator('[data-action="end"]').count()) {
