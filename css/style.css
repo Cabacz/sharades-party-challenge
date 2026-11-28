@@ -470,7 +470,7 @@ body.game-screen-active .topbar,body.game-screen-active footer{display:none!impo
 body.game-screen-active main{display:block;flex:1 1 100%;width:100%;height:100%;min-height:0;padding:0;overflow:hidden;touch-action:manipulation}
 .game-screen.team-round{position:relative;isolation:isolate;display:block;width:min(100%,480px);height:100%;min-height:0;max-width:none;margin:0 auto;padding:calc(env(safe-area-inset-top) + 10px) 16px calc(env(safe-area-inset-bottom) + 18px);overflow:hidden;background:#071630}
 .game-screen.team-round:before,.game-screen.team-round:after{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none}
-.game-screen.team-round:before{background-image:linear-gradient(180deg,#06132fc9 0%,#0917383d 24%,#07163008 48%,#07163038 70%,#06142fe8 100%),url("../assets/game-room-background.webp");background-size:cover;background-position:center 51%;}
+.game-screen.team-round:before{background-image:linear-gradient(180deg,#06132fc9 0%,#0917383d 24%,#07163008 48%,#07163038 70%,#06142fe8 100%),url("../assets/backgrounds/game-family-scene-v2.webp");background-size:cover;background-position:center 51%;}
 .game-screen.team-round:after{border-left:2px solid #00d2ff;border-right:2px solid #00d2ff;box-shadow:inset 0 0 24px #00d2ff1d,0 0 20px #00d2ff2c}
 .game-screen .round-heading{position:absolute;z-index:3;top:calc(env(safe-area-inset-top) + 8px);left:18px;right:18px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0}
 .game-title-meta{min-width:0;display:grid;gap:3px}
@@ -512,3 +512,7 @@ body.game-screen-active main{display:block;flex:1 1 100%;width:100%;height:100%;
 .game-screen .round-stats{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(max-height:700px){.game-screen.team-round{padding-bottom:calc(env(safe-area-inset-bottom) + 12px)}.game-screen .round-heading{top:calc(env(safe-area-inset-top) + 5px)}.game-screen .game-scoreline{top:calc(env(safe-area-inset-top) + 48px)}.game-screen .game-category-pill{top:calc(env(safe-area-inset-top) + 91px)}.game-screen .round-timer{top:calc(env(safe-area-inset-top) + 87px);width:60px;height:60px}.game-screen .round-timer .time{font-size:23px}.game-screen .word-reveal{top:calc(env(safe-area-inset-top) + 132px);min-height:72px}.game-screen .word-card-art{width:48px;height:48px}.game-screen .game-family-art{top:calc(env(safe-area-inset-top) + 204px);bottom:calc(env(safe-area-inset-bottom) + 76px)}.game-screen .game-actions{bottom:calc(env(safe-area-inset-bottom) + 12px)}.game-screen .game-actions .btn{min-height:50px}.game-screen .mode-rule{bottom:calc(env(safe-area-inset-bottom) + 70px)}}
 @media(min-width:520px){.game-screen .word-reveal{left:12%;width:76%}.game-screen .game-actions{right:28px;left:28px}.game-screen .round-timer{left:22px}}
+
+/* Word art softly changes with the active card while keeping the family scene visible. */
+.game-word-backdrop{position:absolute;z-index:0;inset:0;pointer-events:none;opacity:.34;filter:saturate(1.22) blur(1px);transform:scale(1.025);background-repeat:no-repeat;background-position:center;background-size:cover!important;transition:opacity .25s ease,background-image .25s ease}
+.game-word-backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#06132f88 0%,#07163016 42%,#06142f9c 100%)}

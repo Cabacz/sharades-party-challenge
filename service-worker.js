@@ -1,19 +1,20 @@
-const CACHE = "sharades-release-v58-family-welcome";
+const CACHE = "sharades-release-v59-word-art";
 const FILES = [
   "./",
   "./index.html",
   "./card-gallery.html",
   "./css/card-gallery.css?v=2",
   "./js/card-gallery.js?v=2",
-  "./css/style.css?v=family-visual-v1",
+  "./css/style.css?v=family-word-art-v2",
   "./data/words.js?v=wordset2",
   "./data/cards.json?v=cards-corrected38",
   "./js/cards.js?v=free-cards3",
   "./js/generated-cards.js?v=cards-corrected38",
-  "./js/app.js?v=family-visual-v1",
+  "./js/app.js?v=family-word-art-v2",
   "./assets/family-welcome.webp",
   "./assets/family-menu.webp",
   "./assets/game-room-background.webp",
+  "./assets/backgrounds/game-family-scene-v2.webp",
   "./assets/cards/pole-vault.svg",
   "./assets/cards/high-jump.svg",
   "./assets/cards/parkour.svg",

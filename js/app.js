@@ -432,6 +432,13 @@
       element.style.backgroundPosition = "center";
     } else applyCroppedCard(element, art.sheet, spriteIndex, 4, 4, requestId);
   }
+  function applyWordIllustrations(word) {
+    for (const element of [$("#gameFamilyArt"), $("#gameWordBackdrop")]) {
+      if (!element) continue;
+      element.dataset.word = word?.word || "";
+      applyCardArt(element, word);
+    }
+  }
   function restore() {
     try {
       const s = JSON.parse(localStorage.getItem(KEY) || "null");
@@ -1363,6 +1370,7 @@
     const wordLabel = revealed ? esc(run.word?.word || "—") : "✦ ✦ ✦ ✦ ✦";
     const cardProgress = Math.min(run.turnGuessed + run.turnSkipped + 1, 10);
     app.innerHTML = `<section class="game-screen team-round">
+      <div class="game-word-backdrop" id="gameWordBackdrop" aria-hidden="true"></div>
       <header class="round-heading"><div class="game-title-meta"><span class="game-mode-chip">${modeLabel(state.mode)}</span><p><strong>${esc(teamName)}</strong> · ${cs ? "Na tahu" : "Playing"}: ${esc(currentActor())} · ${t("round")} ${run.round}/${run.roundLimit}</p></div><div class="game-top-actions"><button class="control-button" data-action="pause" aria-label="${t("pause")}">Ⅱ</button><button class="control-button game-end-button" data-action="end" aria-label="${t("end")}">×</button></div></header>
       <div class="game-scoreline"><span class="game-medal" aria-hidden="true">🏆</span><div class="round-scores">${state.teams.slice(0, run.teamCount).map((team, i) => `<div class="round-score ${i === run.turn ? "active" : ""}"><small>${esc(run.teamCount > 1 ? team.name : t("partyName"))}</small><strong class="score">${team.score}</strong></div>`).join("")}</div><span class="game-progress" id="wordProgress">${cardProgress}/10</span></div>
       <span class="game-category-pill" id="wordCat">${esc(run.word?.cat || "")}</span>
@@ -1371,7 +1379,7 @@
       <button class="word-reveal ${revealed ? "revealed" : ""}" id="wordReveal" data-action="toggle-word" aria-label="${cs ? (revealed ? "Skrýt slovo" : "Odhalit slovo") : (revealed ? "Hide word" : "Reveal word")}"><strong class="word" id="wordText">${wordLabel}</strong><span class="reveal-hint">${revealed ? (cs ? "Předveď slovo!" : "Act it out!") : (cs ? "Klepni pro odhalení" : "Tap to reveal")}</span></button>
       <p class="mode-rule">${modeDescription(state.mode)}</p><div class="button-row game-actions">${btn("✓ " + (cs ? "UHÁDL!" : "GUESSED!"), "correct", "btn green game-correct")}${btn("↻ " + t("skip"), "skip-word", "btn game-skip")}</div>
       <div class="round-stats" aria-hidden="true"><div><small>${cs ? "Uhodnuto v tahu" : "Guessed this turn"}</small><strong id="turnGuessed">${run.turnGuessed}</strong></div><div><small>${cs ? "Přeskočeno" : "Skipped"}</small><strong id="turnSkipped">${run.turnSkipped}</strong></div><div><small>${cs ? "Série" : "Streak"}</small><strong id="turnStreak">${run.streak || 0}</strong></div></div></section>`;
-    applyCardArt($("#gameFamilyArt"), run.word);
+    applyWordIllustrations(run.word);
     run.timer = setInterval(() => {
       if (run.paused) return;
       run.remaining--;
@@ -1410,7 +1418,7 @@
     const progress = $("#wordProgress");
     if (progress) progress.textContent = `${Math.min(run.turnGuessed + run.turnSkipped + 1, 10)}/10`;
     $("#wordReveal")?.classList.remove("revealed");
-    applyCardArt($("#gameFamilyArt"), run.word);
+    applyWordIllustrations(run.word);
     if (!run.word) {
       finishTurn();
       toast(t("empty"));

@@ -15,6 +15,13 @@ const css = read('css/style.css');
 const cards = JSON.parse(read('data/cards.json'));
 const pwaManifest = JSON.parse(read('manifest.json'));
 
+assert(app.includes('function applyWordIllustrations(word)'), 'Game art updates through the shared word illustration renderer');
+assert(app.includes('id="gameWordBackdrop"'), 'The game renders a word-specific background layer');
+assert(css.includes('.game-word-backdrop{') && css.includes('game-family-scene-v2.webp'), 'The game background uses the family scene and word art overlay');
+assert(sw.includes('./assets/backgrounds/game-family-scene-v2.webp'), 'The updated family scene is precached for offline play');
+assert(fs.existsSync('assets/backgrounds/game-family-scene-v2.webp'), 'The family scene background asset exists');
+
+
 for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const raw = match[1];
   if (/^(?:https?:|#|data:|\/\/)/i.test(raw)) continue;

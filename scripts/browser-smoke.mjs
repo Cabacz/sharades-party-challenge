@@ -264,11 +264,14 @@ try {
   assert.equal(await page.locator('body').evaluate((body) => body.classList.contains('game-screen-active')), true, 'The round enters the immersive game layout');
   assert.equal(await page.locator('#wordProgress').innerText(), '1/10', 'The word card counter starts at the first card');
   assert.equal(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The word stays masked until the actor taps the card');
+  const firstIllustratedWord = await page.locator('#gameWordBackdrop').getAttribute('data-word');
   await page.locator('#wordReveal').click();
   assert.notEqual(await page.locator('#wordText').innerText(), '✦ ✦ ✦ ✦ ✦', 'The actor can reveal the word from the card');
   await page.locator('[data-action="correct"]').click();
-  await page.waitForTimeout(150);
+  await page.waitForFunction((previous) => document.querySelector('#gameWordBackdrop')?.dataset.word && document.querySelector('#gameWordBackdrop').dataset.word !== previous, firstIllustratedWord);
   assert.equal(await page.locator('#gameFamilyArt').evaluate((element) => Boolean(element.textContent.trim() || element.style.backgroundImage)), true, 'Each game word has a large local family illustration or emoji fallback');
+  assert.notEqual(await page.locator('#gameFamilyArt').getAttribute('data-word'), firstIllustratedWord, 'The large card illustration refreshes after a correct guess');
+  assert.notEqual(await page.locator('#gameWordBackdrop').getAttribute('data-word'), firstIllustratedWord, 'The word-matched background refreshes after a correct guess');
   assert.equal(await page.locator('.round-score .score').first().innerText(), '1', 'Correct guess increments the team score');
   assert.equal(await page.locator('#wordProgress').innerText(), '2/10', 'The card counter advances after a correct answer');
 
